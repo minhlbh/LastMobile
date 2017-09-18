@@ -48,19 +48,11 @@ const doctorsList = [
         ChuyenKhoa: 'Bác sĩ đa khoa đầu ngành',
     }
 ]
-<<<<<<< HEAD
  class Home extends Component {
      constructor(props){
         super(props);   
         this.props.getUserInfo();   
         this.props.getProfiles();      
-=======
-class Home extends Component {
-    constructor(props) {
-        super(props);
-        this.props.getUserInfo();
-        this.props.getProfiles();
->>>>>>> origin/master
     }
 
     gapBacSi(){
@@ -77,11 +69,7 @@ class Home extends Component {
         //}
     }
     render() {
-<<<<<<< HEAD
         var {profilesList, navigation, userInfo} = this.props;
-=======
-        var { userInfo, profilesList } = this.props;
->>>>>>> origin/master
         return (
             <View style={styles.container}>
                 <ParallaxScrollView
@@ -177,16 +165,10 @@ class Home extends Component {
 
 function mapStateToProps(state) {
     return {
-<<<<<<< HEAD
         profilesList: state.user.profiles,
         isPendingConnection: state.signalR.isPendingConnection,
         userInfo: state.user.user,
         isPendingUser : state.user.isPendingUser,
-=======
-        userInfo: state.user.user,
-        isPendingUser: state.user.isPendingUser,
-        profilesList: state.user.profiles
->>>>>>> origin/master
     }
 }
 
