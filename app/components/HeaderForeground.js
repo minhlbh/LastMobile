@@ -14,7 +14,7 @@ export class HeaderForeground extends Component {
                     <Text h3 style={{ color: 'black' , fontWeight :'bold'  }}>{this.props.name}</Text>
                 </TouchableOpacity>
             </View>
-            <View style={{ flex: 1 / 3, flexDirection: 'row', justifyContent: 'flex-end' }}>
+            {/* <View style={{ flex: 1 / 3, flexDirection: 'row', justifyContent: 'flex-end' }}>
                 <View>
                     {this.props.icon1 &&
                         <Icon
@@ -32,7 +32,7 @@ export class HeaderForeground extends Component {
                         />
                     }
                 </View>
-            </View>
+            </View> */}
         </View>
         )
         

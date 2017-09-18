@@ -1,18 +1,19 @@
 import React, { Component } from 'react';
-import { View, TouchableOpacity} from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import styles from './styles'
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import {
-    Header, Avatar, ListItem, Tile, Divider, List, ListView, Icon,Text
+    Header, Avatar, ListItem, Tile, Divider, List, ListView, Icon, Text
 } from 'react-native-elements';
 import {
     HeaderForeground,
     StickyHeader,
     UserInfoHome,
     ListProfiles,
-    ListDoctors
+    ListDoctors,
+    FixedHeader
 } from '../../components';
-import { connect} from 'react-redux';
+import { connect } from 'react-redux';
 import * as userAction from '../../user/user.action';
 import images from '../../config/images';
 import SignalR from '../../kham/SignalR';
@@ -47,11 +48,19 @@ const doctorsList = [
         ChuyenKhoa: 'Bác sĩ đa khoa đầu ngành',
     }
 ]
+<<<<<<< HEAD
  class Home extends Component {
      constructor(props){
         super(props);   
         this.props.getUserInfo();   
         this.props.getProfiles();      
+=======
+class Home extends Component {
+    constructor(props) {
+        super(props);
+        this.props.getUserInfo();
+        this.props.getProfiles();
+>>>>>>> origin/master
     }
 
     gapBacSi(){
@@ -68,23 +77,30 @@ const doctorsList = [
         //}
     }
     render() {
+<<<<<<< HEAD
         var {profilesList, navigation, userInfo} = this.props;
+=======
+        var { userInfo, profilesList } = this.props;
+>>>>>>> origin/master
         return (
             <View style={styles.container}>
                 <ParallaxScrollView
                     backgroundColor="white"
                     contentBackgroundColor="white"
                     parallaxHeaderHeight={100}
+                    renderFixedHeader={() => (
+                        <FixedHeader icon1 ='notifications' icon2='settings' />
+                    )}
                     renderForeground={() => (
-                       <HeaderForeground name='Trưởng Khoa' icon1='notifications' icon2='settings'/>
+                        <HeaderForeground name='Trưởng Khoa' />
                     )}
                     stickyHeaderHeight={30}
                     renderStickyHeader={() => (
-                        <StickyHeader name='Trưởng Khoa' icon1='notifications' icon2='settings'/>
+                        <StickyHeader name='Trưởng Khoa' />
                     )}
                 >
                     {/* THÔNG TIN TÀI KHOẢN */}
-                    <UserInfoHome userInfo={userInfo}/>
+                    <UserInfoHome userInfo={userInfo} />
 
                     <Divider style={styles.divider} />
 
@@ -92,7 +108,7 @@ const doctorsList = [
                     <Tile
                         containerStyle={{ alignSelf: 'center', height: 100 }}
                         titleStyle={{ paddingTop: 30 }}
-                        imageSrc={{ uri: images.khamOnline}}
+                        imageSrc={{ uri: images.khamOnline }}
                         imageContainerStyle={{ height: 100 }}
                         title="Gặp bác sĩ"
                         onPress={()=>this.gapBacSi()}
@@ -100,31 +116,31 @@ const doctorsList = [
                     />
 
                     {/* HỒ SƠ BỆNH ÁN */}
-                    <View style={styles.listContainer}>        
+                    <View style={styles.listContainer}>
                         <View style={styles.headerListContainer}>
                             <View style={{ flex: 1 }}><Text style={styles.textDividerTitle}>HỒ SƠ BỆNH ÁN</Text></View>
                             <TouchableOpacity>
                                 <View style={{ flex: 1, alignItems: 'flex-end' }}><Text style={styles.textdivider}> xem toàn bộ</Text></View>
                             </TouchableOpacity>
                         </View>
-                        <ListProfiles profilesList={profilesList.slice(0, 5)}/>
+                        <ListProfiles profilesList={profilesList.slice(0, 5)} />
                         <ListItem
                             roundAvatar
-                            avatar={{ uri: 'https://www.computerhope.com/jargon/p/plus.gif'}}
+                            avatar={{ uri: 'https://www.computerhope.com/jargon/p/plus.gif' }}
                             title='Tạo mới hồ sơ'
-                            titleStyle={{ color: '#546CA8'  }}
-                        />                        
+                            titleStyle={{ color: '#546CA8' }}
+                        />
                     </View>
 
                     {/* BÁC SĨ */}
-                    <View  style={styles.listContainer}>
+                    <View style={styles.listContainer}>
                         <View style={styles.headerListContainer}>
                             <View style={{ flex: 1 }}><Text style={styles.textDividerTitle}>BÁC SĨ</Text></View>
                             <TouchableOpacity>
                                 <View style={{ flex: 1, alignItems: 'flex-end', }}><Text style={styles.textdivider}> xem toàn bộ</Text></View>
                             </TouchableOpacity>
                         </View>
-                        <ListDoctors doctorsList={doctorsList}/>
+                        <ListDoctors doctorsList={doctorsList} />
                     </View>
 
                     {/* LỊCH SỬ KHÁM CHỮA */}
@@ -159,12 +175,18 @@ const doctorsList = [
     }
 }
 
-function mapStateToProps(state){
+function mapStateToProps(state) {
     return {
+<<<<<<< HEAD
         profilesList: state.user.profiles,
         isPendingConnection: state.signalR.isPendingConnection,
         userInfo: state.user.user,
         isPendingUser : state.user.isPendingUser,
+=======
+        userInfo: state.user.user,
+        isPendingUser: state.user.isPendingUser,
+        profilesList: state.user.profiles
+>>>>>>> origin/master
     }
 }
 

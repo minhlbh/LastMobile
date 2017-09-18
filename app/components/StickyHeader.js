@@ -12,25 +12,6 @@ export  class StickyHeader extends Component {
                 <View style={styles.viewHeader}>
                     <Text style={styles.generalText}>{this.props.name}</Text>
                 </View>
-                <View style={{ flex: 4/4, flexDirection: 'row', justifyContent: 'flex-end' }}>
-                        <View>
-                        {this.props.icon1 &&
-                            <Icon
-                                style={{ marginRight: 10 }}
-                                name={this.props.icon1}
-                                onPress={() =>this.props.handleIconPress1()}
-                            />
-                        }
-                    </View>
-                    <View>
-                        {this.props.icon2 &&
-                            <Icon
-                                name={this.props.icon2} 
-                                onPress={() =>this.props.handleIconPress2()}
-                            />
-                        }
-                    </View>
-                </View>
             </View>
         )
         
