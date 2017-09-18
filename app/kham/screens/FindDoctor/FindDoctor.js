@@ -7,19 +7,23 @@ import {
 } from 'react-native-elements';
 import styles from './styles';
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
+import {HeaderForeground,StickyHeader} from '../../../components';
+import { connect} from 'react-redux';
 
-export default class FindDoctor extends Component {
+class FindDoctor extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            valueHoSo: '',
+            valueHoSo: {},
             valueKhoa: '',
             valueSwitch: false,
             textInput: '',
             image: ''
         }
     }
+
     render() {
+        var {profilesList} = this.props;        
         return (
             <View style={{ flex: 1, paddingLeft: 10, paddingRight: 10, backgroundColor: 'white' }}>
                 <ParallaxScrollView
@@ -27,17 +31,11 @@ export default class FindDoctor extends Component {
                     contentBackgroundColor="white"
                     parallaxHeaderHeight={80}
                     renderForeground={() => (
-                        <View style={{ flex: 1, flexDirection: 'row', marginTop: 20 }}>
-                            <View style={{ flex: 1, }}>
-                                <Text style={styles.textHeader}>Gặp bác sĩ</Text>
-                            </View>
-                        </View>
+                        <HeaderForeground name='Gặp bác sĩ'/>                        
                     )}
                     stickyHeaderHeight={30}
                     renderStickyHeader={() => (
-                        <View style={{ alignSelf: 'center' }}>
-                            <Text style={styles.generalText}> Gặp bác sĩ</Text>
-                        </View>
+                        <StickyHeader name='Gặp bác sĩ' />                        
                     )}>
 
                     <View style={{ flexDirection: 'row', flex: 1 }}>
@@ -55,12 +53,11 @@ export default class FindDoctor extends Component {
                                 <Picker.Item
                                     style={styles.textDividerTitle}
                                     label='Chọn hồ sơ' />
-                                <Picker.Item
+                                {profilesList.map((profile) =>(
+                                    <Picker.Item
                                     style={styles.textDividerTitle}
-                                    label='Đỗ Thành Phúc' value='1' />
-                                <Picker.Item
-                                    style={styles.textDividerTitle}
-                                    label='Lê Đức Tiến' value='2' />
+                                    label={profile.HoVaTen} value={profile} />
+                                ))}
                             </Picker>
                         </View>
                     </View>
@@ -98,8 +95,8 @@ export default class FindDoctor extends Component {
                         <View style={{ flex: 1, alignSelf: 'flex-end' }}>
                             <Switch
                                 value={this.state.valueSwitch}
-                                onValueChange={() => this.setState({
-                                    valueSwitch: true
+                                onValueChange={(value) => this.setState({
+                                    valueSwitch: !value
                                 })} />
                         </View>
                     </View>
@@ -149,3 +146,11 @@ export default class FindDoctor extends Component {
         )
     }
 }
+
+function mapStateToProps(state){
+    return {
+        profilesList: state.user.profiles
+    }
+}
+
+export default connect(mapStateToProps)(FindDoctor);

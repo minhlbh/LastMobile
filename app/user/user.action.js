@@ -26,7 +26,7 @@ export const getUserInfo = () => {
         })
         .catch(error => {
           dispatch({
-            type: LOGIN.FAILURE,
+            type: GET_AUTH_USER.FAILURE,
             payload: error,
           });
         });
@@ -53,7 +53,7 @@ export const getProfiles = () => {
         })
         .catch(error => {
           dispatch({
-            type: LOGIN.FAILURE,
+            type: GET_PROFILES.FAILURE,
             payload: error,
           });
         });

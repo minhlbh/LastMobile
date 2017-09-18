@@ -49,13 +49,26 @@ const doctorsList = [
 ]
  class Home extends Component {
      constructor(props){
-        super(props);    
+        super(props);   
         this.props.getUserInfo();   
-        this.props.getProfiles();
+        this.props.getProfiles();      
     }
 
+    gapBacSi(){
+        const {navigation,isPendingConnection,proxy,userInfo} = this.props;
+        if (isPendingConnection){
+            alert('Đang kết nối dịch vụ, vui lòng thử lại');
+        } else {
+            console.log(proxy);
+            proxy.invoke('nguoiDungKhaiBaoUserName', userInfo.Email).done((directResponse) => {
+            }).fail(() => {
+                console.warn('Something went wrong when calling server, it might not be up and running?')
+            });
+            navigation.navigate('Kham');
+        }
+    }
     render() {
-        var {userInfo,profilesList} = this.props;
+        var {profilesList, navigation, userInfo} = this.props;
         return (
             <View style={styles.container}>
                 <ParallaxScrollView
@@ -82,6 +95,7 @@ const doctorsList = [
                         imageSrc={{ uri: images.khamOnline}}
                         imageContainerStyle={{ height: 100 }}
                         title="Gặp bác sĩ"
+                        onPress={()=>this.gapBacSi()}
                         featured
                     />
 
@@ -147,9 +161,11 @@ const doctorsList = [
 
 function mapStateToProps(state){
     return {
-        userInfo : state.user.user,
-        isPendingUser: state.user.isPendingUser,
-        profilesList: state.user.profiles
+        profilesList: state.user.profiles,
+        isPendingConnection: state.signalR.isPendingConnection,
+        userInfo: state.user.user,
+        isPendingUser : state.user.isPendingUser,
+        proxy: state.signalR.proxy,
     }
 }
 
