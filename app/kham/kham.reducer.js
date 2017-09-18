@@ -4,10 +4,9 @@ import {
 } from './kham.type';
 
 const initialState = {
-    connection: null,
     isPendingConnection: false,
+    isConnectedSignalR: false,
     error: '',
-    proxy: null,
     isPendingProxy: false
 };
 
@@ -17,14 +16,13 @@ export const signalrReducer = (state = initialState, action = {}) => {
         case GET_CONNECTION_SIGNALR.PENDING:
             return {
                 ...state,
-                isPendingConnectionr: true,
+                isPendingConnection: true,
             };
         case GET_CONNECTION_SIGNALR.SUCCESS:
             return {
                 ...state,
                 isPendingConnection: false,
-                connection: action.connection,
-                proxy: action.proxy
+                isConnectedSignalR: true
             };
         case GET_CONNECTION_SIGNALR.FAILURE:
             return {

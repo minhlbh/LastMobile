@@ -15,7 +15,7 @@ import {
 import { connect} from 'react-redux';
 import * as userAction from '../../user/user.action';
 import images from '../../config/images';
-
+import SignalR from '../../kham/SignalR';
 const list = [
     {
         name: 'Amy Farha',
@@ -55,17 +55,17 @@ const doctorsList = [
     }
 
     gapBacSi(){
-        const {navigation,isPendingConnection,proxy,userInfo} = this.props;
-        if (isPendingConnection){
-            alert('Đang kết nối dịch vụ, vui lòng thử lại');
-        } else {
-            console.log(proxy);
-            proxy.invoke('nguoiDungKhaiBaoUserName', userInfo.Email).done((directResponse) => {
+        const {navigation,userInfo} = this.props;
+        // if (isPendingConnection){
+        //     alert('Đang kết nối dịch vụ, vui lòng thử lại');
+        // } else {
+            SignalR.proxy.invoke('nguoiDungKhaiBaoUserName', userInfo.Email).done((directResponse) => {
+                navigation.navigate('Kham');
             }).fail(() => {
                 console.warn('Something went wrong when calling server, it might not be up and running?')
             });
-            navigation.navigate('Kham');
-        }
+            
+        //}
     }
     render() {
         var {profilesList, navigation, userInfo} = this.props;
@@ -165,7 +165,6 @@ function mapStateToProps(state){
         isPendingConnection: state.signalR.isPendingConnection,
         userInfo: state.user.user,
         isPendingUser : state.user.isPendingUser,
-        proxy: state.signalR.proxy,
     }
 }
 

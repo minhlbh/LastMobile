@@ -30,8 +30,8 @@ export class UserInfoHome extends Component {
             <View style={{ flex: 4 / 4, }}>
                 <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'black' }}>{userInfo.HoVaTen}</Text>
                 <Text style={styles.infoText}>{userInfo.Phone}</Text>
-                <Text style={styles.infoText}>TK Chính: 100.000 đ</Text>
-                <Text style={styles.infoText}>TK Khuyến mại: 20.000 đ</Text>
+                <Text style={styles.infoText}>TK Chính: {userInfo.TaiKhoanChinh} đồng</Text>
+                <Text style={styles.infoText}>TK Khuyến mại: {userInfo.TaiKhoanKhuyenMai} đồng</Text>
             </View>                                     
             </View>
         )

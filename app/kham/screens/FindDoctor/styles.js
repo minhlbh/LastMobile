@@ -29,5 +29,11 @@ export default StyleSheet.create({
     },
     button:{
         backgroundColor:'white',
+    },
+    container:{
+        flex: 1, 
+        paddingLeft: 10,
+        paddingRight: 10, 
+        backgroundColor: 'white' 
     }
 })
