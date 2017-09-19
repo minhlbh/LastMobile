@@ -11,6 +11,7 @@ import {HeaderForeground,StickyHeader} from '../../../components';
 import { connect} from 'react-redux';
 import * as khamAction from '../../kham.action';
 import SignalR from '../../../kham/SignalR';
+import khamApi from '../../../api/khamApi';
 
 var ImagePicker = require('react-native-image-picker');
 
@@ -60,6 +61,20 @@ class FindDoctor extends Component {
                 console.log('User tapped custom button: ', response.customButton);
                 }
                 else {
+                    khamApi.uploadImg(response).then((res) => {
+                        console.log(res);
+                        const idGap = this.props.idGap;
+                        //chỉ lấy tên ảnh
+                        var image = res.location.replace('https://sharinglife.blob.core.windows.net/images/','');
+                        
+                        //up tên ảnh lên signalR 
+                        SignalR.proxy.invoke('upAnh',image ,idGap)
+                        .done((directResponse) => {
+                            console.log('direct-response-from-server-upAnh', directResponse);
+                        }).fail((e) => {
+                            console.warn('up anh loi',e)
+                        });        
+                    })
                     //render ảnh 
                     var images = this.state.images;
                     let image = { uri: response.uri , type: 'PickedImage' };
