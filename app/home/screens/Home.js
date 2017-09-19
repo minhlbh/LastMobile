@@ -17,6 +17,7 @@ import { connect } from 'react-redux';
 import * as userAction from '../../user/user.action';
 import images from '../../config/images';
 import SignalR from '../../kham/SignalR';
+console.disableYellowBox = true;
 const list = [
     {
         name: 'Amy Farha',
@@ -30,24 +31,8 @@ const list = [
         subtitle: 'Bố',
         color: 'black',
     },
-    {
-        name: 'Tạo mới hồ sơ',
-        avatar_url: 'https://www.computerhope.com/jargon/p/plus.gif',
-        color: '#546CA8'
-    }
 ]
-const doctorsList = [
-    {
-        HoVaTen: 'Nguyễn Huy Hiệp',
-        Avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
-        ChuyenKhoa: 'Tai mũi họng',
-    },
-    {
-        HoVaTen: 'Đỗ Thành Phúc',
-        Avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
-        ChuyenKhoa: 'Bác sĩ đa khoa đầu ngành',
-    }
-]
+
  class Home extends Component {
      constructor(props){
         super(props);   
@@ -123,12 +108,12 @@ const doctorsList = [
                     {/* BÁC SĨ */}
                     <View style={styles.listContainer}>
                         <View style={styles.headerListContainer}>
-                            <View style={{ flex: 1 }}><Text style={styles.textDividerTitle}>BÁC SĨ</Text></View>
+                            <View style={{ flex: 1 }}><Text style={styles.textDividerTitle}>BÁC SĨ CỦA TÔI</Text></View>
                             <TouchableOpacity>
                                 <View style={{ flex: 1, alignItems: 'flex-end', }}><Text style={styles.textdivider}> xem toàn bộ</Text></View>
                             </TouchableOpacity>
                         </View>
-                        <ListDoctors doctorsList={doctorsList} />
+                        <ListDoctors doctorsList={userInfo.DsBacSiCuaToi} />
                     </View>
 
                     {/* LỊCH SỬ KHÁM CHỮA */}
@@ -166,7 +151,7 @@ const doctorsList = [
 function mapStateToProps(state) {
     return {
         profilesList: state.user.profiles,
-        isPendingConnection: state.signalR.isPendingConnection,
+        isPendingConnection: state.kham.isPendingConnection,
         userInfo: state.user.user,
         isPendingUser : state.user.isPendingUser,
     }

@@ -13,8 +13,8 @@ import signalr from 'react-native-signalr';
             this.proxy = this.connection.createHubProxy('truongKhoaHub');
             // connection.logging = true;
 
-            this.proxy.on('timBacSi_KetQua', () => {});
-            this.proxy.on('moiBacSi_BacSiTraLoi', () => {});
+            this.proxy.on('timBacSiTheoChuyenKhoa_KetQua', () => {});
+            this.proxy.on('moiBacSi_BacSiTraLoi ', () => {});
             this.proxy.on('nguoiDungVaoDichVu_CapSoIdPhong',  () => {});
 
             this.connection.start().done(() => {

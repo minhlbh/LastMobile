@@ -1,16 +1,22 @@
 import {
     GET_CONNECTION_SIGNALR,
-    GET_PROXY_SIGNALR
+    GET_PROXY_SIGNALR,
+    GET_CHUYEN_KHOA,
+    STORE_BAC_SI_INFO
 } from './kham.type';
 
 const initialState = {
     isPendingConnection: false,
     isConnectedSignalR: false,
     error: '',
-    isPendingProxy: false
+    isPendingProxy: false,
+    listChuyenKhoa: [],
+    doctorInfo: {},
+    isPendingDoctorInfo: false,
+    isFoundDoctor: false
 };
 
-export const signalrReducer = (state = initialState, action = {}) => {
+export const khamReducer = (state = initialState, action = {}) => {
     switch (action.type) {
         //GET CONNECTION
         case GET_CONNECTION_SIGNALR.PENDING:
@@ -30,6 +36,29 @@ export const signalrReducer = (state = initialState, action = {}) => {
                 isPendingConnection: false,
                 error: action.payload,
             };
+        case GET_CHUYEN_KHOA.SUCCESS:
+            return {
+                ...state,
+                listChuyenKhoa: action.payload
+            };
+        case STORE_BAC_SI_INFO.PENDING:
+            return {
+                ...state,
+                isPendingDoctorInfo: true,
+            }
+        case STORE_BAC_SI_INFO.SUCCESS:
+            return {
+                ...state,
+                isPendingDoctorInfo: false,
+                isFoundDoctor: true,
+                doctorInfo: action.payload
+            }
+        case STORE_BAC_SI_INFO.FAILURE:
+            return {
+                ...state,
+                isPendingDoctorInfo: false,
+                isFoundDoctor: false,
+            }
         // //GET GET_PROXY_SIGNALR
         // case GET_PROXY_SIGNALR.PENDING:
         //     return {

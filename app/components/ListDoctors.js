@@ -15,13 +15,15 @@ export class ListDoctors extends Component{
     _renderItem = ({item}) => {
         var avatar = 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg';
         if(item.Avatar) avatar = item.Avatar;
+        var tenDichVu = item.TenDichVu; 
+        if(tenDichVu.length > 30) tenDichVu = tenDichVu.substring(0,45) + '...';
         return (
             <ListItem
                 roundAvatar
                 avatar={{ uri: avatar}}
                 key={item.Id}
-                title={item.HoVaTen}
-                subtitle={item.ChuyenKhoa}
+                title={item.TenBacSi}
+                subtitle={tenDichVu}
                // titleStyle={{ color: 'black' }}
             />
         )
@@ -31,7 +33,7 @@ export class ListDoctors extends Component{
         return (
             <List>
                 <FlatList
-                    data={this.props.doctorsList}
+                    data={doctorsList}
                     //extraData={this.state}
                     keyExtractor={this._keyExtractor}
                     renderItem={this._renderItem}

@@ -32,8 +32,9 @@ var apiUrl = {
     home: {
         listDichVu :`${domain}api/CSDLYT/DichVu_List`,
     },
-    service: {
+    kham: {
         uploadImg: `${domain}api/DD/UploadImg`,
+        listChuyenKhoa: `${domain}api/BADT/ChuyenKhoa_Info`,
     }
 }
 

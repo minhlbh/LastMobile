@@ -9,6 +9,9 @@ import styles from './styles';
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import {HeaderForeground,StickyHeader} from '../../../components';
 import { connect} from 'react-redux';
+import * as khamAction from '../../kham.action';
+import SignalR from '../../../kham/SignalR';
+
 var ImagePicker = require('react-native-image-picker');
 
 var options = {
@@ -27,17 +30,26 @@ class FindDoctor extends Component {
         this.state = {
             valueHoSo: {},
             valueKhoa: '',
-            valueSwitch: false,
-            textInput: '',
+            anDanh: false,
+            vanDe: '',
             images: [{ uri: 'https://image.freepik.com/free-icon/plus-sign-ios-7-interface-symbol_318-38775.jpg' , type: 'AddImage' }]
         }
     }
 
+    componentWillMount(){
+        this.props.getListChuyenKhoa();
+        this.props.storeDoctorInfo();
+    }
+
+    componentDidUpdate(){
+        if(this.props.isFoundDoctor){
+            this.props.navigation.navigate('FoundDoctor');
+        } 
+    }
     pickImage(type) {
         if(type==='AddImage'){
             ImagePicker.showImagePicker(options, (response) => {
                 console.log('Response = ', response);
-            
                 if (response.didCancel) {
                 console.log('User cancelled image picker');
                 }
@@ -60,8 +72,19 @@ class FindDoctor extends Component {
         }
     }
 
+    findDoctor(){
+        const {valueHoSo,valueKhoa,anDanh,vanDe} = this.state;
+        const idGap = this.props.idGap;
+        console.log(valueHoSo.Id)
+        SignalR.proxy.invoke('timBacSiTheoChuyenKhoa', valueKhoa,valueHoSo.Id,anDanh,vanDe,idGap).done((directResponse) => {
+            console.log('timBacSiTheoChuyenKhoa success');
+        }).fail(() => {
+            console.warn('Something went wrong when calling server, it might not be up and running?')
+        });
+    }
+
     render() {
-        var {profilesList} = this.props;        
+        var {profilesList, listChuyenKhoa} = this.props;        
         return (
             <View style={styles.container}>
                 <ParallaxScrollView
@@ -85,8 +108,8 @@ class FindDoctor extends Component {
                                 style={styles.picker}
                                 mode='dropdown'
                                 selectedValue={this.state.valueHoSo}
-                                onValueChange={(itemValue, itemIndex) => this.setState({
-                                    valueHoSo: itemValue
+                                onValueChange={(item) => this.setState({
+                                    valueHoSo: item
                                 })}>
                                 <Picker.Item
                                     style={styles.textDividerTitle}
@@ -115,12 +138,11 @@ class FindDoctor extends Component {
                                 onValueChange={(itemValue, itemIndex) => this.setState({
                                     valueKhoa: itemValue
                                 })}>
-                                <Picker.Item
-                                    style={styles.textDividerTitle}
-                                    label='Chuyên khoa' value='1' />
-                                <Picker.Item
-                                    style={styles.textDividerTitle}
-                                    label='Đa khoa' value='2' />
+                                {listChuyenKhoa.map((item) => (
+                                    <Picker.Item
+                                        style={styles.textDividerTitle}
+                                        label={item.Name} value={item.Id}/>
+                                ))}
                             </Picker>
                         </View>
                     </View>
@@ -133,9 +155,9 @@ class FindDoctor extends Component {
                         </View>
                         <View style={{ flex: 1, alignSelf: 'flex-end' }}>
                             <Switch
-                                value={this.state.valueSwitch}
+                                value={this.state.anDanh}
                                 onValueChange={(value) => this.setState({
-                                    valueSwitch: !value
+                                    anDanh: value
                                 })} />
                         </View>
                     </View>
@@ -145,8 +167,8 @@ class FindDoctor extends Component {
                             style={styles.textInput}
                             multiline={true}
                             placeholder='Vấn đề gặp phải'
-                            onChangeText={(text) => this.setState({ textInput: text })}
-                            value={this.state.textInput}
+                            onChangeText={(text) => this.setState({ vanDe: text })}
+                            value={this.state.vanDe}
                         />
                     </View>
 
@@ -168,7 +190,7 @@ class FindDoctor extends Component {
                         <View style={{ borderBottomWidth: 1.2, borderLeftWidth: 1.2, borderRightWidth: 1.2, borderTopWidth: 1.2, borderColor: '#5198D0' }}>
                             <Button
                                 buttonStyle={styles.button}
-                                onPress={() => {}}
+                                onPress={() => this.findDoctor()}
                                 title="Tìm bác sĩ"
                                 textStyle={{ color: '#5198D0', fontSize: 18 }}
                             />
@@ -182,8 +204,12 @@ class FindDoctor extends Component {
 
 function mapStateToProps(state){
     return {
-        profilesList: state.user.profiles
+        profilesList: state.user.profiles,
+        listChuyenKhoa: state.kham.listChuyenKhoa,
+        idGap: state.user.user.IdGap,
+        isFoundDoctor: state.kham.isFoundDoctor,
+        doctorInfo: state.kham.doctorInfo
     }
 }
 
-export default connect(mapStateToProps)(FindDoctor);
+export default connect(mapStateToProps,khamAction)(FindDoctor);

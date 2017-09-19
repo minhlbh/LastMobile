@@ -1,9 +1,9 @@
 import api from '../config/api';
 import postFormBody from './postFormBody';
 import RNFetchBlob from 'react-native-fetch-blob';
-var apiUrl = api.service;
+var apiUrl = api.kham;
 
-var serviceApi = {
+var khamApi = {
     uploadImg(source) {
         return RNFetchBlob.fetch('POST', apiUrl.uploadImg, {
             //Authorization: "Bearer access-token",
@@ -20,7 +20,13 @@ var serviceApi = {
                 data: RNFetchBlob.wrap(source.path)
             },
         ]).then((response) => response.json())
+    },
+    getListChuyenKhoa(){
+        var url = `${apiUrl.listChuyenKhoa}`;
+        return fetch(url,{
+            method: 'POST',
+        }).then((response) => response.json())
     }
 }
 
-export default serviceApi;
+export default khamApi;
