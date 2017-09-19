@@ -1,5 +1,5 @@
 import { StyleSheet, Dimensions } from 'react-native';
-import { colors } from '../../config/styles';
+import { colors } from '../../../config/styles';
 
 const deviceHeight = Dimensions.get('window').height;
 const deviceWidth = Dimensions.get('window').width;
@@ -29,5 +29,11 @@ export default StyleSheet.create({
     },
     button:{
         backgroundColor:'white',
+    },
+    container:{
+        flex: 1, 
+        paddingLeft: 10,
+        paddingRight: 10, 
+        backgroundColor: 'white' 
     }
 })

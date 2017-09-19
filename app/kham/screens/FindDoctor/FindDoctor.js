@@ -1,43 +1,79 @@
 import React, { Component } from 'react';
 import {
-    View, TouchableOpacity, Picker, Switch, TextInput, Thumbnail, Image,
+    View, TouchableOpacity, Picker, Switch, TextInput,  Image,FlatList
 } from 'react-native';
 import {
     Text, Icon, ListItem, Divider, Button,
 } from 'react-native-elements';
 import styles from './styles';
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
+import {HeaderForeground,StickyHeader} from '../../../components';
+import { connect} from 'react-redux';
+var ImagePicker = require('react-native-image-picker');
 
-export default class FindDoctor extends Component {
+var options = {
+    title: 'Chọn ảnh cho bác sĩ xem',
+    customButtons: [
+      {name: 'fb', title: 'Choose Photo from Facebook'},
+    ],
+    storageOptions: {
+      skipBackup: true,
+      path: 'images'
+    }
+  };
+class FindDoctor extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            valueHoSo: '',
+            valueHoSo: {},
             valueKhoa: '',
             valueSwitch: false,
             textInput: '',
-            image: ''
+            images: [{ uri: 'https://image.freepik.com/free-icon/plus-sign-ios-7-interface-symbol_318-38775.jpg' , type: 'AddImage' }]
         }
     }
+
+    pickImage(type) {
+        if(type==='AddImage'){
+            ImagePicker.showImagePicker(options, (response) => {
+                console.log('Response = ', response);
+            
+                if (response.didCancel) {
+                console.log('User cancelled image picker');
+                }
+                else if (response.error) {
+                console.log('ImagePicker Error: ', response.error);
+                }
+                else if (response.customButton) {
+                console.log('User tapped custom button: ', response.customButton);
+                }
+                else {
+                    //render ảnh 
+                    var images = this.state.images;
+                    let image = { uri: response.uri , type: 'PickedImage' };
+                    images.push(image);
+                    this.setState({
+                        images: images
+                    });
+                }
+            });
+        }
+    }
+
     render() {
+        var {profilesList} = this.props;        
         return (
-            <View style={{ flex: 1, paddingLeft: 10, paddingRight: 10, backgroundColor: 'white' }}>
+            <View style={styles.container}>
                 <ParallaxScrollView
                     backgroundColor="white"
                     contentBackgroundColor="white"
                     parallaxHeaderHeight={80}
                     renderForeground={() => (
-                        <View style={{ flex: 1, flexDirection: 'row', marginTop: 20 }}>
-                            <View style={{ flex: 1, }}>
-                                <Text style={styles.textHeader}>Gặp bác sĩ</Text>
-                            </View>
-                        </View>
+                        <HeaderForeground name='Gặp bác sĩ'/>                        
                     )}
                     stickyHeaderHeight={30}
                     renderStickyHeader={() => (
-                        <View style={{ alignSelf: 'center' }}>
-                            <Text style={styles.generalText}> Gặp bác sĩ</Text>
-                        </View>
+                        <StickyHeader name='Gặp bác sĩ' />                        
                     )}>
 
                     <View style={{ flexDirection: 'row', flex: 1 }}>
@@ -55,12 +91,12 @@ export default class FindDoctor extends Component {
                                 <Picker.Item
                                     style={styles.textDividerTitle}
                                     label='Chọn hồ sơ' />
-                                <Picker.Item
-                                    style={styles.textDividerTitle}
-                                    label='Đỗ Thành Phúc' value='1' />
-                                <Picker.Item
-                                    style={styles.textDividerTitle}
-                                    label='Lê Đức Tiến' value='2' />
+                                {profilesList.map((profile) =>(
+                                    <Picker.Item
+                                        style={styles.textDividerTitle}
+                                        label={profile.HoVaTen} value={profile} 
+                                    />  
+                                ))}
                             </Picker>
                         </View>
                     </View>
@@ -98,8 +134,8 @@ export default class FindDoctor extends Component {
                         <View style={{ flex: 1, alignSelf: 'flex-end' }}>
                             <Switch
                                 value={this.state.valueSwitch}
-                                onValueChange={() => this.setState({
-                                    valueSwitch: true
+                                onValueChange={(value) => this.setState({
+                                    valueSwitch: !value
                                 })} />
                         </View>
                     </View>
@@ -118,20 +154,14 @@ export default class FindDoctor extends Component {
                         <View style={{ marginTop: 5, marginBottom: 10 }}>
                             <Text style={styles.textDividerTitle}>HÌNH ẢNH</Text>
                         </View>
-                        {this.state.image ?
-                            <View>
-                                <Image source={{ uri: this.state.image }}
-
-                                />
-                            </View> :
-                            <View style={{ width: 80, height: 80 }}>
-                                <TouchableOpacity>
-                                    <Image style={{ width: 80, height: 80 }} source={{ uri: 'https://image.freepik.com/free-icon/plus-sign-ios-7-interface-symbol_318-38775.jpg' }}
+                        <View style={{flexDirection: 'row'}}>
+                            {this.state.images.map((image)  =>  (                       
+                                <TouchableOpacity style={{ width: 80, height: 80 , marginRight: 10}} onPress={() =>this.pickImage(image.type)}>
+                                    <Image style={{ width: 80, height: 80 }} source={{ uri: image.uri }}
                                     />
-                                </TouchableOpacity>
-                            </View>
-                        }
-
+                                </TouchableOpacity>     
+                            ))}
+                        </View>
                     </View>
 
                     <View style={{ marginTop: 30 }}>
@@ -149,3 +179,11 @@ export default class FindDoctor extends Component {
         )
     }
 }
+
+function mapStateToProps(state){
+    return {
+        profilesList: state.user.profiles
+    }
+}
+
+export default connect(mapStateToProps)(FindDoctor);

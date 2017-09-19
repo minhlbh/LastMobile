@@ -16,7 +16,7 @@ import {
 import { connect } from 'react-redux';
 import * as userAction from '../../user/user.action';
 import images from '../../config/images';
-
+import SignalR from '../../kham/SignalR';
 const list = [
     {
         name: 'Amy Farha',
@@ -48,15 +48,28 @@ const doctorsList = [
         ChuyenKhoa: 'Bác sĩ đa khoa đầu ngành',
     }
 ]
-class Home extends Component {
-    constructor(props) {
-        super(props);
-        this.props.getUserInfo();
-        this.props.getProfiles();
+ class Home extends Component {
+     constructor(props){
+        super(props);   
+        this.props.getUserInfo();   
+        this.props.getProfiles();      
     }
 
+    gapBacSi(){
+        const {navigation,userInfo} = this.props;
+        // if (isPendingConnection){
+        //     alert('Đang kết nối dịch vụ, vui lòng thử lại');
+        // } else {
+            SignalR.proxy.invoke('nguoiDungKhaiBaoUserName', userInfo.Email).done((directResponse) => {
+                navigation.navigate('Kham');
+            }).fail(() => {
+                console.warn('Something went wrong when calling server, it might not be up and running?')
+            });
+            
+        //}
+    }
     render() {
-        var { userInfo, profilesList } = this.props;
+        var {profilesList, navigation, userInfo} = this.props;
         return (
             <View style={styles.container}>
                 <ParallaxScrollView
@@ -86,6 +99,7 @@ class Home extends Component {
                         imageSrc={{ uri: images.khamOnline }}
                         imageContainerStyle={{ height: 100 }}
                         title="Gặp bác sĩ"
+                        onPress={()=>this.gapBacSi()}
                         featured
                     />
 
@@ -151,9 +165,10 @@ class Home extends Component {
 
 function mapStateToProps(state) {
     return {
+        profilesList: state.user.profiles,
+        isPendingConnection: state.signalR.isPendingConnection,
         userInfo: state.user.user,
-        isPendingUser: state.user.isPendingUser,
-        profilesList: state.user.profiles
+        isPendingUser : state.user.isPendingUser,
     }
 }
 
