@@ -64,7 +64,7 @@ class Home extends Component {
                     contentBackgroundColor="white"
                     parallaxHeaderHeight={100}
                     renderFixedHeader={() => (
-                        <FixedHeader icon1 ='notifications' icon2='settings' />
+                        <FixedHeader icon1='notifications' icon2='settings' />
                     )}
                     renderForeground={() => (
                         <HeaderForeground name='Trưởng Khoa' />
