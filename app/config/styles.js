@@ -1,7 +1,7 @@
 export const colors = {
     background: '#white',
      dark: 'black',
-     light: '#10a5bd',
+     light: 'white',
      header: {
          text: 'black',
          background: '#white'
