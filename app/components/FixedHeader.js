@@ -7,9 +7,9 @@ import { colors } from '../config/styles';
 export class FixedHeader extends Component {
     render() {
         return (
-            
-            <View style={{ flexDirection: 'row', alignSelf:'flex-end', position:'absolute' }}>
-                <View style={{flex:1}}>
+
+            <View style={{ flexDirection: 'row', alignSelf: 'flex-end', position: 'absolute' }}>
+                <View style={{ flex: 1 }}>
                     {this.props.icon0 &&
                         <Icon
                             style={{ marginRight: 10 }}
