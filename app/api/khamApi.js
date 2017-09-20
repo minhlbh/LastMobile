@@ -26,6 +26,20 @@ var khamApi = {
         return fetch(url,{
             method: 'POST',
         }).then((response) => response.json())
+    },
+    deleteImage(location){
+        let details = {
+            location: location
+        };
+        var url = apiUrl.deleteImage;
+        return fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: postFormBody(details),
+        })
+            .then((response) => response.json())
     }
 }
 

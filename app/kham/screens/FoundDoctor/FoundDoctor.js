@@ -12,15 +12,18 @@ import SignalR from '../../../kham/SignalR';
 class FoundDoctor extends Component{
     constructor(props){
         super(props);
-        SignalR.proxy.on('moiBacSi_BacSiTraLoi', (TraLoi, IdGap)=> {
+        SignalR.proxy.on('moiBacSi_BacSiTraLoi', (TraLoi, IdGap) => {
             console.log('Bác sĩ trả lời ',TraLoi)
             alert(TraLoi);
         });
     }
+
     inviteDoctor(){
-        const { doctorInfo,idGap} = this.props;
+        const { doctorInfo,idGap,navigation} = this.props;
+        const {idHoSo,anDanh,vanDe} = navigation.state.params
+        navigation.navigate('Chat');
         console.log(idGap);
-        SignalR.proxy.invoke('moiBacSi', doctorInfo.idDichVu,doctorInfo.bacSiId,idGap).done((directResponse) => {
+        SignalR.proxy.invoke('moiBacSi', doctorInfo.bacSiId,doctorInfo.idDichVu,idHoSo, anDanh, vanDe,idGap).done((directResponse) => {
         }).fail(() => {
             console.warn('Something went wrong when calling server, it might not be up and running?')
         });

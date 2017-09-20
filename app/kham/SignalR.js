@@ -1,28 +1,45 @@
 import React, { Component } from 'react';
 import signalr from 'react-native-signalr';
+import { Observable} from 'rxjs/Observable';
 
- class SignalR{
+
+class SignalR{
     static instance = null;
-     connection = null;
-     proxy = null;
+    connection = null;
+    proxy = null;
     isConnected = false;
-    static getInstance (props){
+    isPending = false;
+  
+    // getIsConnected(){
+    //     return isConnectedOb
+    // }
+    static getInstance (){
+        // var isConnectedOb = new Observable()
+        
         if(this.instance == null){
             this.instance = new SignalR();
             this.connection = signalr.hubConnection('http://admincloud.truongkhoa.com/SignalR');
             this.proxy = this.connection.createHubProxy('truongKhoaHub');
             // connection.logging = true;
-
+            this.isPending = true;
             this.proxy.on('timBacSiTheoChuyenKhoa_KetQua', () => {});
-            this.proxy.on('moiBacSi_BacSiTraLoi ', () => {});
+            this.proxy.on('chat', () => {});
+            this.proxy.on('moiBacSi_BacSiTraLoi', () => {});
             this.proxy.on('nguoiDungVaoDichVu_CapSoIdPhong',  () => {});
+            // isConnectedOb.create(subscriber => {
+            //     return subscriber.next(false)
+            // })
 
             this.connection.start().done(() => {
-                console.log(this.connection.id);
-                this.connected = true;
+                console.log(this.connection.id)
+                // isConnectedOb.create(subscriber => {
+                //     return subscriber.next(true)
+            
              }).fail(() => {
+                isConnected = false;
                  console.log('Failed');
-             });
+              
+             })
 
              //connection-handling
             this.connection.connectionSlow(() => {
@@ -40,6 +57,8 @@ import signalr from 'react-native-signalr';
                 }
                 console.debug('SignalR error: ' + errorMessage, detailedError)
             });
+
+            // isConnectedOb =  Observable.fromPromise(this.connection);
         }
         //receives broadcast messages from a hub function, called "helloApp"
        

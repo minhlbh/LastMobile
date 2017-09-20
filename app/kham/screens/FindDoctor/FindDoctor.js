@@ -33,7 +33,7 @@ class FindDoctor extends Component {
             valueKhoa: '',
             anDanh: false,
             vanDe: '',
-            images: [{ uri: 'https://image.freepik.com/free-icon/plus-sign-ios-7-interface-symbol_318-38775.jpg' , type: 'AddImage' }]
+            images: []
         }
     }
 
@@ -44,46 +44,60 @@ class FindDoctor extends Component {
 
     componentDidUpdate(){
         if(this.props.isFoundDoctor){
-            this.props.navigation.navigate('FoundDoctor');
+            this.props.navigation.navigate('FoundDoctor',{
+                idHoSo: this.state.valueHoSo.Id,
+                vanDe:this.state.vanDe,
+                anDanh: this.state.anDanh
+            });
         } 
     }
-    pickImage(type) {
-        if(type==='AddImage'){
-            ImagePicker.showImagePicker(options, (response) => {
-                console.log('Response = ', response);
-                if (response.didCancel) {
-                console.log('User cancelled image picker');
-                }
-                else if (response.error) {
-                console.log('ImagePicker Error: ', response.error);
-                }
-                else if (response.customButton) {
-                console.log('User tapped custom button: ', response.customButton);
-                }
-                else {
-                    khamApi.uploadImg(response).then((res) => {
-                        console.log(res);
-                        const idGap = this.props.idGap;
-                        //chỉ lấy tên ảnh
-                        var image = res.location.replace('https://sharinglife.blob.core.windows.net/images/','');
-                        
-                        //up tên ảnh lên signalR 
-                        SignalR.proxy.invoke('upAnh',image ,idGap)
-                        .done((directResponse) => {
-                            console.log('direct-response-from-server-upAnh', directResponse);
-                        }).fail((e) => {
+    pickImage() {
+        ImagePicker.showImagePicker(options, (response) => {
+            console.log('Response = ', response);
+            if (response.didCancel) {
+            console.log('User cancelled image picker');
+            }
+            else if (response.error) {
+            console.log('ImagePicker Error: ', response.error);
+            }
+            else if (response.customButton) {
+            console.log('User tapped custom button: ', response.customButton);
+            }
+            else {
+                khamApi.uploadImg(response).then((res) => {
+                    console.log(res);
+                    const idGap = this.props.idGap;
+                    //chỉ lấy tên ảnh
+                    var image = res.location.replace('https://sharinglife.blob.core.windows.net/images/','');
+                    
+                    //up tên ảnh lên signalR 
+                    SignalR.proxy.invoke('upAnh',image ,idGap)
+                    .done((directResponse) => {
+                        console.log('direct-response-from-server-upAnh', directResponse);
+                    }).fail((e) => {
                             console.warn('up anh loi',e)
-                        });        
-                    })
-                    //render ảnh 
+                    });   
                     var images = this.state.images;
-                    let image = { uri: response.uri , type: 'PickedImage' };
-                    images.push(image);
+                    images.push( { uri: response.uri , location: res.location });
                     this.setState({
                         images: images
-                    });
-                }
-            });
+                    });     
+               })
+                //render ảnh 
+            }
+        });    
+    }
+
+    deleteImage(image){
+        khamApi.deleteImage(image.location).then((res) => {
+            console.log(res)
+        });
+        var images = this.state.images;
+        var i = images.indexOf(image);
+
+        if(i != -1) {
+            images.splice(i, 1);
+            this.setState({images})
         }
     }
 
@@ -192,11 +206,20 @@ class FindDoctor extends Component {
                             <Text style={styles.textDividerTitle}>HÌNH ẢNH</Text>
                         </View>
                         <View style={{flexDirection: 'row'}}>
+                            <TouchableOpacity style={{ width: 80, height: 80 , marginRight: 10}} onPress={() =>this.pickImage()}>
+                                <Image style={{ width: 80, height: 80 }} source={{ uri: 'https://image.freepik.com/free-icon/plus-sign-ios-7-interface-symbol_318-38775.jpg' }}/>
+                            </TouchableOpacity> 
                             {this.state.images.map((image)  =>  (                       
-                                <TouchableOpacity style={{ width: 80, height: 80 , marginRight: 10}} onPress={() =>this.pickImage(image.type)}>
-                                    <Image style={{ width: 80, height: 80 }} source={{ uri: image.uri }}
-                                    />
-                                </TouchableOpacity>     
+                                <Image style={{ width: 80, height: 80,marginRight: 10 }} source={{ uri: image.uri }}>
+                                    <View style={{alignSelf: 'flex-end', width:25, marginRight:1 }}>
+                                        <Icon
+                                            //raised
+                                            size = {20}
+                                            name='x'
+                                            type='octicon'
+                                            onPress={() => this.deleteImage(image)} />
+                                    </View>   
+                                </Image>    
                             ))}
                         </View>
                     </View>

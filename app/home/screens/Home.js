@@ -17,6 +17,7 @@ import { connect } from 'react-redux';
 import * as userAction from '../../user/user.action';
 import images from '../../config/images';
 import SignalR from '../../kham/SignalR';
+var signalr = new SignalR();
 console.disableYellowBox = true;
 const list = [
     {
@@ -40,8 +41,14 @@ const list = [
         this.props.getProfiles();      
     }
 
+    // componentWillMount(){
+    //     signalr.getIsConnected().subscribe((rx) => {
+    //         console.log("aaa:",rx)
+    //     })
+    // }
     gapBacSi(){
         const {navigation,userInfo} = this.props;
+        console.log(this.props.isConnectedSignalR)
         // if (isPendingConnection){
         //     alert('Đang kết nối dịch vụ, vui lòng thử lại');
         // } else {
@@ -87,7 +94,6 @@ const list = [
                         onPress={()=>this.gapBacSi()}
                         featured
                     />
-
                     {/* HỒ SƠ BỆNH ÁN */}
                     <View style={styles.listContainer}>
                         <View style={styles.headerListContainer}>
@@ -104,7 +110,7 @@ const list = [
                             titleStyle={{ color: '#546CA8' }}
                         />
                     </View>
-
+                
                     {/* BÁC SĨ */}
                     <View style={styles.listContainer}>
                         <View style={styles.headerListContainer}>
@@ -151,7 +157,7 @@ const list = [
 function mapStateToProps(state) {
     return {
         profilesList: state.user.profiles,
-        isPendingConnection: state.kham.isPendingConnection,
+        isConnectedSignalR: state.kham.isConnectedSignalR,
         userInfo: state.user.user,
         isPendingUser : state.user.isPendingUser,
     }

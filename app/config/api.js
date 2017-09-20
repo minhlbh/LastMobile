@@ -35,6 +35,7 @@ var apiUrl = {
     kham: {
         uploadImg: `${domain}api/DD/UploadImg`,
         listChuyenKhoa: `${domain}api/BADT/ChuyenKhoa_Info`,
+        deleteImage: `${domain}api/DD/DeleteImg`,
     }
 }
 

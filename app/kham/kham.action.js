@@ -9,13 +9,30 @@ import {
     STORE_BAC_SI_INFO
 } from './kham.type';
 
-export const connectSignalR = (isConnected) => {
-    return ( dispatch) => {
-        dispatch({ type: GET_CONNECTION_SIGNALR.PENDING });
+// export const connectSignalR = () => {
+//     return ( dispatch) => {
+//         dispatch({ type: GET_CONNECTION_SIGNALR.PENDING });
+//     };
+// };
+
+export const connectSignalR = () => {
+    return dispatch => {
+      dispatch({ type: GET_CONNECTION_SIGNALR.PENDING });
+      AsyncStorage.getItem('isConnectedSignalR').then((isConnected) => {
+            
+            if(isConnected =='true'){
+                dispatch({
+                    type: GET_CONNECTION_SIGNALR.SUCCESS,
+                  });
+            } else {
+                dispatch({
+                    type: GET_CONNECTION_SIGNALR.FAILURE,
+                    payload: '',
+                });
+            }
+        })
     };
 };
-
-
 export const connectedSignalR = () => {
     return (dispatch) =>{
         dispatch({
