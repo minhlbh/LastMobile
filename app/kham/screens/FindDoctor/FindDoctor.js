@@ -7,7 +7,7 @@ import {
 } from 'react-native-elements';
 import styles from './styles';
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
-import {HeaderForeground,StickyHeader} from '../../../components';
+import {HeaderForeground,StickyHeader,FixedHeader} from '../../../components';
 import { connect} from 'react-redux';
 import * as khamAction from '../../kham.action';
 import SignalR from '../../../kham/SignalR';
@@ -120,8 +120,11 @@ class FindDoctor extends Component {
                     backgroundColor="white"
                     contentBackgroundColor="white"
                     parallaxHeaderHeight={80}
+                    renderFixedHeader={() => (
+                        <FixedHeader icon0='keyboard-arrow-left' goBack={() =>this.props.navigation.navigate('Tabs')}/>
+                    )}
                     renderForeground={() => (
-                        <HeaderForeground name='Gặp bác sĩ'/>                        
+                        <HeaderForeground name='Gặp bác sĩ'  />                        
                     )}
                     stickyHeaderHeight={30}
                     renderStickyHeader={() => (
