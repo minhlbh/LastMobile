@@ -9,7 +9,7 @@ import {
 //     avatar_url: 'https://www.computerhope.com/jargon/p/plus.gif',
 //     color: '#546CA8'
 // }
-export class ListDoctors extends Component{
+export class ListHistory extends Component{
     _keyExtractor = (item, index) => item.id;
     
     _renderItem = ({item}) => {
@@ -19,9 +19,10 @@ export class ListDoctors extends Component{
             <ListItem
                 roundAvatar
                 avatar={{ uri: avatar}}
-                key={item.Id}
-                title={item.HoVaTen}
-                subtitle={item.ChuyenKhoa}
+                key={item.IdGap}
+                title={item.VanDe}
+                onPress={}
+                subtitle={'Bác sĩ: '+item.TenBacSi}
                // titleStyle={{ color: 'black' }}
             />
         )

@@ -4,3 +4,4 @@ export * from './UserInfoHome';
 export * from './ListProfiles';
 export * from './ListDoctors';
 export * from './FixedHeader';
+export * from './ListHistory';

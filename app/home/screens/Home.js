@@ -11,7 +11,8 @@ import {
     UserInfoHome,
     ListProfiles,
     ListDoctors,
-    FixedHeader
+    FixedHeader,
+    ListHistory
 } from '../../components';
 import { connect } from 'react-redux';
 import * as userAction from '../../user/user.action';
@@ -123,7 +124,7 @@ const list = [
                     </View>
 
                     {/* LỊCH SỬ KHÁM CHỮA */}
-                    <View>
+                    <View style={styles.listContainer}>
                         <View style={styles.headerListContainer}>
                             <View style={{ flex: 1 }}><Text style={styles.textDividerTitle}>LỊCH SỬ KHÁM CHỮA</Text></View>
                             <TouchableOpacity>
@@ -131,22 +132,7 @@ const list = [
                             </TouchableOpacity>
                         </View>
 
-
-                        <List containerStyle={{ marginBottom: 20 }}>
-                            {
-                                list.map((l, i) => (
-                                    <TouchableOpacity>
-                                        <ListItem
-                                            roundAvatar
-                                            avatar={{ uri: l.avatar_url }}
-                                            key={i}
-                                            title={l.name}
-                                            subtitle={l.subtitle}
-                                        />
-                                    </TouchableOpacity>
-                                ))
-                            }
-                        </List>
+                        <ListHistory historyList={userInfo.DsGap} />
                     </View>
                 </ParallaxScrollView>
             </View>
