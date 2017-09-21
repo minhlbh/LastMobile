@@ -121,7 +121,7 @@ class FindDoctor extends Component {
                     contentBackgroundColor="white"
                     parallaxHeaderHeight={80}
                     renderFixedHeader={() => (
-                        <FixedHeader icon0='keyboard-arrow-left' goBack={() =>this.props.navigation.navigate('Tabs')}/>
+                        <FixedHeader icon0='keyboard-arrow-left' navigation={this.props.navigation}/>
                     )}
                     renderForeground={() => (
                         <HeaderForeground name='Gặp bác sĩ'  />                        

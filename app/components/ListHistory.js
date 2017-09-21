@@ -21,7 +21,9 @@ export class ListHistory extends Component{
                 avatar={{ uri: avatar}}
                 key={item.IdGap}
                 title={item.VanDe}
-                onPress={}
+                onPress={() => this.props.navigation.navigate('Chat', {
+                    idGap: item.IdGap
+                })}
                 subtitle={'Bác sĩ: '+item.TenBacSi}
                // titleStyle={{ color: 'black' }}
             />

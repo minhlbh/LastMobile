@@ -6,7 +6,8 @@ import {
     GET_CONNECTION_SIGNALR,
     GET_PROXY_SIGNALR,
     GET_CHUYEN_KHOA,
-    STORE_BAC_SI_INFO
+    STORE_BAC_SI_INFO,
+    SET_IDGAP_HISTORY
 } from './kham.type';
 
 // export const connectSignalR = () => {
@@ -89,3 +90,12 @@ export const storeDoctorInfo = () => {
         });
     };
 };
+
+export const setIdGapHistory = (idGap) => {
+    return (dispatch) =>{
+        dispatch({
+            type: SET_IDGAP_HISTORY.SUCCESS,
+            payload: idGap,
+        });
+    }
+}

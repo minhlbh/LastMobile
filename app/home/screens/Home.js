@@ -47,6 +47,9 @@ const list = [
     //         console.log("aaa:",rx)
     //     })
     // }
+    componentDidMount(){
+       
+    }
     gapBacSi(){
         const {navigation,userInfo} = this.props;
         console.log(this.props.isConnectedSignalR)
@@ -132,7 +135,7 @@ const list = [
                             </TouchableOpacity>
                         </View>
 
-                        <ListHistory historyList={userInfo.DsGap} />
+                        <ListHistory historyList={userInfo.DsGap} navigation={this.props.navigation}/>
                     </View>
                 </ParallaxScrollView>
             </View>

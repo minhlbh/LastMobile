@@ -13,7 +13,8 @@ const initialState = {
     listChuyenKhoa: [],
     doctorInfo: {},
     isPendingDoctorInfo: false,
-    isFoundDoctor: false
+    isFoundDoctor: false,
+    idGapHistory: null
 };
 
 export const khamReducer = (state = initialState, action = {}) => {
@@ -58,6 +59,11 @@ export const khamReducer = (state = initialState, action = {}) => {
                 ...state,
                 isPendingDoctorInfo: false,
                 isFoundDoctor: false,
+            }
+        case STORE_BAC_SI_INFO.SUCCESS:
+            return {
+                ...state,
+                idGapHistory: action.payload
             }
         // //GET GET_PROXY_SIGNALR
         // case GET_PROXY_SIGNALR.PENDING:
