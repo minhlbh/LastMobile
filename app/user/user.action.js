@@ -18,10 +18,6 @@ export const getUserInfo = () => {
                     type: GET_AUTH_USER.SUCCESS,
                     payload: data,
                   });
-                  SignalR.proxy.invoke('nguoiDungKhaiBaoUserName', data.Email).done((directResponse) => {
-                }).fail(() => {
-                    console.warn('Something went wrong when calling server, it might not be up and running?')
-                });
             } else {
                 dispatch({
                     type: GET_AUTH_USER.FAILURE,

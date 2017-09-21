@@ -36,6 +36,7 @@ var apiUrl = {
         uploadImg: `${domain}api/DD/UploadImg`,
         listChuyenKhoa: `${domain}api/BADT/ChuyenKhoa_Info`,
         deleteImage: `${domain}api/DD/DeleteImg`,
+        detailCuocGap: `${domain}api/BADT/Gap_Detail`
     }
 }
 

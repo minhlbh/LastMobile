@@ -40,6 +40,17 @@ var khamApi = {
             body: postFormBody(details),
         })
             .then((response) => response.json())
+    },
+    listChatMes(idGap, accessToken){
+        var url = `${apiUrl.detailCuocGap}?IdGap=${idGap}`;
+        return fetch(url, {
+            method: 'POST',
+            headers: {
+                'Authorization': `bearer ${accessToken}`,
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+        })
+            .then((response) => response.json())
     }
 }
 

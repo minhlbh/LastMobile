@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { StackNavigator } from "react-navigation";
 import Home from '../home/screens';
 import KhamStack from './KhamStack';
+import ChatHistory from '../kham/screens/ChatHistory';
 
 export default (HomeStack = StackNavigator({
     Home: {
@@ -14,6 +15,13 @@ export default (HomeStack = StackNavigator({
         screen: KhamStack,
         navigationOptions: {
             header: null
+        }
+    },
+    ChatHistory:{
+        screen :ChatHistory,
+        navigationOptions: {
+            header: null,
+            tabBarVisible: false
         }
     }
 }));

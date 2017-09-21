@@ -25,7 +25,11 @@ class SignalR{
             this.proxy.on('timBacSiTheoChuyenKhoa_KetQua', () => {});
             this.proxy.on('chat', () => {});
             this.proxy.on('moiBacSi_BacSiTraLoi', () => {});
-            this.proxy.on('nguoiDungVaoDichVu_CapSoIdPhong',  () => {});
+            this.proxy.on('nguoiDungMobileVaoGap_DaVaoDuoc', (IdGap) => {
+                console.log('nguoiDungMobileVaoGap_DaVaoDuoc',IdGap)
+            });
+            this.proxy.on('loadUserOnline',  () => {});
+
             // isConnectedOb.create(subscriber => {
             //     return subscriber.next(false)
             // })

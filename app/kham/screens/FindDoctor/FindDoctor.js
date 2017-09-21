@@ -140,7 +140,7 @@ class FindDoctor extends Component {
                                 style={styles.picker}
                                 mode='dropdown'
                                 selectedValue={this.state.valueHoSo}
-                                onValueChange={(item) => this.setState({
+                                onValueChange={(item,itemIndex) => this.setState({
                                     valueHoSo: item
                                 })}>
                                 <Picker.Item

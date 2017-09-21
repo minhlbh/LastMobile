@@ -14,7 +14,7 @@ export class FixedHeader extends Component {
                         <Icon
                             style={{ marginRight: 10 }}
                             name={this.props.icon0}
-                            onPress={() => this.props.navigation.goBack()}
+                            onPress={() =>this.props.navigation}
                         />
                     }
                 </View>

@@ -4,6 +4,7 @@ import {
      Avatar,List,ListItem
 } from 'react-native-elements';
 
+
 // {
 //     name: 'Tạo mới hồ sơ',
 //     avatar_url: 'https://www.computerhope.com/jargon/p/plus.gif',
@@ -12,6 +13,12 @@ import {
 export class ListHistory extends Component{
     _keyExtractor = (item, index) => item.id;
     
+    vaoRoom(idGap){
+        this.props.navigation.navigate('ChatHistory', {
+            idGap: idGap
+            })
+        this.props.khaiBaoUser();
+    }
     _renderItem = ({item}) => {
         var avatar = 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg';
         if(item.Avatar) avatar = item.Avatar;
@@ -21,9 +28,9 @@ export class ListHistory extends Component{
                 avatar={{ uri: avatar}}
                 key={item.IdGap}
                 title={item.VanDe}
-                onPress={() => this.props.navigation.navigate('Chat', {
-                    idGap: item.IdGap
-                })}
+                onPress={() => {
+                    this.vaoRoom(item.IdGap)
+                }}
                 subtitle={'Bác sĩ: '+item.TenBacSi}
                // titleStyle={{ color: 'black' }}
             />

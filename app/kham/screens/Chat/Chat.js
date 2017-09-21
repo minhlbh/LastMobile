@@ -12,19 +12,8 @@ import { connect} from 'react-redux';
 class Chat extends Component {
     state = {
         messages: [],
-        idGap: ''
     };
     
-    componentWillMount() {
-        if(this.props.navigation.state.params.idGap){
-            console.log(this.props.navigation.state.params.idGap)
-            this.setState({
-                idGap: this.props.navigation.state.params.idGap
-            });
-        } else {
-            idGap: this.props.idGap
-        }
-    }
     componentDidMount(){
         SignalR.proxy.on('chat', (Vai, HoVaTen, UserId, Avatar, ThoiGian, NoiDung) => {
              if(Vai == "Bác sĩ"){
@@ -47,7 +36,7 @@ class Chat extends Component {
     }
     onSend(messages = []) {
         for (let i = 0; i < messages.length; i++) {
-            SignalR.proxy.invoke('sendChat',this.state.idGap ,messages[i].text)
+            SignalR.proxy.invoke('sendChat',this.props.idGap ,messages[i].text)
             .done((directResponse) => {
                 console.log('direct-response-from-server-upAnh', directResponse);
             }).fail((e) => {

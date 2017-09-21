@@ -20,20 +20,6 @@ import images from '../../config/images';
 import SignalR from '../../kham/SignalR';
 var signalr = new SignalR();
 console.disableYellowBox = true;
-const list = [
-    {
-        name: 'Amy Farha',
-        avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
-        subtitle: 'Con',
-        color: 'black'
-    },
-    {
-        name: 'Chris Jackson',
-        avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
-        subtitle: 'Bố',
-        color: 'black',
-    },
-]
 
  class Home extends Component {
      constructor(props){
@@ -51,18 +37,17 @@ const list = [
        
     }
     gapBacSi(){
-        const {navigation,userInfo} = this.props;
-        console.log(this.props.isConnectedSignalR)
-        // if (isPendingConnection){
-        //     alert('Đang kết nối dịch vụ, vui lòng thử lại');
-        // } else {
-            SignalR.proxy.invoke('nguoiDungKhaiBaoUserName', userInfo.Email).done((directResponse) => {
-                navigation.navigate('Kham');
-            }).fail(() => {
-                console.warn('Something went wrong when calling server, it might not be up and running?')
-            });
-            
-        //}
+        const {navigation} = this.props;
+        this.khaiBaoUser()
+        navigation.navigate('Kham');
+    }
+    khaiBaoUser(){
+        const {userInfo} = this.props;
+        SignalR.proxy.invoke('nguoiDungKhaiBaoUserName', userInfo.Email).done((directResponse) => {
+            console.log('khai bao username thanh cong')
+        }).fail(() => {
+            console.warn('khai bao username thanh cong fail')
+        });     
     }
     render() {
         var {profilesList, navigation, userInfo} = this.props;
@@ -135,7 +120,7 @@ const list = [
                             </TouchableOpacity>
                         </View>
 
-                        <ListHistory historyList={userInfo.DsGap} navigation={this.props.navigation}/>
+                        <ListHistory historyList={userInfo.DsGap} navigation={this.props.navigation} khaiBaoUser={()=>this.khaiBaoUser()}/>
                     </View>
                 </ParallaxScrollView>
             </View>
