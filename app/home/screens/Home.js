@@ -18,7 +18,7 @@ import { connect } from 'react-redux';
 import * as userAction from '../../user/user.action';
 import images from '../../config/images';
 import SignalR from '../../kham/SignalR';
-var signalr = new SignalR();
+
 console.disableYellowBox = true;
 
  class Home extends Component {
@@ -33,13 +33,17 @@ console.disableYellowBox = true;
     //         console.log("aaa:",rx)
     //     })
     // }
-    componentDidMount(){
-       
+    componentDidUpdate(){
+       console.log(this.props.isConnectedSignalR)
     }
     gapBacSi(){
-        const {navigation} = this.props;
-        this.khaiBaoUser()
-        navigation.navigate('Kham');
+        if(SignalR.connection){
+            const {navigation} = this.props;
+            this.khaiBaoUser();
+            navigation.navigate('Kham');
+        }else{
+            alert('Chưa kết nối được với server')
+        }
     }
     khaiBaoUser(){
         const {userInfo} = this.props;

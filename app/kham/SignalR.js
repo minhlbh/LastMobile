@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import signalr from 'react-native-signalr';
-import { Observable} from 'rxjs/Observable';
+//import { Observable} from 'rxjs/Observable'
+import {connectedSignalR} from './kham.action';
+import { connect} from 'react-redux';
 
-
-class SignalR{
+class SignalR extends Component{
     static instance = null;
     connection = null;
     proxy = null;
@@ -34,6 +35,7 @@ class SignalR{
             //     return subscriber.next(false)
             // })
 
+            connectedSignalR();
             this.connection.start().done(() => {
                 console.log(this.connection.id)
                 // isConnectedOb.create(subscriber => {

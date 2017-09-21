@@ -62,9 +62,9 @@ class ChatHistory extends Component {
     
     componentWillMount() {
         var idGap = this.props.navigation.state.params.idGap;
-        SignalR.proxy.on('nguoiDungMobileVaoGap_DaVaoDuoc', (IdGap) => {
-            console.log('nguoiDungMobileVaoGap_DaVaoDuoc',IdGap)
-        });
+        // SignalR.proxy.on('nguoiDungMobileVaoGap_DaVaoDuoc', (IdGap) => {
+        //     console.log('nguoiDungMobileVaoGap_DaVaoDuoc',IdGap)
+        // });
         SignalR.proxy.on('loadUserOnline', (IdGap,Mes) => {
             console.log('loadUserOnline',IdGap,Mes)
         }); 
