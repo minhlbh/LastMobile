@@ -7,12 +7,11 @@ import {
 } from 'react-native-elements';
 import { connect} from 'react-redux';
 import styles from './styles';
-import SignalR from '../../../kham/SignalR';
 
 class FoundDoctor extends Component{
     constructor(props){
         super(props);
-        SignalR.proxy.on('moiBacSi_BacSiTraLoi', (TraLoi, IdGap) => {
+        this.props.proxy.on('moiBacSi_BacSiTraLoi', (TraLoi, IdGap) => {
             console.log('Bác sĩ trả lời ',TraLoi)
             alert(TraLoi);
         });
@@ -23,7 +22,7 @@ class FoundDoctor extends Component{
         const {idHoSo,anDanh,vanDe} = navigation.state.params
         navigation.navigate('Chat');
         console.log(idGap);
-        SignalR.proxy.invoke('moiBacSi', doctorInfo.bacSiId,doctorInfo.idDichVu,idHoSo, anDanh, vanDe,idGap).done((directResponse) => {
+        this.props.proxy.invoke('moiBacSi', doctorInfo.bacSiId,doctorInfo.idDichVu,idHoSo, anDanh, vanDe,idGap).done((directResponse) => {
         }).fail(() => {
             console.warn('Something went wrong when calling server, it might not be up and running?')
         });
@@ -57,7 +56,8 @@ class FoundDoctor extends Component{
 function mapStateToProps(state){
     return {
         doctorInfo: state.kham.doctorInfo,
-        idGap: state.user.user.IdGap,        
+        idGap: state.user.user.IdGap,   
+        proxy: state.kham.proxy        
     }
 }
 

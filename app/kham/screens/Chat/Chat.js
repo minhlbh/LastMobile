@@ -6,7 +6,6 @@ import {
     View
 } from 'react-native';
 import { GiftedChat } from 'react-native-gifted-chat';
-import SignalR from '../../SignalR';
 import { connect} from 'react-redux';
 
 class Chat extends Component {
@@ -15,7 +14,7 @@ class Chat extends Component {
     };
     
     componentDidMount(){
-        SignalR.proxy.on('chat', (Vai, HoVaTen, UserId, Avatar, ThoiGian, NoiDung) => {
+        this.props.proxy.on('chat', (Vai, HoVaTen, UserId, Avatar, ThoiGian, NoiDung) => {
              if(Vai == "Bác sĩ"){
                 console.log(Vai, HoVaTen, UserId, Avatar, ThoiGian, NoiDung)
                 var message = {
@@ -36,7 +35,7 @@ class Chat extends Component {
     }
     onSend(messages = []) {
         for (let i = 0; i < messages.length; i++) {
-            SignalR.proxy.invoke('sendChat',this.props.idGap ,messages[i].text)
+            this.props.proxy.invoke('sendChat',this.props.idGap ,messages[i].text)
             .done((directResponse) => {
                 console.log('direct-response-from-server-upAnh', directResponse);
             }).fail((e) => {
@@ -63,6 +62,7 @@ class Chat extends Component {
 function mapStateToProps(state){
     return {
         idGap: state.user.user.IdGap,
+        proxy: state.kham.proxy        
     }
 }
 export default connect(mapStateToProps)(Chat);

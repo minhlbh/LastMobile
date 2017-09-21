@@ -17,7 +17,7 @@ import {
 import { connect } from 'react-redux';
 import * as userAction from '../../user/user.action';
 import images from '../../config/images';
-import SignalR from '../../kham/SignalR';
+import {getProxy} from '../../kham/kham.action';
 
 console.disableYellowBox = true;
 
@@ -28,31 +28,30 @@ console.disableYellowBox = true;
         this.props.getProfiles();      
     }
 
-    // componentWillMount(){
-    //     signalr.getIsConnected().subscribe((rx) => {
-    //         console.log("aaa:",rx)
-    //     })
-    // }
     componentDidUpdate(){
        console.log(this.props.isConnectedSignalR)
     }
     gapBacSi(){
-        if(SignalR.connection){
-            const {navigation} = this.props;
+        const {navigation,isConnectedSignalR,errorConnection} = this.props;
+        if(isConnectedSignalR){   
             this.khaiBaoUser();
             navigation.navigate('Kham');
+        }else if(errorConnection){
+            alert(errorConnection)
         }else{
             alert('Chưa kết nối được với server')
         }
     }
+
     khaiBaoUser(){
-        const {userInfo} = this.props;
-        SignalR.proxy.invoke('nguoiDungKhaiBaoUserName', userInfo.Email).done((directResponse) => {
+        const {userInfo, proxy} = this.props;
+        proxy.invoke('nguoiDungKhaiBaoUserName', userInfo.Email).done((directResponse) => {
             console.log('khai bao username thanh cong')
         }).fail(() => {
-            console.warn('khai bao username thanh cong fail')
-        });     
+            console.warn('khai bao username  fail')
+        }); 
     }
+
     render() {
         var {profilesList, navigation, userInfo} = this.props;
         return (
@@ -138,6 +137,8 @@ function mapStateToProps(state) {
         isConnectedSignalR: state.kham.isConnectedSignalR,
         userInfo: state.user.user,
         isPendingUser : state.user.isPendingUser,
+        proxy: state.kham.proxy,
+        errorConnection: state.kham.errorConnection
     }
 }
 

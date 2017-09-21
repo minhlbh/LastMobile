@@ -39,6 +39,7 @@ export const authByAsyncStorage = () => {
     return dispatch => {
       dispatch({ type: LOGIN.PENDING });
       AsyncStorage.getItem('access_token').then((token) => {
+          console.log(token)
             if(token){
                 dispatch({
                     type: LOGIN.SUCCESS,

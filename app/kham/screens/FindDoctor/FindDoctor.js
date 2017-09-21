@@ -10,7 +10,6 @@ import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import {HeaderForeground,StickyHeader,FixedHeader} from '../../../components';
 import { connect} from 'react-redux';
 import * as khamAction from '../../kham.action';
-import SignalR from '../../../kham/SignalR';
 import khamApi from '../../../api/khamApi';
 
 var ImagePicker = require('react-native-image-picker');
@@ -71,7 +70,7 @@ class FindDoctor extends Component {
                     var image = res.location.replace('https://sharinglife.blob.core.windows.net/images/','');
                     
                     //up tên ảnh lên signalR 
-                    SignalR.proxy.invoke('upAnh',image ,idGap)
+                    this.props.proxy.invoke('upAnh',image ,idGap)
                     .done((directResponse) => {
                         console.log('direct-response-from-server-upAnh', directResponse);
                     }).fail((e) => {
@@ -105,10 +104,10 @@ class FindDoctor extends Component {
         const {valueHoSo,valueKhoa,anDanh,vanDe} = this.state;
         const idGap = this.props.idGap;
         console.log(valueHoSo.Id)
-        SignalR.proxy.invoke('timBacSiTheoChuyenKhoa', valueKhoa,valueHoSo.Id,anDanh,vanDe,idGap).done((directResponse) => {
+        this.props.proxy.invoke('timBacSiTheoChuyenKhoa', valueKhoa,valueHoSo.Id,anDanh,vanDe,idGap).done((directResponse) => {
             console.log('timBacSiTheoChuyenKhoa success');
         }).fail(() => {
-            console.warn('Something went wrong when calling server, it might not be up and running?')
+            console.warn('timBacSiTheoChuyenKhoa fail')
         });
     }
 
@@ -249,7 +248,8 @@ function mapStateToProps(state){
         listChuyenKhoa: state.kham.listChuyenKhoa,
         idGap: state.user.user.IdGap,
         isFoundDoctor: state.kham.isFoundDoctor,
-        doctorInfo: state.kham.doctorInfo
+        doctorInfo: state.kham.doctorInfo,
+        proxy: state.kham.proxy
     }
 }
 

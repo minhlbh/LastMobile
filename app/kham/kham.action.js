@@ -1,5 +1,6 @@
 import { AsyncStorage } from 'react-native';
 import khamApi from '../api/khamApi';
+import signalr from 'react-native-signalr';
 import SignalR from './SignalR';
 
 import {
@@ -10,46 +11,53 @@ import {
     SET_IDGAP_HISTORY
 } from './kham.type';
 
-// export const connectSignalR = () => {
-//     return ( dispatch) => {
-//         dispatch({ type: GET_CONNECTION_SIGNALR.PENDING });
-//     };
-// };
 
 export const connectSignalR = () => {
     return dispatch => {
-      dispatch({ type: GET_CONNECTION_SIGNALR.PENDING });
-      AsyncStorage.getItem('isConnectedSignalR').then((isConnected) => {
-            
-            if(isConnected =='true'){
+        const connection = signalr.hubConnection('http://admincloud.truongkhoa.com/SignalR');
+        const proxy = connection.createHubProxy('truongKhoaHub')
+        dispatch({ type: GET_CONNECTION_SIGNALR.PENDING });
+        // PROXY ON
+        proxy.on('timBacSiTheoChuyenKhoa_KetQua', () => {});
+        proxy.on('chat', () => {});
+        proxy.on('moiBacSi_BacSiTraLoi', () => {});
+        proxy.on('nguoiDungMobileVaoGap_DaVaoDuoc', (IdGap) => {
+            console.log('nguoiDungMobileVaoGap_DaVaoDuoc',IdGap)
+        });
+        proxy.on('loadUserOnline',  () => {});
+
+        
+        connection.start().done(() => {
+            console.log('Now connected, connection ID=',connection.id)
                 dispatch({
                     type: GET_CONNECTION_SIGNALR.SUCCESS,
-                  });
-            } else {
-                dispatch({
-                    type: GET_CONNECTION_SIGNALR.FAILURE,
-                    payload: '',
+                    connection: connection,
+                    proxy: proxy
                 });
+        }).fail(() => {
+            dispatch({
+                type: GET_CONNECTION_SIGNALR.FAILURE,
+                payload: '',
+            });
+        });
+
+        connection.error((error) => {
+            const errorMessage = error.message;
+            let detailedError = '';
+            if (error.source && error.source._response) {
+            detailedError = error.source._response;
             }
-        })
+            if (detailedError === 'An SSL error has occurred and a secure connection to the server cannot be made.') {
+            console.log('When using react-native-signalr on ios with http remember to enable http in App Transport Security https://github.com/olofd/react-native-signalr/issues/14')
+            }
+            console.debug('SignalR error: ' + errorMessage, detailedError)
+            dispatch({
+                type: GET_CONNECTION_SIGNALR.FAILURE,
+                payload: errorMessage +': '+detailedError ,
+            });
+        });
     };
 };
-export const connectedSignalR = () => {
-    return (dispatch) =>{
-        dispatch({
-            type: GET_CONNECTION_SIGNALR.SUCCESS,
-        });
-    }
-}
-
-export const connectFailSignalR = () => {
-    return (dispatch) =>{
-        dispatch({
-            type: GET_CONNECTION_SIGNALR.FAILURE,
-            payload: 'Failed',
-        });
-    }
-}
 
 export const getListChuyenKhoa = () => {
     return ( dispatch) => {
@@ -65,9 +73,10 @@ export const getListChuyenKhoa = () => {
 
 
 export const storeDoctorInfo = () => {
-    return ( dispatch) => {
+    return ( dispatch, getState) => {
+        const proxy = getState().kham.proxy;
         dispatch({ type: GET_CONNECTION_SIGNALR.PENDING })
-        SignalR.proxy.on('timBacSiTheoChuyenKhoa_KetQua', (KetQua, IdDichVu, TenDichVu, GiaTien, BacSiId, HoVaTen, Avatar, GioiThieuNhanh) => {
+        proxy.on('timBacSiTheoChuyenKhoa_KetQua', (KetQua, IdDichVu, TenDichVu, GiaTien, BacSiId, HoVaTen, Avatar, GioiThieuNhanh) => {
             console.log(KetQua)
             if (!BacSiId) { //Nếu k có id bác sĩ trả về thì báo kết quả 
                 alert(KetQua);

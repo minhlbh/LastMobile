@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import MainRouter from './routers/MainRouter';
 import { connect} from 'react-redux';
-import SignalR from './kham/SignalR';
 import * as khamAction from './kham/kham.action';
 
 class AppSetup extends Component {
     constructor(props){
         super(props);  
-        SignalR.getInstance();  
+        this.props.connectSignalR();
     }
     render(){
         return (

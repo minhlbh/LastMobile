@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
 import signalr from 'react-native-signalr';
 //import { Observable} from 'rxjs/Observable'
-import {connectedSignalR} from './kham.action';
-import { connect} from 'react-redux';
+import {
+    GET_CONNECTION_SIGNALR,
+    GET_PROXY_SIGNALR,
+    GET_CHUYEN_KHOA,
+    STORE_BAC_SI_INFO,
+    SET_IDGAP_HISTORY
+} from './kham.type';
 
 class SignalR extends Component{
     static instance = null;
@@ -35,12 +40,11 @@ class SignalR extends Component{
             //     return subscriber.next(false)
             // })
 
-            connectedSignalR();
             this.connection.start().done(() => {
                 console.log(this.connection.id)
                 // isConnectedOb.create(subscriber => {
                 //     return subscriber.next(true)
-            
+
              }).fail(() => {
                 isConnected = false;
                  console.log('Failed');

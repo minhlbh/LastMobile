@@ -6,9 +6,11 @@ import {
 } from './kham.type';
 
 const initialState = {
+    connection: null,
+    proxy: null,
     isPendingConnection: false,
     isConnectedSignalR: false,
-    error: '',
+    errorConnection: '',
     isPendingProxy: false,
     listChuyenKhoa: [],
     doctorInfo: {},
@@ -29,13 +31,16 @@ export const khamReducer = (state = initialState, action = {}) => {
             return {
                 ...state,
                 isPendingConnection: false,
-                isConnectedSignalR: true
+                isConnectedSignalR: true,
+                connection: action.connection,
+                proxy: action.proxy         
             };
         case GET_CONNECTION_SIGNALR.FAILURE:
             return {
                 ...state,
                 isPendingConnection: false,
-                error: action.payload,
+                isConnectedSignalR: false,
+                errorConnection: action.payload,
             };
         case GET_CHUYEN_KHOA.SUCCESS:
             return {

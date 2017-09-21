@@ -5,8 +5,7 @@ import {
 import {
     View
 } from 'react-native';
-import { GiftedChat } from 'react-native-gifted-chat';
-import SignalR from '../../SignalR';
+import { GiftedChat } from 'react-native-gifted-chat';;
 import { connect} from 'react-redux';
 import styles from './styles';
 import khamApi from '../../../api/khamApi';
@@ -65,18 +64,18 @@ class ChatHistory extends Component {
         // SignalR.proxy.on('nguoiDungMobileVaoGap_DaVaoDuoc', (IdGap) => {
         //     console.log('nguoiDungMobileVaoGap_DaVaoDuoc',IdGap)
         // });
-        SignalR.proxy.on('loadUserOnline', (IdGap,Mes) => {
+        this.props.proxy.on('loadUserOnline', (IdGap,Mes) => {
             console.log('loadUserOnline',IdGap,Mes)
         }); 
         this.setState({idGap}); 
-        SignalR.proxy.invoke('nguoiDungMobileVaoGap', idGap).done((directResponse) => {
+        this.props.proxy.invoke('nguoiDungMobileVaoGap', idGap).done((directResponse) => {
             console.log('direct-response-from-server-nguoiDungMobileVaoGap', directResponse);
         }).fail((e) => {
             console.warn('nguoiDungMobileVaoGap loi',e)
         });  
     }
     componentDidMount(){
-        SignalR.proxy.on('chat', (Vai, HoVaTen, UserId, Avatar, ThoiGian, NoiDung) => {
+        this.props.proxy.on('chat', (Vai, HoVaTen, UserId, Avatar, ThoiGian, NoiDung) => {
              if(Vai == "Bác sĩ"){
                 console.log(Vai, HoVaTen, UserId, Avatar, ThoiGian, NoiDung)
                 var message = {
@@ -97,7 +96,7 @@ class ChatHistory extends Component {
     }
     onSend(messages = []) {
         for (let i = 0; i < messages.length; i++) {
-            SignalR.proxy.invoke('sendChat',this.state.idGap ,messages[i].text)
+            this.props.proxy.invoke('sendChat',this.state.idGap ,messages[i].text)
             .done((directResponse) => {
                 console.log('direct-response-from-server-upAnh', directResponse);
             }).fail((e) => {
@@ -127,6 +126,8 @@ function mapStateToProps(state){
     return {
         //idGap: state.user.user.IdGap,
         accessToken: state.auth.accessToken,
+        proxy: state.kham.proxy
+        
     }
 }
 export default connect(mapStateToProps)(ChatHistory);
