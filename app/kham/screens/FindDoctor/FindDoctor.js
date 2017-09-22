@@ -12,6 +12,7 @@ import { connect} from 'react-redux';
 import * as khamAction from '../../kham.action';
 import SignalR from '../../../kham/SignalR';
 import khamApi from '../../../api/khamApi';
+import ModalDropdown from 'react-native-modal-dropdown';
 
 var ImagePicker = require('react-native-image-picker');
 
@@ -50,6 +51,7 @@ class FindDoctor extends Component {
                 anDanh: this.state.anDanh
             });
         } 
+        console.log(this.state.valueHoSo);
     }
     pickImage() {
         ImagePicker.showImagePicker(options, (response) => {
@@ -138,7 +140,7 @@ class FindDoctor extends Component {
                         <View style={{ flex: 1, alignSelf: 'flex-end' }}>
                             <Picker
                                 style={styles.picker}
-                                mode='dropdown'
+
                                 selectedValue={this.state.valueHoSo}
                                 onValueChange={(item,itemIndex) => this.setState({
                                     valueHoSo: item
@@ -153,6 +155,17 @@ class FindDoctor extends Component {
                                     />  
                                 ))}
                             </Picker>
+                            <ModalDropdown
+                            options={profilesList}
+                            renderRow= {(profile) => <TouchableOpacity><Text>{profile.HoVaTen}</Text></TouchableOpacity>}
+                            textStyle={{fontSize:20 }}
+                            dropdownTextStyle={{fontSize:20}}
+                            defaultValue={<TouchableOpacity style={{width:70, height:50}}><Text>Chọn Hồ Sơ...</Text></TouchableOpacity>}
+                            onSelect={(item,value)=> this.setState({
+                                valueHoSo: value
+                            })}
+                            />
+
                         </View>
                     </View>
 
