@@ -1,29 +1,30 @@
 import React, { Component } from 'react';
 import {
-    View, TouchableOpacity, Picker, Switch, TextInput,  Image,FlatList
+    View, TouchableOpacity, Picker, Switch, TextInput, Image, FlatList
 } from 'react-native';
 import {
     Text, Icon, ListItem, Divider, Button,
 } from 'react-native-elements';
 import styles from './styles';
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
-import {HeaderForeground,StickyHeader,FixedHeader} from '../../../components';
-import { connect} from 'react-redux';
+import { HeaderForeground, StickyHeader, FixedHeader } from '../../../components';
+import { connect } from 'react-redux';
 import * as khamAction from '../../kham.action';
 import khamApi from '../../../api/khamApi';
-//import DoctorInfo from '../../../DoctorInfo/screen'
+import ModalDropdown from 'react-native-modal-dropdown';
+import FoundDoctor from '../FoundDoctor'
 var ImagePicker = require('react-native-image-picker');
 
 var options = {
     title: 'Chọn ảnh cho bác sĩ xem',
     customButtons: [
-      {name: 'fb', title: 'Choose Photo from Facebook'},
+        { name: 'fb', title: 'Choose Photo from Facebook' },
     ],
     storageOptions: {
-      skipBackup: true,
-      path: 'images'
+        skipBackup: true,
+        path: 'images'
     }
-  };
+};
 class FindDoctor extends Component {
     constructor(props) {
         super(props);
@@ -32,43 +33,47 @@ class FindDoctor extends Component {
             valueKhoa: '',
             anDanh: false,
             vanDe: '',
-            images: []
+            images: [],
+            isShowFoundDoctor: false
         }
     }
 
-    componentWillMount(){
+    componentWillMount() {
         this.props.getListChuyenKhoa();
         this.props.storeDoctorInfo();
     }
 
-    componentDidUpdate(){
-        if(this.props.isFoundDoctor){
-            this.props.navigation.navigate('FoundDoctor',{
-                idHoSo: this.state.valueHoSo.Id,
-                vanDe:this.state.vanDe,
-                anDanh: this.state.anDanh
-            });
+    componentDidUpdate() {
+        console.log(this.props.isFoundDoctor)
+        if (this.props.isFoundDoctor) {
+            this.setState({isShowFoundDoctor: true})
+            // this.props.navigation.navigate('FoundDoctor', {
+            //     idHoSo: this.state.valueHoSo.Id,
+            //     vanDe: this.state.vanDe,
+            //     anDanh: this.state.anDanh
+            // });
         }
+       
     }
     pickImage() {
         ImagePicker.showImagePicker(options, (response) => {
             console.log('Response = ', response);
             if (response.didCancel) {
-            console.log('User cancelled image picker');
+                console.log('User cancelled image picker');
             }
             else if (response.error) {
-            console.log('ImagePicker Error: ', response.error);
+                console.log('ImagePicker Error: ', response.error);
             }
             else if (response.customButton) {
-            console.log('User tapped custom button: ', response.customButton);
+                console.log('User tapped custom button: ', response.customButton);
             }
             else {
                 khamApi.uploadImg(response).then((res) => {
                     console.log(res);
                     const idGap = this.props.idGap;
                     //chỉ lấy tên ảnh
-                    var image = res.location.replace('https://sharinglife.blob.core.windows.net/images/','');
-                    
+                    var image = res.location.replace('https://sharinglife.blob.core.windows.net/images/', '');
+
                     //up tên ảnh lên signalR 
                     this.props.proxy.invoke('upAnh',image ,idGap)
                     .done((directResponse) => {
@@ -77,34 +82,36 @@ class FindDoctor extends Component {
                             console.warn('up anh loi',e)
                     });   
                     var images = this.state.images;
-                    images.push( { uri: response.uri , location: res.location });
+                    images.push({ uri: response.uri, location: res.location });
                     this.setState({
                         images: images
-                    });     
-               })
+                    });
+                })
                 //render ảnh 
             }
-        });    
+        });
     }
 
-    deleteImage(image){
+    deleteImage(image) {
         khamApi.deleteImage(image.location).then((res) => {
             console.log(res)
         });
         var images = this.state.images;
         var i = images.indexOf(image);
 
-        if(i != -1) {
+        if (i != -1) {
             images.splice(i, 1);
-            this.setState({images})
+            this.setState({ images })
         }
     }
 
-    findDoctor(){
-        const {valueHoSo,valueKhoa,anDanh,vanDe} = this.state;
+    findDoctor() {
+        const { valueHoSo, valueKhoa, anDanh, vanDe } = this.state;
         const idGap = this.props.idGap;
         console.log(valueHoSo.Id)
-        this.props.proxy.invoke('timBacSiTheoChuyenKhoa', valueKhoa,valueHoSo.Id,anDanh,vanDe,idGap).done((directResponse) => {
+        console.log(valueKhoa)
+        console.log(anDanh,vanDe)
+        this.props.proxy.invoke('timBacSiTheoChuyenKhoa', valueKhoa.Id,valueHoSo.Id,anDanh,vanDe,idGap).done((directResponse) => {
             console.log('timBacSiTheoChuyenKhoa success');
         }).fail(() => {
             console.warn('timBacSiTheoChuyenKhoa fail')
@@ -113,8 +120,9 @@ class FindDoctor extends Component {
     }
 
     render() {
-        var {profilesList, listChuyenKhoa} = this.props;        
+        var { profilesList, listChuyenKhoa } = this.props;
         return (
+
             <View style={styles.container}>
                 {/* <DoctorInfo/> */}                  
                 <ParallaxScrollView
@@ -123,49 +131,61 @@ class FindDoctor extends Component {
                     contentBackgroundColor="white"
                     parallaxHeaderHeight={80}
                     renderFixedHeader={() => (
-                        <FixedHeader icon0='keyboard-arrow-left' navigation={this.props.navigation}/>
+                        <FixedHeader icon0='keyboard-arrow-left' navigation={this.props.navigation} />
                     )}
                     renderForeground={() => (
-                        <HeaderForeground name='Gặp bác sĩ'  />                        
+                        <HeaderForeground name='Gặp bác sĩ' />
                     )}
                     stickyHeaderHeight={30}
                     renderStickyHeader={() => (
-                        <StickyHeader name='Gặp bác sĩ' />                        
+                        <StickyHeader name='Gặp bác sĩ' />
                     )}>
 
                     <View style={{ flexDirection: 'row', flex: 1 }}>
                         <View style={{ flex: 1, marginTop: 15 }}>
                             <Text style={styles.textDividerTitle}>Hồ sơ</Text>
                         </View>
-                        <View style={{ flex: 1, alignSelf: 'flex-end' }}>
-                            <Picker
+                        <View style={styles.pickerView}>
+                            {/* <Picker
                                 style={styles.picker}
-                                mode='dropdown'
+
                                 selectedValue={this.state.valueHoSo}
-                                onValueChange={(item,itemIndex) => this.setState({
+                                onValueChange={(item, itemIndex) => this.setState({
                                     valueHoSo: item
                                 })}>
                                 <Picker.Item
                                     style={styles.textDividerTitle}
                                     label='Chọn hồ sơ' />
-                                {profilesList.map((profile) =>(
+                                {profilesList.map((profile) => (
                                     <Picker.Item
                                         style={styles.textDividerTitle}
-                                        label={profile.HoVaTen} value={profile} 
-                                    />  
+                                        label={profile.HoVaTen} value={profile}
+                                    />
                                 ))}
-                            </Picker>
+                            </Picker> */}
+                            <ModalDropdown
+                                options={profilesList}
+                                renderRow= {(profile) => 
+                                <TouchableOpacity style={{height:40}}><Text syle={{alignSelf:'center', justifyContent:'center'}}>{profile.HoVaTen}</Text></TouchableOpacity>}
+                                textStyle={{fontSize:15 }}
+                                dropdownTextStyle={{fontSize:15}}
+                                defaultValue={"Chọn hồ sơ"}
+                                onSelect={(item,value)=> this.setState({
+                                    valueHoSo: value
+                                })}
+                            />
+
                         </View>
                     </View>
 
                     <Divider style={styles.divider} />
 
-                    <View style={{ flexDirection: 'row', flex: 1 }}>
+                    <View style={styles.khoaView}>
                         <View style={{ flex: 1, marginTop: 15 }}>
                             <Text style={styles.textDividerTitle}>Khoa</Text>
                         </View>
-                        <View style={{ flex: 1, alignSelf: 'flex-end' }}>
-                            <Picker
+                        <View style={styles.pickerView}>
+                            {/* <Picker
                                 style={styles.picker}
                                 mode='dropdown'
                                 selectedValue={this.state.valueKhoa}
@@ -175,9 +195,20 @@ class FindDoctor extends Component {
                                 {listChuyenKhoa.map((item) => (
                                     <Picker.Item
                                         style={styles.textDividerTitle}
-                                        label={item.Name} value={item.Id}/>
+                                        label={item.Name} value={item.Id} />
                                 ))}
-                            </Picker>
+                            </Picker> */}
+                            <ModalDropdown
+                                options={listChuyenKhoa}
+                                renderRow= {(item) => 
+                                <TouchableOpacity style={{height:40}}><Text style={{justifyContent:'center', alignSelf:'center'}}>{item.Name}</Text></TouchableOpacity>}
+                                textStyle={{fontSize:15 }}
+                                dropdownTextStyle={{ fontSize:15}}
+                                defaultValue={"Chọn khoa"}
+                                onSelect={(item,value)=> this.setState({
+                                    valueKhoa: value
+                                })}
+                            />
                         </View>
                     </View>
 
@@ -187,7 +218,7 @@ class FindDoctor extends Component {
                         <View style={{ flex: 1, marginTop: 15 }}>
                             <Text style={styles.textDividerTitle}>Ẩn danh</Text>
                         </View>
-                        <View style={{ flex: 1, alignSelf: 'flex-end' }}>
+                        <View style={styles.switchView}>
                             <Switch
                                 value={this.state.anDanh}
                                 onValueChange={(value) => this.setState({
@@ -210,27 +241,27 @@ class FindDoctor extends Component {
                         <View style={{ marginTop: 5, marginBottom: 10 }}>
                             <Text style={styles.textDividerTitle}>HÌNH ẢNH</Text>
                         </View>
-                        <View style={{flexDirection: 'row'}}>
-                            <TouchableOpacity style={{ width: 80, height: 80 , marginRight: 10}} onPress={() =>this.pickImage()}>
-                                <Image style={{ width: 80, height: 80 }} source={{ uri: 'https://image.freepik.com/free-icon/plus-sign-ios-7-interface-symbol_318-38775.jpg' }}/>
-                            </TouchableOpacity> 
-                            {this.state.images.map((image)  =>  (                       
-                                <Image style={{ width: 80, height: 80,marginRight: 10 }} source={{ uri: image.uri }}>
-                                    <View style={{alignSelf: 'flex-end', width:25, marginRight:1 }}>
+                        <View style={{ flexDirection: 'row' }}>
+                            <TouchableOpacity style={{ width: 80, height: 80, marginRight: 10 }} onPress={() => this.pickImage()}>
+                                <Image style={{ width: 80, height: 80 }} source={{ uri: 'https://image.freepik.com/free-icon/plus-sign-ios-7-interface-symbol_318-38775.jpg' }} />
+                            </TouchableOpacity>
+                            {this.state.images.map((image) => (
+                                <Image style={{ width: 80, height: 80, marginRight: 10 }} source={{ uri: image.uri }}>
+                                    <View style={{ alignSelf: 'flex-end', width: 25, marginRight: 1 }}>
                                         <Icon
                                             //raised
-                                            size = {20}
+                                            size={20}
                                             name='x'
                                             type='octicon'
                                             onPress={() => this.deleteImage(image)} />
-                                    </View>   
-                                </Image>    
+                                    </View>
+                                </Image>
                             ))}
                         </View>
                     </View>
 
                     <View style={{ marginTop: 30 }}>
-                        <View style={{ borderBottomWidth: 1.2, borderLeftWidth: 1.2, borderRightWidth: 1.2, borderTopWidth: 1.2, borderColor: '#5198D0' }}>
+                        <View style={styles.buttonView}>
                             <Button
                                 buttonStyle={styles.button}
                                 onPress={() => this.findDoctor()}
@@ -240,12 +271,22 @@ class FindDoctor extends Component {
                         </View>
                     </View>
                 </ParallaxScrollView>
+                {this.state.isShowFoundDoctor && 
+                    <View style={styles.viewDoctorInfo}>
+                        <FoundDoctor />
+                    </View> 
+                }
+                {this.state.isShowFoundDoctor && 
+                    <View style={styles.transparentView}/>
+                }
             </View>
+
+
         )
     }
 }
 
-function mapStateToProps(state){
+function mapStateToProps(state) {
     return {
         profilesList: state.user.profiles,
         listChuyenKhoa: state.kham.listChuyenKhoa,
@@ -256,4 +297,4 @@ function mapStateToProps(state){
     }
 }
 
-export default connect(mapStateToProps,khamAction)(FindDoctor);
+export default connect(mapStateToProps, khamAction)(FindDoctor);

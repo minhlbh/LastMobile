@@ -19,8 +19,7 @@ import styles from './styles';
 export default class DoctorInfo extends Component {
     render() {
         return (
-            <View style={styles.container}>
-
+            <View>
                 <View style={styles.viewAvatar}>
                     <Avatar
                         containerStyle={{ width: 155, height: 155 }}
@@ -30,8 +29,6 @@ export default class DoctorInfo extends Component {
                         activeOpacity={1}
                     />
                 </View>
-
-
                 <View style={styles.viewInfo}>
                     <View style={{ alignItems: 'center', paddingTop: 74, backgroundColor: 'white', }}>
                         <Text h5 style={styles.textPanel2}>Bác sĩ</Text>
@@ -61,7 +58,6 @@ export default class DoctorInfo extends Component {
                             </View>
                         </TouchableOpacity>
                     </View>
-
                 </View>
             </View>
         );
