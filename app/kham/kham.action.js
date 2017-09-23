@@ -75,12 +75,12 @@ export const getListChuyenKhoa = () => {
 export const storeDoctorInfo = () => {
     return ( dispatch, getState) => {
         const proxy = getState().kham.proxy;
-        dispatch({ type: GET_CONNECTION_SIGNALR.PENDING })
+        dispatch({ type: STORE_BAC_SI_INFO.PENDING })
         proxy.on('timBacSiTheoChuyenKhoa_KetQua', (KetQua, IdDichVu, TenDichVu, GiaTien, BacSiId, HoVaTen, Avatar, GioiThieuNhanh) => {
             console.log(KetQua)
             if (!BacSiId) { //Nếu k có id bác sĩ trả về thì báo kết quả 
                 alert(KetQua);
-                dispatch({ type: GET_CONNECTION_SIGNALR.FAILURE })
+                dispatch({ type: STORE_BAC_SI_INFO.FAILURE })
             } else { //Nếu có chuyển sang trang bác sĩ
                 var data = {
                     idDichVu: IdDichVu,

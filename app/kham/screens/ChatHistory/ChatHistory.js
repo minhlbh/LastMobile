@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-   Text
+   Text, Header,Icon
 } from 'react-native-elements';
 import {
     View
@@ -9,7 +9,7 @@ import { GiftedChat } from 'react-native-gifted-chat';;
 import { connect} from 'react-redux';
 import styles from './styles';
 import khamApi from '../../../api/khamApi';
-
+import {FixedHeader} from '../../../components';
 class ChatHistory extends Component {
     state = {
         messages: [],
@@ -108,16 +108,34 @@ class ChatHistory extends Component {
         }));
         
     }
+
+    _renderLeftHeader(){
+        return (
+            <Icon
+                name='keyboard-arrow-left'
+                color='black' 
+                onPress={() =>this.props.navigation.goBack()}
+            />
+        )
+    }
     render(){
         return (
             <View style={styles.container}>
-                <GiftedChat
-                    messages={this.state.messages}
-                    onSend={(messages) => this.onSend(messages)}
-                    user={{
-                    _id: 1,
-                    }}
+                <Header 
+                    outerContainerStyles={{height: 45}}
+                    leftComponent={this._renderLeftHeader()}
+                    centerComponent={{ text: 'BS: Lê Bá Hồng Minh', style: { color: 'black', fontSize: 18, fontWeight: 'bold' } }} 
+                    rightComponent={{ icon: 'event-note', color: 'black' }}
                 />
+                <View style={{ flex: 1, marginTop: 45}}>
+                    <GiftedChat
+                        messages={this.state.messages}
+                        onSend={(messages) => this.onSend(messages)}
+                        user={{
+                        _id: 1,
+                        }}
+                    />     
+                </View>             
             </View>
         )
     }
