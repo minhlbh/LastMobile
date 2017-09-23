@@ -20,7 +20,7 @@ export default StyleSheet.create({
         backgroundColor: 'white',
         marginTop: 190,
         zIndex: 2,
-        height: 280,
+        height: 310,
         borderRadius:20
     },
     viewButton: {

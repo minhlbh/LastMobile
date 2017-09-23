@@ -37,8 +37,7 @@ class FoundDoctor extends Component{
 //     </View>
 // </View>
     inviteDoctor(){
-        const { doctorInfo,idGap,navigation} = this.props;
-        const {idHoSo,anDanh,vanDe} = navigation.state.params
+        const { doctorInfo,idGap,navigation,idHoSo,anDanh,vanDe} = this.props;
         navigation.navigate('Chat');
         console.log(idGap);
         this.props.proxy.invoke('moiBacSi', doctorInfo.bacSiId,doctorInfo.idDichVu,idHoSo, anDanh, vanDe,idGap).done((directResponse) => {
@@ -62,21 +61,23 @@ class FoundDoctor extends Component{
                 <View style={styles.viewInfo}>
                     <View style={{ alignItems: 'center', paddingTop: 74, backgroundColor: 'white', }}>
                         <Text h5 style={styles.textPanel2}>Bác sĩ</Text>
-                        <Text style={styles.doctorName}>Lê Bá Hồng Minh</Text>
+                        <Text style={styles.doctorName}>{doctorInfo.hoVaTen}</Text>
                     </View>
 
                     <View>
                         <View style={{ marginTop: 5, marginLeft: 30 }}>
-                            <Text h5 style={styles.textPanel2}>Chuyên khoa Ung bướu,</Text>
-                            <Text h5 style={styles.textPanel2}>Chuyên môn tập trung vào ung thư vú, buồng trứng,...vv....vvv....</Text>
+                            <Text h5 style={styles.textPanel2}>{doctorInfo.tenDichVu}</Text>
+                            <Text h5 style={styles.textPanel2}>{doctorInfo.gioiThieuNhanh}</Text>
                         </View>
                         <View style={{ flexDirection: 'row', marginTop: 10, marginBottom: 20, alignSelf: 'center' }}>
                             <Text h5 style={{ marginTop: 7, color: 'black' }}>Giá dịch vụ: </Text>
-                            <Text h4 style={styles.doctorName}>80.000đ</Text>
+                            <Text h4 style={styles.doctorName}>{doctorInfo.giaTien}</Text>
                         </View>
                     </View>
                     <View style={{ flexDirection: 'row', }}>
-                        <TouchableOpacity style={{ marginLeft: -10 }}>
+                        <TouchableOpacity style={{ marginLeft: -10 }}
+                            onPress={()=>this.inviteDoctor()}    
+                        >
                             <View style={styles.button1}>
                                 <Text style={styles.buttonText1}> Đồng ý</Text>
                             </View>

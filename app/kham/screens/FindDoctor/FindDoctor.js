@@ -29,31 +29,17 @@ class FindDoctor extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            valueHoSo: {},
-            valueKhoa: '',
+            idHoso: '',
+            idKhoa: '',
             anDanh: false,
             vanDe: '',
             images: [],
-            isShowFoundDoctor: false
         }
     }
 
     componentWillMount() {
         this.props.getListChuyenKhoa();
         this.props.storeDoctorInfo();
-    }
-
-    componentDidUpdate() {
-        console.log(this.props.isFoundDoctor)
-        if (this.props.isFoundDoctor) {
-            this.setState({isShowFoundDoctor: true})
-            // this.props.navigation.navigate('FoundDoctor', {
-            //     idHoSo: this.state.valueHoSo.Id,
-            //     vanDe: this.state.vanDe,
-            //     anDanh: this.state.anDanh
-            // });
-        }
-       
     }
     pickImage() {
         ImagePicker.showImagePicker(options, (response) => {
@@ -106,12 +92,9 @@ class FindDoctor extends Component {
     }
 
     findDoctor() {
-        const { valueHoSo, valueKhoa, anDanh, vanDe } = this.state;
+        const { idHoso, idKhoa, anDanh, vanDe } = this.state;
         const idGap = this.props.idGap;
-        console.log(valueHoSo.Id)
-        console.log(valueKhoa)
-        console.log(anDanh,vanDe)
-        this.props.proxy.invoke('timBacSiTheoChuyenKhoa', valueKhoa.Id,valueHoSo.Id,anDanh,vanDe,idGap).done((directResponse) => {
+        this.props.proxy.invoke('timBacSiTheoChuyenKhoa', idKhoa,idHoso,anDanh,vanDe,idGap).done((directResponse) => {
             console.log('timBacSiTheoChuyenKhoa success');
         }).fail(() => {
             console.warn('timBacSiTheoChuyenKhoa fail')
@@ -119,12 +102,17 @@ class FindDoctor extends Component {
         });
     }
 
+    _onSelectedKhoa(index){
+        this.setState({idKhoa: this.props.listChuyenKhoa[index].Id})
+    }
+    _onSelectedHoSo(index){
+        this.setState({idHoso: this.props.profilesList[index].Id})
+    }
     render() {
         var { profilesList, listChuyenKhoa } = this.props;
         return (
 
-            <View style={styles.container}>
-                {/* <DoctorInfo/> */}                  
+            <View style={styles.container}>                  
                 <ParallaxScrollView
                     contentContainerStyle={{zIndex:0}}
                     backgroundColor="white"
@@ -146,35 +134,13 @@ class FindDoctor extends Component {
                             <Text style={styles.textDividerTitle}>Hồ sơ</Text>
                         </View>
                         <View style={styles.pickerView}>
-                            {/* <Picker
-                                style={styles.picker}
-
-                                selectedValue={this.state.valueHoSo}
-                                onValueChange={(item, itemIndex) => this.setState({
-                                    valueHoSo: item
-                                })}>
-                                <Picker.Item
-                                    style={styles.textDividerTitle}
-                                    label='Chọn hồ sơ' />
-                                {profilesList.map((profile) => (
-                                    <Picker.Item
-                                        style={styles.textDividerTitle}
-                                        label={profile.HoVaTen} value={profile}
-                                    />
-                                ))}
-                            </Picker> */}
                             <ModalDropdown
-                                options={profilesList}
-                                renderRow= {(profile) => 
-                                <TouchableOpacity style={{height:40}}><Text syle={{alignSelf:'center', justifyContent:'center'}}>{profile.HoVaTen}</Text></TouchableOpacity>}
+                                options={profilesList.map((item) => item.HoVaTen)}
                                 textStyle={{fontSize:15 }}
                                 dropdownTextStyle={{fontSize:15}}
                                 defaultValue={"Chọn hồ sơ"}
-                                onSelect={(item,value)=> this.setState({
-                                    valueHoSo: value
-                                })}
+                                onSelect={(index)=> this._onSelectedHoSo(index)}
                             />
-
                         </View>
                     </View>
 
@@ -185,29 +151,12 @@ class FindDoctor extends Component {
                             <Text style={styles.textDividerTitle}>Khoa</Text>
                         </View>
                         <View style={styles.pickerView}>
-                            {/* <Picker
-                                style={styles.picker}
-                                mode='dropdown'
-                                selectedValue={this.state.valueKhoa}
-                                onValueChange={(itemValue, itemIndex) => this.setState({
-                                    valueKhoa: itemValue
-                                })}>
-                                {listChuyenKhoa.map((item) => (
-                                    <Picker.Item
-                                        style={styles.textDividerTitle}
-                                        label={item.Name} value={item.Id} />
-                                ))}
-                            </Picker> */}
                             <ModalDropdown
-                                options={listChuyenKhoa}
-                                renderRow= {(item) => 
-                                <TouchableOpacity style={{height:40}}><Text style={{justifyContent:'center', alignSelf:'center'}}>{item.Name}</Text></TouchableOpacity>}
+                                options={listChuyenKhoa.map((item) => item.Name) }
                                 textStyle={{fontSize:15 }}
                                 dropdownTextStyle={{ fontSize:15}}
                                 defaultValue={"Chọn khoa"}
-                                onSelect={(item,value)=> this.setState({
-                                    valueKhoa: value
-                                })}
+                                onSelect={(index)=> this._onSelectedKhoa(index)}
                             />
                         </View>
                     </View>
@@ -271,17 +220,19 @@ class FindDoctor extends Component {
                         </View>
                     </View>
                 </ParallaxScrollView>
-                {this.state.isShowFoundDoctor && 
+                {this.props.isFoundDoctor && 
                     <View style={styles.viewDoctorInfo}>
-                        <FoundDoctor />
+                        <FoundDoctor 
+                            idHoSo= {this.state.idHoso}     
+                            vanDe= {this.state.vanDe}    
+                            anDanh= {this.state.anDanh} 
+                            navigation={this.props.navigation}/>
                     </View> 
                 }
-                {this.state.isShowFoundDoctor && 
+                {this.props.isFoundDoctor && 
                     <View style={styles.transparentView}/>
                 }
             </View>
-
-
         )
     }
 }
