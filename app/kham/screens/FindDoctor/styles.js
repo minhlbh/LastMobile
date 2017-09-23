@@ -14,9 +14,10 @@ export default StyleSheet.create({
         fontSize: 25,
         fontWeight: 'bold'
     },
-    textInput: {
-        height: 150,
-        borderTopWidth: 0.5,
+    textInput:{
+        height:150,
+        borderTopWidth: (Platform.OS === 'ios')? 1:0.5,
+        borderBottomWidth: (Platform.OS === 'ios')? 1:0,
         borderColor: colors.gray
     },
     picker: {
@@ -31,10 +32,31 @@ export default StyleSheet.create({
     container: {
         flex: 1,
         paddingLeft: 10,
-        paddingRight: 10,
-        backgroundColor: 'white',
-        paddingTop: (Platform.OS === 'ios') ? 20 : 0,
-        zIndex:0,
-
-    }
+        paddingRight: 10, 
+        backgroundColor: 'white' ,
+        paddingTop: (Platform.OS === 'ios')? 20:0
+    },
+    buttonView:{
+        borderBottomWidth: (Platform.OS === 'ios')? 1:1.2, 
+        borderLeftWidth: (Platform.OS === 'ios')? 1:1.2, 
+        borderRightWidth:(Platform.OS === 'ios')? 1:1.2, 
+        borderTopWidth: (Platform.OS === 'ios')? 1:1.2,
+        borderRadius: 25,
+        borderColor: '#5198D0'         
+    },
+    switchView:{ 
+        flex: 1,
+         alignSelf: 'flex-end',
+         marginLeft:(Platform.OS === 'ios')? 200:0 ,
+         marginTop: (Platform.OS === 'ios')? 10:0,
+         },
+    pickerView:{
+        flex: 1,
+        alignSelf: 'flex-end'     
+    },
+    khoaView:{
+        flexDirection: 'row',
+         flex: 1, 
+        marginTop: (Platform.OS === 'ios')? 15:0,
+    }     
 })

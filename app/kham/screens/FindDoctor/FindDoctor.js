@@ -139,10 +139,10 @@ class FindDoctor extends Component {
                         <View style={{ flex: 1, marginTop: 15 }}>
                             <Text style={styles.textDividerTitle}>Hồ sơ</Text>
                         </View>
-                        <View style={{ flex: 1, alignSelf: 'flex-end' }}>
+                        <View style={styles.pickerView}>
                             {/* <Picker
                                 style={styles.picker}
-                                mode='dropdown'
+
                                 selectedValue={this.state.valueHoSo}
                                 onValueChange={(item, itemIndex) => this.setState({
                                     valueHoSo: item
@@ -158,26 +158,28 @@ class FindDoctor extends Component {
                                 ))}
                             </Picker> */}
                             <ModalDropdown
-                                options={profilesList}
-                                renderRow={(profile) => (<TouchableOpacity><Text>{profile.HoVaTen}</Text></TouchableOpacity>)}
-                                textStyle={{ fontSize: 20 }}
-                                dropdrownTextStyle={{ fontSize: 20 }}
-                                defaultValue={'Chọn hồ sơ...'}
-                                onSelect={(item, value) => this.setState({
-                                    valueHoSo: value
-                                })}
+                            options={profilesList}
+                            renderRow= {(profile) => 
+                            <TouchableOpacity style={{height:40}}><Text syle={{alignSelf:'center', justifyContent:'center'}}>{profile.HoVaTen}</Text></TouchableOpacity>}
+                            textStyle={{fontSize:20 }}
+                            dropdownTextStyle={{fontSize:20}}
+                            defaultValue={"Chọn hồ sơ..."}
+                            onSelect={(item,value)=> this.setState({
+                                valueHoSo: value
+                            })}
                             />
+
                         </View>
                     </View>
 
                     <Divider style={styles.divider} />
 
-                    <View style={{ flexDirection: 'row', flex: 1 }}>
+                    <View style={styles.khoaView}>
                         <View style={{ flex: 1, marginTop: 15 }}>
                             <Text style={styles.textDividerTitle}>Khoa</Text>
                         </View>
-                        <View style={{ flex: 1, alignSelf: 'flex-end' }}>
-                            <Picker
+                        <View style={styles.pickerView}>
+                            {/* <Picker
                                 style={styles.picker}
                                 mode='dropdown'
                                 selectedValue={this.state.valueKhoa}
@@ -189,7 +191,18 @@ class FindDoctor extends Component {
                                         style={styles.textDividerTitle}
                                         label={item.Name} value={item.Id} />
                                 ))}
-                            </Picker>
+                            </Picker> */}
+                            <ModalDropdown
+                            options={listChuyenKhoa}
+                            renderRow= {(item) => 
+                            <TouchableOpacity style={{height:40}}><Text style={{justifyContent:'center', alignSelf:'center'}}>{item.Name}</Text></TouchableOpacity>}
+                            textStyle={{fontSize:20 }}
+                            dropdownTextStyle={{ fontSize:20}}
+                            defaultValue={"Chọn khoa..."}
+                            onSelect={(item,value)=> this.setState({
+                                valueKhoa: value
+                            })}
+                            />
                         </View>
                     </View>
 
@@ -199,7 +212,7 @@ class FindDoctor extends Component {
                         <View style={{ flex: 1, marginTop: 15 }}>
                             <Text style={styles.textDividerTitle}>Ẩn danh</Text>
                         </View>
-                        <View style={{ flex: 1, alignSelf: 'flex-end' }}>
+                        <View style={styles.switchView}>
                             <Switch
                                 value={this.state.anDanh}
                                 onValueChange={(value) => this.setState({
@@ -242,7 +255,7 @@ class FindDoctor extends Component {
                     </View>
 
                     <View style={{ marginTop: 30 }}>
-                        <View style={{ borderBottomWidth: 1.2, borderLeftWidth: 1.2, borderRightWidth: 1.2, borderTopWidth: 1.2, borderColor: '#5198D0' }}>
+                        <View style={styles.buttonView}>
                             <Button
                                 buttonStyle={styles.button}
                                 onPress={() => this.findDoctor()}

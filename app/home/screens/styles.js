@@ -24,7 +24,6 @@ export default StyleSheet.create({
         paddingRight: 10, 
         backgroundColor: 'white',
         paddingTop: (Platform.OS === 'ios')? 20:0
-
     },
     headerListContainer:{
         flex: 1, 
