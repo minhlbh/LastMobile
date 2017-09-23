@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet, Platform } from 'react-native'
 import {colors} from '../../config/styles'
 
 export default StyleSheet.create({
@@ -22,7 +22,9 @@ export default StyleSheet.create({
         flex: 1, 
         paddingLeft: 10, 
         paddingRight: 10, 
-        backgroundColor: 'white' 
+        backgroundColor: 'white',
+        paddingTop: (Platform.OS === 'ios')? 20:0
+
     },
     headerListContainer:{
         flex: 1, 
