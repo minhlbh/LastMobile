@@ -22,7 +22,7 @@ export const auth = (user, pass) => {
             } else {
                 dispatch({
                     type: LOGIN.FAILURE,
-                    payload: data.error_description,
+                    payload: "Số điện thoại hoặc mật khẩu sai!",
                 });
             }
         })
@@ -31,6 +31,39 @@ export const auth = (user, pass) => {
             type: LOGIN.FAILURE,
             payload: error,
           });
+        });
+    };
+};
+
+export const authWithFb = (userID, email,accessToken) => {
+    return dispatch => {
+      dispatch({ type: LOGIN.PENDING });
+        accountApi.checkFacebookLogin(userID, email, accessToken.toString()).then(response =>{
+            console.log(response);
+            if(response == 'Email chưa được dùng đăng kí tài khoản nào!'){
+                // this.props.navigation.navigate("InputPhone", {
+                //     id: data.userID,
+                //     email: res.email,
+                //     token: data.accessToken.toString()
+                // });
+                alert(response)
+            }else if (response.access_token){
+                dispatch({
+                    type: LOGIN.SUCCESS,
+                    payload: response.access_token,
+                  });
+                AsyncStorage.setItem('access_token', response.access_token);
+            } else {
+                dispatch({
+                    type: LOGIN.FAILURE,
+                    payload: response,
+                });                                   
+            };      
+        }).catch(error => {
+            dispatch({
+                type: LOGIN.FAILURE,
+                payload: error,
+            });
         });
     };
 };

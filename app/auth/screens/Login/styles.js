@@ -1,30 +1,41 @@
 import { StyleSheet } from 'react-native';
-import { colors } from '../../../config/styles';
-
 export default StyleSheet.create({
-    container:{
+    container: {
+        paddingLeft: 10,
+        paddingRight: 10,
         flex: 1,
-        backgroundColor: 'white',
+        backgroundColor: 'white'
     },
-    logoContainer: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
+    loginTextView: {
+        alignSelf: 'flex-end',
+        flex: 1
     },
-    logo:{
-        height: 150,
-        width: 150,
+    loginText: {
+        fontSize: 20,
+        color: 'black',
+        textDecorationLine: 'underline',
+
     },
-    formContainer:{
-        flex: 2,
-        paddingLeft: 20,
-        paddingRight: 20,
+    image: {
+        width: 80,
+        height: 80,
+        alignSelf: 'center',
+        marginTop: 60
     },
-    btnGroupCointainer:{
+    labelText: {
+        marginLeft: 20,
+        fontSize: 20,
+        color: 'black',
+        marginBottom: 20
+    },
+    button: {
+        borderRadius: 20,
+        marginTop: 30,
+        backgroundColor: '#575757'
+    },
+    socialIconView: {
         flexDirection: 'row',
-        marginTop: 15
-    },
-    btnContainer:{
-        flex:1
+        alignSelf: 'center',
+        marginTop: 30
     }
 })
