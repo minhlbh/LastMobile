@@ -9,13 +9,14 @@ export default StyleSheet.create({
     },
     container: {
         backgroundColor: '#83859a',
-        zIndex: 0,
+        zIndex: 1,
         flex: 1,
-        opacity: 1,
+        opacity: 6,
+        position: 'absolute'
     },
     viewAvatar: {
         alignSelf: 'center',
-        zIndex: 2,
+        zIndex: 3,
         position: 'absolute',
         marginTop: 105
     },
@@ -25,12 +26,12 @@ export default StyleSheet.create({
         marginRight: 20,
         backgroundColor: 'white',
         marginTop: 190,
-        zIndex: 1,
+        zIndex: 2,
         height: 280,
         borderRadius:20
     },
     viewButton: {
-        zIndex: 2,
+        zIndex: 3,
         position: 'absolute',
         marginTop: 370,
         alignSelf: 'center'

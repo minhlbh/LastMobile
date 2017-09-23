@@ -31,6 +31,7 @@ export default StyleSheet.create({
         backgroundColor:'white',
     },
     container:{
+        zIndex: 0,
         flex: 1, 
         paddingLeft: 10,
         paddingRight: 10, 

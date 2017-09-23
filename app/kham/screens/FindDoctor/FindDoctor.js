@@ -11,7 +11,7 @@ import {HeaderForeground,StickyHeader,FixedHeader} from '../../../components';
 import { connect} from 'react-redux';
 import * as khamAction from '../../kham.action';
 import khamApi from '../../../api/khamApi';
-
+//import DoctorInfo from '../../../DoctorInfo/screen'
 var ImagePicker = require('react-native-image-picker');
 
 var options = {
@@ -48,7 +48,7 @@ class FindDoctor extends Component {
                 vanDe:this.state.vanDe,
                 anDanh: this.state.anDanh
             });
-        } 
+        }
     }
     pickImage() {
         ImagePicker.showImagePicker(options, (response) => {
@@ -108,6 +108,7 @@ class FindDoctor extends Component {
             console.log('timBacSiTheoChuyenKhoa success');
         }).fail(() => {
             console.warn('timBacSiTheoChuyenKhoa fail')
+            alert('Hiện các bác sĩ đang bận')
         });
     }
 
@@ -115,7 +116,9 @@ class FindDoctor extends Component {
         var {profilesList, listChuyenKhoa} = this.props;        
         return (
             <View style={styles.container}>
+                {/* <DoctorInfo/> */}                  
                 <ParallaxScrollView
+                    contentContainerStyle={{zIndex:0}}
                     backgroundColor="white"
                     contentBackgroundColor="white"
                     parallaxHeaderHeight={80}

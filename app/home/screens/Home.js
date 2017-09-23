@@ -90,7 +90,7 @@ console.disableYellowBox = true;
                     <View style={styles.listContainer}>
                         <View style={styles.headerListContainer}>
                             <View style={{ flex: 1 }}><Text style={styles.textDividerTitle}>HỒ SƠ BỆNH ÁN</Text></View>
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={() => navigation.navigate('Profiles')}>
                                 <View style={{ flex: 1, alignItems: 'flex-end' }}><Text style={styles.textdivider}> xem toàn bộ</Text></View>
                             </TouchableOpacity>
                         </View>
@@ -107,7 +107,7 @@ console.disableYellowBox = true;
                     <View style={styles.listContainer}>
                         <View style={styles.headerListContainer}>
                             <View style={{ flex: 1 }}><Text style={styles.textDividerTitle}>BÁC SĨ CỦA TÔI</Text></View>
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={() => navigation.navigate('Doctor')}>
                                 <View style={{ flex: 1, alignItems: 'flex-end', }}><Text style={styles.textdivider}> xem toàn bộ</Text></View>
                             </TouchableOpacity>
                         </View>
