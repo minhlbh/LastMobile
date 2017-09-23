@@ -161,9 +161,9 @@ class FindDoctor extends Component {
                             options={profilesList}
                             renderRow= {(profile) => 
                             <TouchableOpacity style={{height:40}}><Text syle={{alignSelf:'center', justifyContent:'center'}}>{profile.HoVaTen}</Text></TouchableOpacity>}
-                            textStyle={{fontSize:20 }}
-                            dropdownTextStyle={{fontSize:20}}
-                            defaultValue={"Chọn hồ sơ..."}
+                            textStyle={{fontSize:15 }}
+                            dropdownTextStyle={{fontSize:15}}
+                            defaultValue={"Chọn hồ sơ"}
                             onSelect={(item,value)=> this.setState({
                                 valueHoSo: value
                             })}
@@ -196,9 +196,9 @@ class FindDoctor extends Component {
                             options={listChuyenKhoa}
                             renderRow= {(item) => 
                             <TouchableOpacity style={{height:40}}><Text style={{justifyContent:'center', alignSelf:'center'}}>{item.Name}</Text></TouchableOpacity>}
-                            textStyle={{fontSize:20 }}
-                            dropdownTextStyle={{ fontSize:20}}
-                            defaultValue={"Chọn khoa..."}
+                            textStyle={{fontSize:15 }}
+                            dropdownTextStyle={{ fontSize:15}}
+                            defaultValue={"Chọn khoa"}
                             onSelect={(item,value)=> this.setState({
                                 valueKhoa: value
                             })}
@@ -265,11 +265,11 @@ class FindDoctor extends Component {
                         </View>
                     </View>
                 </ParallaxScrollView>
-                {/*<View style={{ zIndex: 2, position: 'absolute', alignSelf: 'center', justifyContent: 'center', ocpacity:0.2 }}>
+                <View style={styles.viewDoctorInfo}>
                     <DoctorInfo />
                 </View> 
-                {/* <View style={{backgroundColor:'black', zIndex:1, position:'absolute', justifyContent:'center', alignSelf:'center', opacity:0.2, width:500, height:1000  }}/>
-                            */}
+                <View style={styles.transparentView}/>
+                            
             </View>
 
 
