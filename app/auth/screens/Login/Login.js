@@ -15,7 +15,7 @@ class Login extends Component{
             password: '',
             token: '',
         }
-        //this.props.authByAsyncStorage();
+        this.props.authByAsyncStorage();
     }
 
     componentDidUpdate() {
