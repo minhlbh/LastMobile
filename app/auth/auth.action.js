@@ -1,10 +1,12 @@
 import { AsyncStorage } from 'react-native';
 import accountApi from '../api/accountApi';
+import FBSDK, { LoginManager , AccessToken} from 'react-native-fbsdk';
+
 
 import {
     LOGIN,
     LOGOUT,
-    GET_AUTH_USER,
+    REGISTER,
 } from './auth.type';
 
 export const auth = (user, pass) => {
@@ -35,43 +37,62 @@ export const auth = (user, pass) => {
     };
 };
 
-export const authWithFb = (userID, email,accessToken) => {
+export const authWithFb = () => {
     return dispatch => {
       dispatch({ type: LOGIN.PENDING });
-        accountApi.checkFacebookLogin(userID, email, accessToken.toString()).then(response =>{
-            console.log(response);
-            if(response == 'Email chưa được dùng đăng kí tài khoản nào!'){
-                // this.props.navigation.navigate("InputPhone", {
-                //     id: data.userID,
-                //     email: res.email,
-                //     token: data.accessToken.toString()
-                // });
-                alert(response)
-            }else if (response.access_token){
-                dispatch({
-                    type: LOGIN.SUCCESS,
-                    payload: response.access_token,
-                  });
-                AsyncStorage.setItem('access_token', response.access_token);
+        LoginManager.logInWithReadPermissions(['email']).then(
+            function(result) {
+            if (result.isCancelled) {
+                alert('Đăng nhập được huỷ');
             } else {
-                dispatch({
-                    type: LOGIN.FAILURE,
-                    payload: response,
-                });                                   
-            };      
-        }).catch(error => {
-            dispatch({
-                type: LOGIN.FAILURE,
-                payload: error,
-            });
-        });
+                AccessToken.getCurrentAccessToken().then(
+                    (data) => {
+                        fetch(`https://graph.facebook.com/me?fields=email&&access_token=${data.accessToken.toString()}`)
+                        .then((response) => response.json())
+                        .then((res) => {
+                            accountApi.checkFacebookLogin(data.userID, res.email, data.accessToken.toString()).then(response =>{
+                                console.log(response);
+                                if(response == 'Email chưa được dùng đăng kí tài khoản nào!'){
+                                    // this.props.navigation.navigate("InputPhone", {
+                                    //     id: data.userID,
+                                    //     email: res.email,
+                                    //     token: data.accessToken.toString()
+                                    // });
+                                    alert(response)
+                                }else if (response.access_token){
+                                    dispatch({
+                                        type: LOGIN.SUCCESS,
+                                        payload: response.access_token,
+                                      });
+                                    AsyncStorage.setItem('access_token', response.access_token);
+                                } else {
+                                    dispatch({
+                                        type: LOGIN.FAILURE,
+                                        payload: response,
+                                    });                                   
+                                };      
+                            }).catch(error => {
+                                dispatch({
+                                    type: LOGIN.FAILURE,
+                                    payload: error,
+                                });
+                            });           
+                        })                    
+                    }
+                )             
+            }              
+            },
+            function(error) {
+                alert('Đăng nhập xảy ra lỗi: ' + error);
+            },
+        )     
     };
 };
 
 export const authByAsyncStorage = () => {
     return dispatch => {
-      dispatch({ type: LOGIN.PENDING });
-      AsyncStorage.getItem('access_token').then((token) => {
+        dispatch({ type: LOGIN.PENDING });
+        AsyncStorage.getItem('access_token').then((token) => {
             if(token){
                 dispatch({
                     type: LOGIN.SUCCESS,
@@ -85,4 +106,55 @@ export const authByAsyncStorage = () => {
             }
         })
     };
-};
+}
+
+export const register = (name,phone,email, pass) => {
+    return dispatch => {
+      dispatch({ type: REGISTER.PENDING });
+      if(!name) {
+            dispatch({
+                type: REGISTER.FAILURE,
+                payload: "Chưa nhập họ và tên",
+            });
+        }else if(!phone){
+            dispatch({
+                type: REGISTER.FAILURE,
+                payload: "Chưa nhập số điện thoại",
+            });
+        } else if (!email){
+            dispatch({
+                type: REGISTER.FAILURE,
+                payload: "Chưa nhập email",
+            });
+        } else if (!pass){
+            dispatch({
+                type: REGISTER.FAILURE,
+                payload: "Chưa nhập mật khẩu",
+            });
+        } else {
+            accountApi.signUp(name,email,phone,pass).then(data => {
+                console.log(data);
+                if(data.Id){
+                    console.log(data);
+                    console.log(data);
+                    dispatch({
+                        type: REGISTER.SUCCESS,
+                        payload: data.Id
+                    });
+                } else {
+                    dispatch({
+                        type: REGISTER.FAILURE,
+                        payload: "Đăng kí không thành công",
+                    });
+                }
+            })
+            .catch(error => {
+                dispatch({
+                    type: REGISTER.FAILURE,
+                    payload: '',
+                });
+            });
+        }
+      
+    };
+}; 

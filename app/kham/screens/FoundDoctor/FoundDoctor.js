@@ -3,7 +3,7 @@ import {
     View,Image,TouchableOpacity
 } from 'react-native';
 import {
-    Text, Icon, ListItem, Divider, Button, Avatar
+    Text, Icon,  Button, Avatar
 } from 'react-native-elements';
 import { connect} from 'react-redux';
 import styles from './styles';
@@ -16,26 +16,6 @@ class FoundDoctor extends Component{
             alert(TraLoi);
         });
     }
-
-//     <View  style={styles.container}>
-//     <Text h3> Tìm được bác sĩ </Text>
-//     <Text>
-//         Tên Bác sĩ : {doctorInfo.hoVaTen} {'\n'}
-//         Giá Tiền : {doctorInfo.giaTien} {'\n'}
-//         Giới thiệu nhanh : {doctorInfo.gioiThieuNhanh} {'\n'}
-//         Tên dịch vụ : {doctorInfo.tenDichVu} {'\n'}
-//     </Text>
-//     <View style={{ marginTop: 30 }}>
-//         <View style={{ borderBottomWidth: 1.2, borderLeftWidth: 1.2, borderRightWidth: 1.2, borderTopWidth: 1.2, borderColor: '#5198D0' }}>
-//             <Button
-//                 buttonStyle={styles.button}
-//                 onPress={() => this.inviteDoctor()}
-//                 title="Mời bác sĩ"
-//                 textStyle={{ color: '#5198D0', fontSize: 18 }}
-//             />
-//         </View>
-//     </View>
-// </View>
     inviteDoctor(){
         const { doctorInfo,idGap,navigation,idHoSo,anDanh,vanDe} = this.props;
         navigation.navigate('Chat');
@@ -51,7 +31,7 @@ class FoundDoctor extends Component{
             <View>
             <View style={styles.viewAvatar}>
                 <Avatar
-                    containerStyle={{ width: 155, height: 155 }}
+                    containerStyle={{ width: 150, height: 150 }}
                     xlarge
                     rounded
                     source={{ uri: 'http://www.phongkhammathaiyen.com/uploads/images/Hinh%20bai%20viet/Thumbnail/Thumb_BSMinhHuy.jpg' }}

@@ -1,7 +1,7 @@
 import {
     LOGIN,
     LOGOUT,
-    GET_AUTH_USER,
+    REGISTER
 } from './auth.type';
 
 const initialState = {
@@ -12,6 +12,10 @@ const initialState = {
     user: {},
     isPendingUser: false,
     error: '',
+    isSigningUp: false,
+    isRegistered: false,
+    errorSignUp: '', 
+    idU: null  
 };
 
 export const authReducer = (state = initialState, action = {}) => {
@@ -51,6 +55,25 @@ export const authReducer = (state = initialState, action = {}) => {
                 ...state,
                 isSigningOut: false,
                 error: action.payload,
+            };
+        case REGISTER.PENDING:
+            return {
+                ...state,
+                isSigningUp: true,
+                isRegistered: false,
+            };
+        case REGISTER.SUCCESS:
+            return {
+                ...state,
+                isSigningUp: false,
+                isRegistered: true,
+                idU: action.payload
+            };
+        case REGISTER.FAILURE:
+            return {
+                ...state,
+                isSigningUp: false,
+                errorSignUp: action.payload,
             };
         default:
             return state;

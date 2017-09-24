@@ -14,7 +14,8 @@ export default (HomeStack = StackNavigator({
     Kham: {
         screen: KhamStack,
         navigationOptions: {
-            header: null
+            header: null,
+            tabBarVisible: false
         }
     },
     ChatHistory:{

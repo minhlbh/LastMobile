@@ -20,13 +20,12 @@ var accountApi = {
         })
             .then((response) => response.json())
     },
-    signUp(name, email, phone, pass, confirmPass) {
+    signUp(name, email, phone, pass) {
         let details = {
             HoVaTen: name,
             Email: email,
             Phone: phone,
             Password: pass,
-            ConfirmPassword: confirmPass
         };
 
         var url = apiUrl.signUp;

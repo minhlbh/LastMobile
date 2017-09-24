@@ -1,11 +1,7 @@
 import React, { Component } from "react";
 import { StackNavigator } from "react-navigation";
-//import Signup from '../screens/Signup';
 import Login from '../auth/screens/Login';
-// import InputCode from '../screens/Signup/InputCode';
-// import ForgetPass from '../screens/ForgetPass';
-// import ConfirmFP from '../screens/ForgetPass/ConfirmFP';
-// import InputPhone from '../screens/Login/InputPhone';
+import Register from '../auth/screens/Register';
 
 export default (LoginStack = StackNavigator({
     Login: {
@@ -14,4 +10,10 @@ export default (LoginStack = StackNavigator({
             header: null
         }
     },
+    Register: {
+        screen: Register,
+        navigationOptions: {
+            header: null
+        }
+    }
 }));

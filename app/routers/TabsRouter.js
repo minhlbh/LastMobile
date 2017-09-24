@@ -17,8 +17,8 @@ const Tabs = TabNavigator({
   Doctor: {
     screen: DoctorStack,
     navigationOptions: {
-      tabBarLabel: 'Bác sĩ',
-      tabBarIcon: ({ tintColor }) => <Icon name="user-md" type='font-awesome' color={tintColor} size={28}/>
+      tabBarLabel: 'Tư vấn',
+      tabBarIcon: ({ tintColor }) => <Icon name="chat"  color={tintColor} size={28}/>
     },
   },
   Profiles: {
@@ -44,10 +44,10 @@ const Tabs = TabNavigator({
       style: {
         backgroundColor: '#FFF',
         paddingTop: 0,
-        height: 60
+        height: 55
       },
       labelStyle: {
-        fontSize: 9,
+        fontSize: 10,
       },
       indicatorStyle: {
         backgroundColor: 'black',

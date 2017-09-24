@@ -6,7 +6,6 @@ import { Loading, ErrorText } from '../../../components';
 import images from '../../../config/images';
 import styles from './styles';
 import * as authAction from '../../auth.action';
-import FBSDK, { LoginManager , AccessToken, LoginButton} from 'react-native-fbsdk';
 
 class Login extends Component{
     constructor(props){
@@ -16,7 +15,7 @@ class Login extends Component{
             password: '',
             token: '',
         }
-        this.props.authByAsyncStorage();
+        //this.props.authByAsyncStorage();
     }
 
     componentDidUpdate() {
@@ -29,28 +28,7 @@ class Login extends Component{
         this.props.auth(username,password);
     }
     _loginFacebook() {   
-        this.setState({ loading: true });
-        LoginManager.logInWithReadPermissions(['email']).then(
-            function(result) {
-              if (result.isCancelled) {
-                alert('Đăng nhập được huỷ');
-              } else {
-                AccessToken.getCurrentAccessToken().then(
-                    (data) => {
-                        fetch(`https://graph.facebook.com/me?fields=email&&access_token=${data.accessToken.toString()}`)
-                        .then((response) => response.json())
-                        .then((res) => {
-                              this.props.authWithFb(data.userID,res.email,data.accessToken.toString())           
-                        })                    
-                    }
-                )             
-              }
-              
-            },
-            function(error) {
-                alert('Đăng nhập xảy ra lỗi: ' + error);
-            },
-        )     
+        this.props.authWithFb(); 
     }
 
     getLoginMess(){
@@ -90,14 +68,11 @@ class Login extends Component{
                         />
 
                         <View style={styles.socialIconView}>
-                            <TouchableOpacity style={{ marginRight: 10 }}>
-                                <SocialIcon light type='facebook' 
-                                    onPress={() => this._loginFacebook()}
-                                />
-                            </TouchableOpacity>
-                            <TouchableOpacity>
-                                <SocialIcon light type='google-plus-official' />
-                            </TouchableOpacity>
+                             <SocialIcon light type='facebook' 
+                                style={{ marginRight: 10 }}
+                                onPress={() => this._loginFacebook()}
+                            />
+                            <SocialIcon light type='google-plus-official' />
                         </View>
 
                     </View>
@@ -105,7 +80,10 @@ class Login extends Component{
                     <View style={{height: 60}}>{this.getLoginMess()}</View>
 
                     <View style={{ flexDirection: 'row' , alignItems:'flex-end'}}>
-                        <TouchableOpacity style={{ flex: 1, alignSelf: 'flex-start', marginLeft: 20 }}>
+                        <TouchableOpacity 
+                            style={{ flex: 1, alignSelf: 'flex-start', marginLeft: 20 }}
+                            onPress={()=> this.props.navigation.navigate('Register')}
+                        >
                             <Text style={styles.loginText}>Đăng kí</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.loginTextView}>
