@@ -35,7 +35,7 @@ export default StyleSheet.create({
     logo: {
         width: 80,
         height: 80,
-        marginTop: 10,
+        marginTop: (Platform.OS === 'ios')? 40:10,
         marginLeft: 10
     },
     transparentView: {
