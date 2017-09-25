@@ -32,7 +32,7 @@ import * as authAction from '../../auth.action';
 
     componentWillMount(){
         //AsyncStorage.getItem('access_token').then((token) => {
-            //this.props.authByAsyncStorage();        
+            this.props.authByAsyncStorage();        
         //})
     }
     componentDidUpdate() {
