@@ -1,4 +1,4 @@
-import { StyleSheet, Dimensions,Platform } from 'react-native';
+import { StyleSheet, Dimensions, Platform } from 'react-native';
 
 const deviceHeight = Dimensions.get('window').height;
 const deviceWidth = Dimensions.get('window').width;
@@ -19,7 +19,7 @@ export default StyleSheet.create({
 
     },
     inputView: {
-        marginTop: 60,
+        marginTop: 30,
     },
     container: {
         paddingTop: 15,
@@ -32,11 +32,11 @@ export default StyleSheet.create({
         marginTop: 30,
         backgroundColor: '#575757'
     },
-    logo: { 
-        width: 100, 
-        height: 100, 
-        marginTop: 20, 
-        marginLeft: 10 
+    logo: {
+        width: 80,
+        height: 80,
+        marginTop: 10,
+        marginLeft: 10
     },
     transparentView: {
         backgroundColor: 'black',
@@ -56,7 +56,12 @@ export default StyleSheet.create({
         justifyContent: 'center',
         opacity: 1
     },
-    formInput:{
-        marginBottom:(Platform.OS === 'ios')?10:0
+    formInput: {
+        marginBottom: (Platform.OS === 'ios') ? 10 : 0
+    },
+    footer: {
+        marginTop: 20,
+        marginLeft: 10,
+        marginBottom: deviceHeight -100
     }
 })

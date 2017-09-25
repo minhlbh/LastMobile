@@ -80,7 +80,7 @@ class Login extends Component {
 
                         <View style={{ height: 60 }}>{this.getLoginMess()}</View>
 
-                        <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
+                        <View style={styles.footer}>
                             <TouchableOpacity
                                 style={{ flex: 1, alignSelf: 'flex-start', marginLeft: 20 }}
                                 onPress={() => this.props.navigation.navigate('Register')}

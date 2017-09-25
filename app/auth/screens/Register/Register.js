@@ -96,7 +96,7 @@ class Register extends Component {
                     buttonStyle={styles.button}
                     onPress={()=>this.register()}
                 />
-                <View style={{height: 60}}>{this._getRegisterMess()}</View>
+                <View style={{height: 50}}>{this._getRegisterMess()}</View>
                 <View style={{ flexDirection: 'row', marginLeft: 30}}>
                     <Text style={{ marginTop: 23, color: 'black' }}> Hoặc đăng nhập bằng:</Text>
                     <View style={{ flexDirection: 'row', marginLeft: 35 }}>
@@ -106,7 +106,7 @@ class Register extends Component {
                         <SocialIcon light type='google-plus-official' />                
                     </View>
                 </View>
-                <View style={{ marginTop: 20, marginLeft: 10 }}>
+                <View style={styles.footer}>
                     <Text>Bằng việc đăng nhập đăng kí{'\n'}</Text>
                     <View style={{ flexDirection: 'row' }}>
                         <Text>Bạn đã đồng ý với </Text>

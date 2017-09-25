@@ -1,4 +1,6 @@
-import { StyleSheet, Platform } from 'react-native';
+import { StyleSheet, Platform, Dimensions } from 'react-native';
+const deviceHeight = Dimensions.get('window').height;
+const deviceWidth = Dimensions.get('window').width;
 export default StyleSheet.create({
     container: {
         paddingLeft: 10,
@@ -20,7 +22,7 @@ export default StyleSheet.create({
         width: 100,
         height: 100,
         alignSelf: 'center',
-        marginTop: 60
+        marginTop: 30
     },
     labelText: {
         marginLeft: 20,
@@ -38,7 +40,13 @@ export default StyleSheet.create({
         alignSelf: 'center',
         marginTop: 30
     },
-    formInput:{
-        marginBottom:(Platform.OS === 'ios')?10:0
+    formInput: {
+        marginBottom: (Platform.OS === 'ios') ? 10 : 0
+    },
+    footer: {
+        flexDirection: 'row',
+        alignItems: 'flex-end',
+        marginBottom: deviceHeight-100
+
     }
 })
