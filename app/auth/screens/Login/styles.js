@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 export default StyleSheet.create({
     container: {
         paddingLeft: 10,
@@ -17,8 +17,8 @@ export default StyleSheet.create({
 
     },
     image: {
-        width: 80,
-        height: 80,
+        width: 100,
+        height: 100,
         alignSelf: 'center',
         marginTop: 60
     },
@@ -37,5 +37,8 @@ export default StyleSheet.create({
         flexDirection: 'row',
         alignSelf: 'center',
         marginTop: 30
+    },
+    formInput:{
+        marginBottom:(Platform.OS === 'ios')?10:0
     }
 })

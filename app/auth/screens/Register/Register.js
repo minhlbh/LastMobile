@@ -81,10 +81,10 @@ class Register extends Component {
                 </View>
 
                 <View style={styles.inputView}>
-                    <FormInput placeholder='HỌ TÊN' onChangeText={(name) => this.setState({ name })}/>
-                    <FormInput placeholder='SỐ ĐIỆN THOẠI' onChangeText={(phone) => this.setState({ phone })}/>
-                    <FormInput placeholder='EMAIL' onChangeText={(email) => this.setState({ email })}/>                    
-                    <FormInput placeholder='MẬT KHẨU' 
+                    <FormInput containerStyle={styles.formInput} placeholder='HỌ TÊN' onChangeText={(name) => this.setState({ name })}/>
+                    <FormInput containerStyle={styles.formInput} placeholder='SỐ ĐIỆN THOẠI' onChangeText={(phone) => this.setState({ phone })}/>
+                    <FormInput containerStyle={styles.formInput} placeholder='EMAIL' onChangeText={(email) => this.setState({ email })}/>                    
+                    <FormInput containerStyle={styles.formInput} placeholder='MẬT KHẨU' 
                         onChangeText={(pass) => this.setState({ pass })}
                         secureTextEntry={true}
                     />

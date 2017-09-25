@@ -1,4 +1,4 @@
-import { StyleSheet, Dimensions } from 'react-native';
+import { StyleSheet, Dimensions,Platform } from 'react-native';
 
 const deviceHeight = Dimensions.get('window').height;
 const deviceWidth = Dimensions.get('window').width;
@@ -33,8 +33,8 @@ export default StyleSheet.create({
         backgroundColor: '#575757'
     },
     logo: { 
-        width: 60, 
-        height: 60, 
+        width: 100, 
+        height: 100, 
         marginTop: 20, 
         marginLeft: 10 
     },
@@ -55,5 +55,8 @@ export default StyleSheet.create({
         alignSelf: 'center',
         justifyContent: 'center',
         opacity: 1
+    },
+    formInput:{
+        marginBottom:(Platform.OS === 'ios')?10:0
     }
 })
