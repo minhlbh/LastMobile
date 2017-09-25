@@ -51,11 +51,11 @@ class Register extends Component {
     } 
     
     confirmCode(){
-        const { phone, code, pass} = this.state;
+        const { phone, code, pass,email} = this.state;
         accountApi.confirmPhone(this.props.idU, code, phone).then(res => {
             alert(res);
             if(res === 'Xác nhận Phone thành công'){
-                this.props.auth(phone,pass);
+                this.props.auth(email,pass);
             }else {
                 this.setState({errorConfirmCode: res})
             }     
