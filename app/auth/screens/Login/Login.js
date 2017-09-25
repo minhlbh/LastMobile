@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import {View, Image,TouchableOpacity} from 'react-native';
+import {View, Image,TouchableOpacity,AsyncStorage} from 'react-native';
 import { FormLabel, FormInput,Button, Text ,SocialIcon} from 'react-native-elements';
 import { connect} from 'react-redux';
 import { Loading, ErrorText } from '../../../components';
@@ -15,9 +15,13 @@ class Login extends Component{
             password: '',
             token: '',
         }
-        //this.props.authByAsyncStorage();
     }
 
+    componentWillMount(){
+        AsyncStorage.getItem('access_token').then((token) => {
+            this.props.authByAsyncStorage();        
+        })
+    }
     componentDidUpdate() {
         if (this.props.isAuthenticated) {
             this.props.navigation.navigate('Tabs');
