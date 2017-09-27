@@ -9,7 +9,6 @@ import {
 } from 'react-native-elements';
 import images from '../../../config/images';
 import { connect} from 'react-redux';
-import * as authAction from '../../auth.action';
 
  class Intro extends Component {
     // nút Skip
@@ -29,17 +28,6 @@ import * as authAction from '../../auth.action';
     // onSlideChangeHandle = (index, total) => {
     //     console.log(index, total);
     // }
-
-    componentWillMount(){
-        //AsyncStorage.getItem('access_token').then((token) => {
-            // this.props.authByAsyncStorage();        
-        //})
-    }
-    componentDidUpdate() {
-        if (this.props.isAuthenticated) {
-            this.props.navigation.navigate('Tabs');
-        }
-    }
     render() {
         return (
             <View style={styles.container}>
@@ -112,4 +100,4 @@ function mapStateToProps(state){
         isAuthenticated: state.auth.isAuthenticated,
     }
 }
-export default connect(mapStateToProps,authAction)(Intro);
+export default connect(mapStateToProps)(Intro);

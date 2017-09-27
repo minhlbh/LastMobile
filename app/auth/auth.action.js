@@ -89,22 +89,12 @@ export const authWithFb = () => {
     };
 };
 
-export const authByAsyncStorage = () => {
+export const authByAsyncStorage = (token) => {
     return dispatch => {
-        dispatch({ type: LOGIN.PENDING });
-        AsyncStorage.getItem('access_token').then((token) => {
-            if(token){
-                dispatch({
-                    type: LOGIN.SUCCESS,
-                    payload: token,
-                  });
-            } else {
-                dispatch({
-                    type: LOGIN.FAILURE,
-                    payload: '',
-                });
-            }
-        })
+        dispatch({
+            type: LOGIN.SUCCESS,
+            payload: token,
+        });
     };
 }
 
