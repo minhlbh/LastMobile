@@ -8,12 +8,7 @@ import {
     Button
 } from 'react-native-elements';
 import images from '../../../config/images';
-<<<<<<< HEAD
 import { connect} from 'react-redux';
-=======
-import { connect } from 'react-redux';
-import * as authAction from '../../auth.action';
->>>>>>> origin/tien_le
 
 class Intro extends Component {
     // nút Skip
@@ -33,20 +28,6 @@ class Intro extends Component {
     // onSlideChangeHandle = (index, total) => {
     //     console.log(index, total);
     // }
-<<<<<<< HEAD
-=======
-
-    componentWillMount() {
-        //AsyncStorage.getItem('access_token').then((token) => {
-        this.props.authByAsyncStorage();
-        //})
-    }
-    componentDidUpdate() {
-        if (this.props.isAuthenticated) {
-            this.props.navigation.navigate('Tabs');
-        }
-    }
->>>>>>> origin/tien_le
     render() {
         return (
             <View style={styles.container}>
@@ -123,8 +104,4 @@ function mapStateToProps(state) {
         isAuthenticated: state.auth.isAuthenticated,
     }
 }
-<<<<<<< HEAD
 export default connect(mapStateToProps)(Intro);
-=======
-export default connect(mapStateToProps, authAction)(Intro);
->>>>>>> origin/tien_le

@@ -52,8 +52,7 @@ class Login extends Component {
                             <FormInput
                                 containerStyle={styles.formInput}
                                 placeholder='SỐ ĐIỆN THOẠI'
-                                onChangeText={(username) => this.setState({ username })}
-                                
+                                onChangeText={(username) => this.setState({ username })}  
                             />
                             <FormInput
                                 containerStyle={styles.formInput}
