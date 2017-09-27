@@ -10,6 +10,7 @@ import { connect} from 'react-redux';
 import styles from './styles';
 import khamApi from '../../../api/khamApi';
 import {FixedHeader} from '../../../components';
+
 class ChatHistory extends Component {
     state = {
         messages: [],

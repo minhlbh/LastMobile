@@ -12,7 +12,9 @@ import { connect } from 'react-redux';
 import * as khamAction from '../../kham.action';
 import khamApi from '../../../api/khamApi';
 import ModalDropdown from 'react-native-modal-dropdown';
-import FoundDoctor from '../FoundDoctor'
+import FoundDoctor from '../FoundDoctor';
+import {resetNavigationTo} from '../../../utils';
+
 var ImagePicker = require('react-native-image-picker');
 
 var options = {
@@ -109,7 +111,7 @@ class FindDoctor extends Component {
         this.setState({idHoso: this.props.profilesList[index].Id})
     }
     render() {
-        var { profilesList, listChuyenKhoa } = this.props;
+        var { profilesList, listChuyenKhoa, navigation } = this.props;
         return (
 
             <View style={styles.container}>                  
@@ -119,7 +121,7 @@ class FindDoctor extends Component {
                     contentBackgroundColor="white"
                     parallaxHeaderHeight={80}
                     renderFixedHeader={() => (
-                        <FixedHeader icon0='keyboard-arrow-left' navigation={this.props.navigation} />
+                        <FixedHeader icon0='keyboard-arrow-left' navigation={()=>resetNavigationTo('Tabs',navigation)} />
                     )}
                     renderForeground={() => (
                         <HeaderForeground name='Gặp bác sĩ' />

@@ -148,3 +148,22 @@ export const register = (name,phone,email, pass) => {
       
     };
 }; 
+
+export const signOut = () => {
+    return dispatch => {
+      dispatch({ type: LOGOUT.PENDING });
+  
+      return AsyncStorage.clear()
+        .then(() => {
+          dispatch({
+            type: LOGOUT.SUCCESS,
+          });
+        })
+        .catch(error => {
+          dispatch({
+            type: LOGOUT.ERROR,
+            payload: error,
+          });
+        });
+    };
+  };

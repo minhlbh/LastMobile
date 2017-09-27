@@ -3,6 +3,7 @@ import { StackNavigator } from "react-navigation";
 import Home from '../home/screens';
 import KhamStack from './KhamStack';
 import ChatHistory from '../kham/screens/ChatHistory';
+import CreateFastProfile from '../profiles/screens/CreateFastProfile';
 
 export default (HomeStack = StackNavigator({
     Home: {
@@ -20,6 +21,13 @@ export default (HomeStack = StackNavigator({
     },
     ChatHistory:{
         screen :ChatHistory,
+        navigationOptions: {
+            header: null,
+            tabBarVisible: false
+        }
+    },
+    CreateFastProfile: {
+        screen: CreateFastProfile,
         navigationOptions: {
             header: null,
             tabBarVisible: false

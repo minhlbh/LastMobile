@@ -43,7 +43,7 @@ export const getProfiles = () => {
             if(data.accountSoYBa){
                 dispatch({
                     type: GET_PROFILES.SUCCESS,
-                    payload: data.accountSoYBa.DsHoSoSucKhoe,
+                    payload: data.accountSoYBa.DsHoSoSucKhoe.reverse(),
                   });
             } else {
                 dispatch({

@@ -12,24 +12,32 @@ import {
     ListProfiles,
     ListDoctors,
     FixedHeader,
-    ListHistory
+    ListHistory,
+    Loading
 } from '../../components';
 import { connect } from 'react-redux';
-import * as userAction from '../../user/user.action';
+//import * as userAction from '../../user/user.action';
 import images from '../../config/images';
-import { getProxy } from '../../kham/kham.action';
+import {signOut} from '../../auth/auth.action';
+import {resetNavigationTo} from '../../utils';
+import {getProfiles,getUserInfo} from '../../user/user.action';
 
 console.disableYellowBox = true;
 
 class Home extends Component {
-    constructor(props) {
-        super(props);
+    componentWillMount(){
         this.props.getUserInfo();
         this.props.getProfiles();
     }
 
     componentDidUpdate() {
         console.log(this.props.isConnectedSignalR)
+    }
+    signOut(){
+        const { signOut, navigation } = this.props;        
+        signOut().then(()=>{
+            resetNavigationTo('Intro',navigation);
+        })
     }
     gapBacSi() {
         const { navigation, isConnectedSignalR, errorConnection } = this.props;
@@ -53,7 +61,13 @@ class Home extends Component {
     }
 
     render() {
-        var { profilesList, navigation, userInfo } = this.props;
+        var { profilesList, navigation, userInfo,isPendingUser } = this.props;
+        var DsGap = [];
+        var DsBacSiCuaToi = [];
+        if(userInfo.DsGap){
+            DsGap = userInfo.DsGap.reverse();
+            DsBacSiCuaToi= userInfo.DsBacSiCuaToi;
+        }
         return (
             <View style={styles.container}>
                 <ParallaxScrollView
@@ -61,7 +75,7 @@ class Home extends Component {
                     contentBackgroundColor="white"
                     parallaxHeaderHeight={100}
                     renderFixedHeader={() => (
-                        <FixedHeader icon1='notifications' icon2='settings' />
+                        <FixedHeader icon1='notifications' icon2='settings' handleIconPress2={() =>this.signOut()}/>
                     )}
                     renderForeground={() => (
                         <HeaderForeground name='Trưởng Khoa' />
@@ -71,11 +85,12 @@ class Home extends Component {
                         <StickyHeader name='Trưởng Khoa' />
                     )}
                 >
+                    
                     {/* THÔNG TIN TÀI KHOẢN */}
                     <UserInfoHome userInfo={userInfo} />
-
+                    {isPendingUser&& <Loading center animating={isPendingUser}  />}
+                    
                     <Divider style={styles.divider} />
-
                     {/* KHÁM ONLINE */}
                     <View style={{ marginRight: 30 }}>
                         <Tile
@@ -92,9 +107,10 @@ class Home extends Component {
                     <View style={styles.listContainer}>
                         <View style={styles.headerListContainer}>
                             <View style={{ flex: 1 }}><Text style={styles.textDividerTitle}>HỒ SƠ BỆNH ÁN</Text></View>
-                            <TouchableOpacity onPress={() => navigation.navigate('Profiles')}>
-                                <View style={{ flex: 1, alignItems: 'flex-end' }}><Text style={styles.textdivider}> xem toàn bộ</Text></View>
-                            </TouchableOpacity>
+                            {profilesList.length > 5 && 
+                                <TouchableOpacity onPress={() => navigation.navigate('Profiles')}>
+                                    <View style={{ flex: 1, alignItems: 'flex-end' }}><Text style={styles.textdivider}> xem toàn bộ</Text></View>
+                                </TouchableOpacity>}
                         </View>
                         <ListProfiles profilesList={profilesList.slice(0, 5)} />
                         <ListItem
@@ -102,29 +118,30 @@ class Home extends Component {
                             avatar={{ uri: 'https://www.computerhope.com/jargon/p/plus.gif' }}
                             title='Tạo mới hồ sơ'
                             titleStyle={{ color: '#546CA8' }}
+                            onPress={()=> navigation.navigate('CreateFastProfile')}
                         />
                     </View>
                     {/* BÁC SĨ */}
                     <View style={styles.listContainer}>
                         <View style={styles.headerListContainer}>
                             <View style={{ flex: 1 }}><Text style={styles.textDividerTitle}>BÁC SĨ CỦA TÔI</Text></View>
+                            {DsBacSiCuaToi.length >5 && 
                             <TouchableOpacity onPress={() => navigation.navigate('Doctor')}>
                                 <View style={{ flex: 1, alignItems: 'flex-end', }}><Text style={styles.textdivider}> xem toàn bộ</Text></View>
-                            </TouchableOpacity>
+                            </TouchableOpacity> }
                         </View>
-                        <ListDoctors doctorsList={userInfo.DsBacSiCuaToi} />
+                        <ListDoctors doctorsList={DsBacSiCuaToi} />
                     </View>
 
                     {/* LỊCH SỬ KHÁM CHỮA */}
                     <View style={styles.listContainer}>
                         <View style={styles.headerListContainer}>
-                            <View style={{ flex: 1 }}><Text style={styles.textDividerTitle}>LỊCH SỬ KHÁM CHỮA</Text></View>
-                            <TouchableOpacity>
-                                <View style={{ flex: 1, alignItems: 'flex-end' }}><Text style={styles.textdivider}> xem toàn bộ</Text></View>
-                            </TouchableOpacity>
+                            <View style={{ flex: 1 }}><Text style={styles.textDividerTitle}>LỊCH SỬ KHÁM CHỮA</Text></View>                                   
+                            {DsGap.length > 5 &&<TouchableOpacity>
+                                    <View style={{ flex: 1, alignItems: 'flex-end' }}><Text style={styles.textdivider}> xem toàn bộ</Text></View>
+                                </TouchableOpacity>}
                         </View>
-
-                        <ListHistory historyList={userInfo.DsGap} navigation={this.props.navigation} khaiBaoUser={() => this.khaiBaoUser()} />
+                        <ListHistory historyList={DsGap.slice(0,5)} navigation={navigation} khaiBaoUser={() => this.khaiBaoUser()} />
                     </View>
                 </ParallaxScrollView>
             </View>
@@ -143,4 +160,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps, userAction)(Home);
+export default connect(mapStateToProps, {signOut,getProfiles,getUserInfo})(Home);
