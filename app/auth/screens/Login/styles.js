@@ -22,7 +22,7 @@ export default StyleSheet.create({
         width: 100,
         height: 100,
         alignSelf: 'center',
-        marginTop: (Platform.OS === 'ios')? 60:30
+        marginTop: (Platform.OS === 'ios') ? 60 : 30
     },
     labelText: {
         marginLeft: 20,
@@ -31,14 +31,14 @@ export default StyleSheet.create({
         marginBottom: 20
     },
     button: {
-        borderRadius: 20,
-        marginTop: 30,
+        borderRadius: 60,
+        marginTop: 20,
         backgroundColor: '#575757'
     },
     socialIconView: {
         flexDirection: 'row',
         alignSelf: 'center',
-        marginTop: 30
+        marginTop: 20
     },
     formInput: {
         marginBottom: (Platform.OS === 'ios') ? 10 : 0
@@ -46,7 +46,17 @@ export default StyleSheet.create({
     footer: {
         flexDirection: 'row',
         alignItems: 'flex-end',
-        marginBottom: deviceHeight-100
-
+        marginBottom: deviceHeight - 100
+    },
+    googleButton: {
+        borderRadius: 45,
+        width: 55,
+        height: 55,
+        borderWidth: 0.7,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: 5,
+        borderColor: '#DEDEDE',
+        backgroundColor: 'white'
     }
 })

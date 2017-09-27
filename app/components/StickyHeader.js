@@ -8,11 +8,9 @@ import {colors} from '../config/styles';
 export  class StickyHeader extends Component {
     render(){
         return(
-            <View style={{ flexDirection: 'row' }}>
                 <View style={styles.viewHeader}>
                     <Text style={styles.generalText}>{this.props.name}</Text>
                 </View>
-            </View>
         )
         
     }
@@ -44,6 +42,8 @@ const styles= StyleSheet.create({
         fontSize:13
     },
     viewHeader:{
-        marginLeft: (deviceWidth/3)
+        alignSelf:'center',
+        height: 40,
+        justifyContent: 'center'
     }
 })

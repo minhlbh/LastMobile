@@ -5,6 +5,8 @@ export default StyleSheet.create({
     divider: {
         marginTop: 10,
         marginBottom: 40,
+        height:0.5,
+        marginRight:10
     },
     textDividerTitle: {
         marginTop: 15,
@@ -16,12 +18,12 @@ export default StyleSheet.create({
         marginTop: 15,
     },
     listContainer: {
-        marginBottom: 20 
+        marginBottom: 20,
+        paddingRight:10
     },
     container:{
         flex: 1, 
         paddingLeft: 10, 
-        paddingRight: 10, 
         backgroundColor: 'white',
         paddingTop: (Platform.OS === 'ios')? 20:0
     },

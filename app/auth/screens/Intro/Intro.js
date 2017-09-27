@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-    View, Text, Image,AsyncStorage
+    View, Text, Image, AsyncStorage
 } from 'react-native';
 import styles from './styles';
 import AppIntro from 'react-native-app-intro';
@@ -8,10 +8,10 @@ import {
     Button
 } from 'react-native-elements';
 import images from '../../../config/images';
-import { connect} from 'react-redux';
+import { connect } from 'react-redux';
 import * as authAction from '../../auth.action';
 
- class Intro extends Component {
+class Intro extends Component {
     // nút Skip
     onSkipBtnHandle = (index) => {
         this.props.navigation.navigate('LoginStack')
@@ -30,9 +30,9 @@ import * as authAction from '../../auth.action';
     //     console.log(index, total);
     // }
 
-    componentWillMount(){
+    componentWillMount() {
         //AsyncStorage.getItem('access_token').then((token) => {
-            // this.props.authByAsyncStorage();        
+        this.props.authByAsyncStorage();
         //})
     }
     componentDidUpdate() {
@@ -47,12 +47,16 @@ import * as authAction from '../../auth.action';
                 {/* Intro */}
                 <View style={{ zIndex: 1, position: 'absolute' }}>
                     <AppIntro
+                        dotColor={'#adadad'}
+                        activeDotColor={'#10A5BD'}
+                        rightTextColor={'#353839'}
+                        leftTextColor={'#353839'}
                         onNextBtnClick={this.nextBtnHandle}
                         onDoneBtnClick={this.doneBtnHandle}
                         onSkipBtnClick={this.onSkipBtnHandle}
                         onSlideChange={this.onSlideChangeHandle}
                     >
-                        <View style={[styles.slide, { backgroundColor: '#009DFF' }]}>
+                        <View style={[styles.slide, { backgroundColor: 'white' }]}>
                             <View style={{ width: 150, height: 150, marginBottom: 50 }}>
                                 <Image source={images.logo}
                                     style={{ width: 150, height: 150, }} />
@@ -60,8 +64,8 @@ import * as authAction from '../../auth.action';
 
                             {/*Screen1 */}
                             <View level={10} style={{ alignItems: 'center' }}>
-                                <Text level={15} style={styles.text}>Chào mừng bạn đến với</Text>
-                                <Text level={20} style={styles.text}>Trưởng khoa!</Text>
+                                <Text level={15} style={styles.textFirstPage}>Chào mừng bạn đến với</Text>
+                                <Text level={20} style={styles.textFirstPage}>Trưởng khoa!</Text>
                             </View>
 
                             {/*Screen2 */}
@@ -93,13 +97,13 @@ import * as authAction from '../../auth.action';
                         title='Đăng nhập'
                         fontSize={18}
                         buttonStyle={styles.button}
-                        onPress={()=> this.props.navigation.navigate('LoginStack') }
+                        onPress={() => this.props.navigation.navigate('LoginStack')}
                     />
                     <Button
                         title='Đăng kí'
                         fontSize={18}
                         buttonStyle={styles.button}
-                        onPress={()=> this.props.navigation.navigate('Register') }
+                        onPress={() => this.props.navigation.navigate('Register')}
                     />
                 </View>
             </View>
@@ -107,9 +111,9 @@ import * as authAction from '../../auth.action';
     }
 }
 
-function mapStateToProps(state){
+function mapStateToProps(state) {
     return {
         isAuthenticated: state.auth.isAuthenticated,
     }
 }
-export default connect(mapStateToProps,authAction)(Intro);
+export default connect(mapStateToProps, authAction)(Intro);

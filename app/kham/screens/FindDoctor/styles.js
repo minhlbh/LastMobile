@@ -27,7 +27,8 @@ export default StyleSheet.create({
         width: 170,
     },
     divider: {
-        backgroundColor: colors.gray
+        backgroundColor: colors.gray,
+        height:0.5
     },
     button: {
         backgroundColor: 'white',
@@ -35,7 +36,6 @@ export default StyleSheet.create({
     container: {
         flex: 1,
         paddingLeft: 10,
-        paddingRight: 10,
         backgroundColor: 'white',
         paddingTop: (Platform.OS === 'ios') ? 20 : 0
     },
@@ -52,6 +52,7 @@ export default StyleSheet.create({
         alignSelf: 'flex-end',
         marginLeft: (Platform.OS === 'ios') ? 200 : 0,
         marginTop: (Platform.OS === 'ios') ? 10 : 0,
+        marginRight:(Platform.OS === 'android')? 20:0
     },
     pickerView: {
         flex: 1,
