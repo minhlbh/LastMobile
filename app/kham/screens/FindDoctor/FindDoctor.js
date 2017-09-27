@@ -128,7 +128,7 @@ class FindDoctor extends Component {
                     renderStickyHeader={() => (
                         <StickyHeader name='Gặp bác sĩ' />
                     )}>
-
+                    <View style={{marginRight:10}}>
                     <View style={{ flexDirection: 'row', flex: 1 }}>
                         <View style={{ flex: 1, marginTop: 15 }}>
                             <Text style={styles.textDividerTitle}>Hồ sơ</Text>
@@ -218,6 +218,7 @@ class FindDoctor extends Component {
                                 textStyle={{ color: '#5198D0', fontSize: 18 }}
                             />
                         </View>
+                    </View>
                     </View>
                 </ParallaxScrollView>
                 {this.props.isFoundDoctor && 

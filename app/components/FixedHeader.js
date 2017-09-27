@@ -8,7 +8,7 @@ export class FixedHeader extends Component {
     render() {
         return (
 
-            <View style={{ flexDirection: 'row', alignSelf: 'flex-end', position: 'absolute' }}>
+            <View style={{ flexDirection: 'row', alignSelf: 'flex-end', position: 'absolute', paddingTop:8}}>
                 <View style={{ flex: 1 }}>
                     {this.props.icon0 &&
                         <Icon
@@ -31,6 +31,7 @@ export class FixedHeader extends Component {
                     {this.props.icon2 &&
                         <Icon
                             name={this.props.icon2}
+                            style={{ marginRight: 10 }}
                             onPress={() => this.props.handleIconPress2()}
                         />
                     }

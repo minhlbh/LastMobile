@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import {View, Image,TouchableOpacity} from 'react-native';
-import { FormLabel, FormInput,Button, Text ,SocialIcon} from 'react-native-elements';
-import { connect} from 'react-redux';
+import { View, Image, TouchableOpacity, } from 'react-native';
+import { FormLabel, FormInput, Button, Text } from 'react-native-elements';
+import { connect } from 'react-redux';
 import { Loading, ErrorText } from '../../../components';
 import images from '../../../config/images';
 import styles from './styles';
@@ -53,6 +53,7 @@ class Login extends Component {
                                 containerStyle={styles.formInput}
                                 placeholder='SỐ ĐIỆN THOẠI'
                                 onChangeText={(username) => this.setState({ username })}
+                                
                             />
                             <FormInput
                                 containerStyle={styles.formInput}
@@ -69,11 +70,18 @@ class Login extends Component {
                             />
 
                             <View style={styles.socialIconView}>
-                                <SocialIcon light type='facebook'
-                                    style={{ marginRight: 10 }}
-                                    onPress={() => this._loginFacebook()}
-                                />
-                                <SocialIcon light type='google-plus-official' />
+                                <View style={{marginRight:15}}>
+                                <TouchableOpacity style={styles.googleButton}
+                                    onPress={() => this._loginFacebook()}>
+                                    <Image source={images.facebooklogo}
+                                        style={{ width: 13, height: 26 }} />
+                                </TouchableOpacity>
+                                </View>
+
+                                <TouchableOpacity style={styles.googleButton}>
+                                    <Image source={images.googlelogo}
+                                        style={{ width: 30, height: 30 }} />
+                                </TouchableOpacity>
                             </View>
 
                         </View>

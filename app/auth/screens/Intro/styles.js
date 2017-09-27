@@ -11,12 +11,16 @@ export default StyleSheet.create({
         color: 'white',
         fontSize: 20,
     },
+    textFirstPage:{
+        color:'#10A5BD',
+        fontSize: 20,
+    },
     button: {
-        borderRadius: 20,
+        borderRadius: 25,
         marginTop: 30,
-        backgroundColor: '#575757',
+        backgroundColor: '#00779A',
         width: 120,
-        height: 40
+        height: 40  
     },
     buttonView: {
         flexDirection: 'row',
@@ -26,5 +30,5 @@ export default StyleSheet.create({
     },
     container:{
         marginTop:(Platform.OS === 'ios')? 20:0
-    }
+    },
 })
