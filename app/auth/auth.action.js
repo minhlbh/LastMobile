@@ -134,7 +134,7 @@ export const register = (name,phone,email, pass) => {
                 } else {
                     dispatch({
                         type: REGISTER.FAILURE,
-                        payload: "Đăng kí không thành công",
+                        payload: data,
                     });
                 }
             })
