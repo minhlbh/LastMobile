@@ -9,13 +9,12 @@ const initialState = {
     isSigningOut: false,
     isAuthenticated: false,
     accessToken: null,
-    user: {},
     isPendingUser: false,
     error: '',
     isSigningUp: false,
     isRegistered: false,
     errorSignUp: '', 
-    idU: null  
+    idU: null,
 };
 
 export const authReducer = (state = initialState, action = {}) => {

@@ -94,7 +94,9 @@ class Login extends Component {
                             >
                                 <Text style={styles.loginText}>Đăng kí</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity style={styles.loginTextView}>
+                            <TouchableOpacity style={styles.loginTextView}
+                                onPress={() => this.props.navigation.navigate('ForgetPass')}                            
+                            >
                                 <Text style={{ flex: 1, alignSelf: 'flex-end', marginRight: 10 }}>Quên mật khẩu?</Text>
                             </TouchableOpacity>
                         </View>

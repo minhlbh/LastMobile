@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-    View, Text, Image, AsyncStorage
+    View, Text, Image
 } from 'react-native';
 import styles from './styles';
 import AppIntro from 'react-native-app-intro';
