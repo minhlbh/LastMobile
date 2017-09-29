@@ -1,4 +1,4 @@
-import { StyleSheet, Platform,Dimensions } from 'react-native';
+import { StyleSheet, Platform, Dimensions } from 'react-native';
 const deviceHeight = Dimensions.get('window').height;
 
 export default StyleSheet.create({
@@ -11,8 +11,8 @@ export default StyleSheet.create({
         color: 'white',
         fontSize: 20,
     },
-    textFirstPage:{
-        color:'#10A5BD',
+    textFirstPage: {
+        color: '#10A5BD',
         fontSize: 20,
     },
     button: {
@@ -20,15 +20,15 @@ export default StyleSheet.create({
         marginTop: 30,
         backgroundColor: '#00779A',
         width: 120,
-        height: 40  
+        height: 40
     },
     buttonView: {
         flexDirection: 'row',
         alignSelf: 'center',
-        marginTop: deviceHeight - deviceHeight/4,
+        marginTop: deviceHeight - deviceHeight / 3.7,
         zIndex: 2
     },
-    container:{
-        marginTop:(Platform.OS === 'ios')? 20:0
+    container: {
+        marginTop: (Platform.OS === 'ios') ? 20 : 0
     },
 })

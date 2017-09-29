@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Image, TouchableOpacity, } from 'react-native';
+import { View, Image, TouchableOpacity, ScrollView } from 'react-native';
 import { FormLabel, FormInput, Button, Text } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { Loading, ErrorText } from '../../../components';
@@ -39,20 +39,22 @@ class Login extends Component {
     render() {
         const { isAuthenticated, isLoggingIn } = this.props;
         return (
-            <View style={styles.container}>
+            <ScrollView style={styles.container}>
                 {!isAuthenticated &&
-                    <View>
-                        <Image
-                            source={images.logo}
-                            style={styles.image}
-                        />
+                    <View style={{ }}>
+                        <View style={styles.logoContainer}>
+                            <Image
+                                source={images.logo}
+                                style={styles.image}
+                            />
+                        </View>
 
-                        <View style={{ marginTop: 50 }}>
+                        <View style={{ flex: 6, justifyContent: 'center' }}>
                             <Text style={styles.labelText}>Đăng nhập</Text>
                             <FormInput
                                 containerStyle={styles.formInput}
                                 placeholder='SỐ ĐIỆN THOẠI'
-                                onChangeText={(username) => this.setState({ username })}  
+                                onChangeText={(username) => this.setState({ username })}
                             />
                             <FormInput
                                 containerStyle={styles.formInput}
@@ -69,12 +71,12 @@ class Login extends Component {
                             />
 
                             <View style={styles.socialIconView}>
-                                <View style={{marginRight:15}}>
-                                <TouchableOpacity style={styles.googleButton}
-                                    onPress={() => this._loginFacebook()}>
-                                    <Image source={images.facebooklogo}
-                                        style={{ width: 13, height: 26 }} />
-                                </TouchableOpacity>
+                                <View style={{ marginRight: 15 }}>
+                                    <TouchableOpacity style={styles.googleButton}
+                                        onPress={() => this._loginFacebook()}>
+                                        <Image source={images.facebooklogo}
+                                            style={{ width: 13, height: 26 }} />
+                                    </TouchableOpacity>
                                 </View>
 
                                 <TouchableOpacity style={styles.googleButton}>
@@ -99,7 +101,7 @@ class Login extends Component {
                             </TouchableOpacity>
                         </View>
                     </View>}
-            </View>
+            </ScrollView>
         );
     }
 }

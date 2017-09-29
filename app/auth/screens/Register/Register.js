@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-    View, Text, Image, TouchableOpacity
+    View, Text, Image, TouchableOpacity, ScrollView
 } from 'react-native';
 import {
     FormLabel, FormInput, Button
@@ -66,8 +66,8 @@ class Register extends Component {
     render() {
         const { navigation, isRegistered } = this.props;
         return (
-            <View style={styles.container}>
-                <View style={{ flexDirection: 'row' }}>
+            <ScrollView style={styles.container}>
+                <View style={styles.panel1}>
                     <Image
                         source={images.logo}
                         style={styles.logo}
@@ -79,47 +79,50 @@ class Register extends Component {
                         <Text style={styles.loginText}>Đăng nhập</Text>
                     </TouchableOpacity>
                 </View>
+                <View style={{ flex: 7 }}>
+                    <View style={styles.inputView}>
+                        <FormInput containerStyle={styles.formInput} placeholder='HỌ TÊN' onChangeText={(name) => this.setState({ name })} />
+                        <FormInput containerStyle={styles.formInput} placeholder='SỐ ĐIỆN THOẠI' onChangeText={(phone) => this.setState({ phone })} />
+                        <FormInput containerStyle={styles.formInput} placeholder='MẬT KHẨU'
+                            onChangeText={(pass) => this.setState({ pass })}
+                            secureTextEntry={true}
+                        />
+                    </View>
 
-                <View style={styles.inputView}>
-                    <FormInput containerStyle={styles.formInput} placeholder='HỌ TÊN' onChangeText={(name) => this.setState({ name })} />
-                    <FormInput containerStyle={styles.formInput} placeholder='SỐ ĐIỆN THOẠI' onChangeText={(phone) => this.setState({ phone })} />
-                    <FormInput containerStyle={styles.formInput} placeholder='EMAIL' onChangeText={(email) => this.setState({ email })} />
-                    <FormInput containerStyle={styles.formInput} placeholder='MẬT KHẨU'
-                        onChangeText={(pass) => this.setState({ pass })}
-                        secureTextEntry={true}
+                    <Button
+                        title='Đăng kí'
+                        fontSize={20}
+                        buttonStyle={styles.button}
+                        onPress={() => this.register()}
                     />
-                </View>
+                    <View style={{ height: 50 }}>{this._getRegisterMess()}</View>
+                    <View style={{ flexDirection: 'row', alignSelf: 'center' }}>
+                        <View style={{ height: 55, justifyContent: 'center', marginRight: 10 }}>
+                            <Text style={{ color: 'black' }}> Hoặc đăng nhập bằng:</Text>
+                        </View>
 
-                <Button
-                    title='Đăng kí'
-                    fontSize={20}
-                    buttonStyle={styles.button}
-                    onPress={() => this.register()}
-                />
-                <View style={{ height: 50 }}>{this._getRegisterMess()}</View>
-                <View style={{ flexDirection: 'row', marginLeft: 30 }}>
-                    <Text style={{ marginTop: 23, color: 'black' }}> Hoặc đăng nhập bằng:</Text>
-
-                    <View style={{ flexDirection: 'row', marginLeft: 35 }}>
-                        <View style={{ marginRight: 15 }}>
-                            <TouchableOpacity style={styles.googleButton}
-                                onPress={() => this._loginFacebook()}>
-                                <Image source={images.facebooklogo}
-                                    style={{ width: 13, height: 26 }} />
+                        <View style={{ flexDirection: 'row' }}>
+                            <View style={{ marginRight: 15 }}>
+                                <TouchableOpacity style={styles.googleButton}
+                                    onPress={() => this._loginFacebook()}>
+                                    <Image source={images.facebooklogo}
+                                        style={{ width: 13, height: 26 }} />
+                                </TouchableOpacity>
+                            </View>
+                            <TouchableOpacity style={styles.googleButton}>
+                                <Image source={images.googlelogo}
+                                    style={{ width: 30, height: 30 }} />
                             </TouchableOpacity>
                         </View>
-                        <TouchableOpacity style={styles.googleButton}>
-                            <Image source={images.googlelogo}
-                                style={{ width: 30, height: 30 }} />
-                        </TouchableOpacity>
                     </View>
                 </View>
+
                 <View style={styles.footer}>
-                    <Text>Bằng việc đăng nhập đăng kí{'\n'}</Text>
+                    <Text style={styles.textFooter}>Bằng việc đăng nhập đăng kí{'\n'}</Text>
                     <View style={{ flexDirection: 'row' }}>
-                        <Text>Bạn đã đồng ý với </Text>
+                        <Text style={styles.textFooter}>Bạn đã đồng ý với </Text>
                         <TouchableOpacity><Text style={{ color: 'black', fontWeight: 'bold' }}>điều khoản sử dụng</Text></TouchableOpacity>
-                        <Text> của chúng tôi</Text>
+                        <Text style={styles.textFooter}> của chúng tôi</Text>
                     </View>
                 </View>
                 {this.props.isRegistered &&
@@ -135,7 +138,7 @@ class Register extends Component {
                 {this.props.isRegistered &&
                     <View style={styles.transparentView} />
                 }
-            </View>
+            </ScrollView>
         )
     }
 }
