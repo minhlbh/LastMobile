@@ -8,7 +8,7 @@ import {
     Button
 } from 'react-native-elements';
 import images from '../../../config/images';
-import { connect} from 'react-redux';
+import { connect } from 'react-redux';
 
 class Intro extends Component {
     // nút Skip
@@ -35,6 +35,8 @@ class Intro extends Component {
                 {/* Intro */}
                 <View style={{ zIndex: 1, position: 'absolute' }}>
                     <AppIntro
+                        doneBtnLabel='Xong'
+                        skipBtnLabel="Skip"
                         dotColor={'#adadad'}
                         activeDotColor={'#10A5BD'}
                         rightTextColor={'#353839'}

@@ -6,11 +6,11 @@ export default StyleSheet.create({
         paddingLeft: 10,
         paddingRight: 10,
         flex: 1,
-        backgroundColor: 'white'
+        backgroundColor: 'white',
+
     },
     loginTextView: {
-        alignSelf: 'flex-end',
-        flex: 1
+        alignSelf: 'flex-end'
     },
     loginText: {
         fontSize: 20,
@@ -22,7 +22,6 @@ export default StyleSheet.create({
         width: 100,
         height: 100,
         alignSelf: 'center',
-        marginTop: (Platform.OS === 'ios') ? 60 : 30
     },
     labelText: {
         marginLeft: 20,
@@ -46,7 +45,7 @@ export default StyleSheet.create({
     footer: {
         flexDirection: 'row',
         alignItems: 'flex-end',
-        marginBottom: deviceHeight - 100
+        flex: 1
     },
     googleButton: {
         borderRadius: 45,
@@ -58,5 +57,10 @@ export default StyleSheet.create({
         marginTop: 5,
         borderColor: '#DEDEDE',
         backgroundColor: 'white'
-    }
+    },
+    logoContainer:{
+         flex: 3,
+          justifyContent: 'center',
+          height: deviceHeight/4
+         }
 })

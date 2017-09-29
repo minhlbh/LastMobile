@@ -13,13 +13,11 @@ export default StyleSheet.create({
         color: 'black',
         alignSelf: 'flex-end',
         flex: 1,
-        marginTop: 35,
         textDecorationLine: 'underline',
         fontWeight: 'bold'
 
     },
     inputView: {
-        marginTop: 30,
         paddingLeft:5
     },
     container: {
@@ -37,9 +35,7 @@ export default StyleSheet.create({
     logo: {
         width: 80,
         height: 80,
-        marginTop: (Platform.OS === 'ios') ? 40 : 10,
         marginLeft: 10,
-        zIndex:0
     },
     transparentView: {
         backgroundColor: 'black',
@@ -63,9 +59,12 @@ export default StyleSheet.create({
         marginBottom: (Platform.OS === 'ios') ? 10 : 0
     },
     footer: {
-        marginTop: 20,
-        marginLeft:15,
-        marginBottom: deviceHeight - 100
+        flex:1,
+        justifyContent:'flex-end',
+        paddingBottom:20,
+        paddingLeft:15,
+        paddingRight:15,
+        height: deviceHeight/5
     },
     googleButton: {
         borderRadius: 60,
@@ -77,5 +76,13 @@ export default StyleSheet.create({
         marginTop: 5,
         borderColor: '#DEDEDE',
         backgroundColor: 'white'
-    }
+    },
+    textFooter:{
+        fontSize:12
+    },
+    panel1:{ 
+        flex: 7,
+        height: deviceHeight/4.2,
+        flexDirection: 'row'
+     }
 })
