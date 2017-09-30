@@ -5,7 +5,7 @@ export default StyleSheet.create({
     gradient: {
         height: deviceHeight,
         width: deviceWidth,
-        justifyContent:'center'
+        justifyContent: 'center'
     },
     text: {
         color: 'white'
@@ -28,4 +28,12 @@ export default StyleSheet.create({
         borderRadius: 5,
         width: deviceWidth - 40
     },
+    footer: {
+        backgroundColor: 'white',
+        opacity: 0.3,
+        height: 60,
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'row'
+    }
 })

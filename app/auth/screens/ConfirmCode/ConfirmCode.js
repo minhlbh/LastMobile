@@ -13,11 +13,12 @@ class ConfirmCode extends Component {
     render() {
         const {navigation} = this.props;    
         return (
-            <View style={{ flex: 1, justifyContent:'center' }}>
-                <LinearGradient
-                    colors={['#10A7BF', '#10A7BF', '#10A7BF', '#00779A']}
-                    style={styles.gradient}>
-                    <View style={{ alignItems: 'center' }}>
+            <View style={{ flex: 1 }}>
+            <LinearGradient
+                colors={['#10A7BF', '#10A7BF', '#10A7BF', '#00779A']}
+                style={[styles.gradient, { flex: 1 }]}>
+                <View style={{ flex: 7 }}>
+                    <View style={{ flex: 4, justifyContent: 'flex-end', alignItems: 'center' }}>
                         <TouchableOpacity>
                             <Image
                                 source={images.confirmCode}
@@ -36,15 +37,25 @@ class ConfirmCode extends Component {
                             underlineColorAndroid='transparent'
                             inputStyle={{ color: 'white' }} />
                         <TouchableOpacity style={{ alignSelf: 'center' }}
-                            onPress={()=> navigation.navigate('CreateAccount')}
+                            onPress={() => navigation.navigate('CreateAccount')}
                         >
                             <View style={styles.buttonView}>
                                 <Text style={{ fontSize: 17, color: 'white' }}>Xác nhận</Text>
                             </View>
                         </TouchableOpacity>
                     </View>
-                </LinearGradient>
-            </View>
+                    <View style={{ flex: 2.5, justifyContent: 'flex-end' }}>
+                        <TouchableOpacity style={{ height: 40, justifyContent: 'center' }}
+                            onPress={() => navigation.goBack()}
+                        >
+                            <View style={styles.footer}>
+                                <Text style={styles.text}>Quay lại</Text>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </LinearGradient>
+        </View >
 
         );
     }
