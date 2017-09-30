@@ -1,5 +1,4 @@
 import { StyleSheet, Dimensions } from 'react-native';
-
 var deviceHeight = Dimensions.get('window').height;
 var deviceWidth = Dimensions.get('window').width;
 export default StyleSheet.create({
@@ -7,44 +6,25 @@ export default StyleSheet.create({
         height: deviceHeight,
         width: deviceWidth
     },
-    textSymbol: {
-        fontSize: 25,
-        fontWeight: 'bold',
-        color: 'white',
-        marginBottom: 15
+    text: {
+        color: 'white'
     },
     formInput: {
         marginTop: 10,
         opacity: 0.3,
         backgroundColor: 'white',
         borderRadius: 5,
-        width: deviceWidth - 50
+        width:deviceWidth - 40
     },
     buttonView: {
         opacity: 0.7,
-        width: deviceWidth - 50,
+        width: deviceWidth/2 -  25 ,
         height: 40,
         justifyContent: 'center',
         alignItems: 'center',
         borderWidth: 1,
-        borderRadius: 10,
+        borderRadius: 5,
         borderColor: 'white',
         marginTop: 10
     },
-    divider: {
-        width: 100,
-        height: 20,
-        justifyContent: 'center'
-    },
-    text: {
-        color: 'white'
-    },
-    footer: {
-        backgroundColor: 'white',
-        opacity: 0.3,
-        height: 60,
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'row'
-    }
 })

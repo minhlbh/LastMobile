@@ -5,18 +5,10 @@ export default StyleSheet.create({
     gradient: {
         height: deviceHeight,
         width: deviceWidth,
-        justifyContent: 'center',
-        flex: 7
+        justifyContent:'center'
     },
     text: {
         color: 'white'
-    },
-    formInput: {
-        marginTop: 10,
-        opacity: 0.3,
-        backgroundColor: 'white',
-        borderRadius: 5,
-        width:deviceWidth - 40
     },
     buttonView: {
         opacity: 0.7,
@@ -25,20 +17,15 @@ export default StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderWidth: 1,
-        borderRadius: 10,
+        borderRadius: 5,
         borderColor: 'white',
         marginTop: 10
     },
-    textFooter: {
-        color: 'white',
-        fontSize: 11
-    },
-    footer: {
-        backgroundColor: 'white',
+    formInput: {
+        marginTop: 10,
         opacity: 0.3,
-        height: 60,
-        alignItems: 'center',
-        flexDirection: 'row',
-        justifyContent:'center'
-    }
+        backgroundColor: 'white',
+        borderRadius: 5,
+        width: deviceWidth - 40
+    },
 })

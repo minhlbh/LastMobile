@@ -2,7 +2,9 @@ import React, { Component } from "react";
 import { StackNavigator } from "react-navigation";
 import Login from '../auth/screens/Login';
 import Register from '../auth/screens/Register';
-import ForgetPass from '../auth/screens/ForgetPass';
+import ConfirmCode from '../auth/screens/ConfirmCode';
+import CreateAccount from '../auth/screens/CreateAccount';
+
 export default (LoginStack = StackNavigator({
     Login: {
         screen: Login,
@@ -16,11 +18,16 @@ export default (LoginStack = StackNavigator({
             header: null
         }
     },
-    ForgetPass:{
-        screen: ForgetPass,
+    ConfirmCode: {
+        screen: ConfirmCode,
         navigationOptions: {
             header: null
         }
-    }
-
+    },
+    CreateAccount: {
+        screen: CreateAccount,
+        navigationOptions: {
+            header: null
+        }
+    },
 }));
