@@ -24,14 +24,15 @@ export class ListDoctors extends Component{
                 key={item.Id}
                 title={item.TenBacSi}
                 subtitle={tenDichVu}
-               // titleStyle={{ color: 'black' }}
+                titleStyle={{ color: 'black' }}
+                containerStyle={{borderBottomColor: '#bbb',borderBottomWidth: 0.15}}                
             />
         )
     };
     render(){
         const {doctorsList} = this.props;
         return (
-            <List>
+            <List containerStyle={{borderTopWidth: 0,borderBottomWidth:0}}>                        
                 <FlatList
                     data={doctorsList}
                     //extraData={this.state}

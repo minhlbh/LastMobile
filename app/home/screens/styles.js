@@ -4,12 +4,12 @@ import {colors} from '../../config/styles'
 export default StyleSheet.create({
     divider: {
         marginTop: 10,
-        marginBottom: 40,
+        marginBottom:15,
         height:0.5,
         marginRight:10
     },
     textDividerTitle: {
-        marginTop: 15,
+        marginTop: 20,
         color: colors.dark,
         fontWeight: 'bold',
     },

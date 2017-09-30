@@ -1,7 +1,7 @@
 import  React, { Component } from 'react';
 import {View,StyleSheet } from 'react-native';
 import {
-     Text,Avatar
+     Text,Avatar,Button
 } from 'react-native-elements';
  
 
@@ -10,36 +10,72 @@ export class UserInfoHome extends Component {
     render(){
         const { userInfo} = this.props;
         return(
-            <View style={{ flexDirection: 'row', }}>
-            <View style={{ flex: 2 / 3, alignItems: 'center', }}>
-                {userInfo.Avatar ?
-                    <Avatar
-                        large
-                        rounded
-                        source={{ uri: userInfo.Avatar }}
-                        activeOpacity={1}
-                    /> :
-                    <Avatar
-                        large
-                        rounded
-                        source={{ uri: "https://www.touristisrael.com/wp-content/uploads/justin-300x300.jpg" }}
-                        activeOpacity={1}
-                    />    
-                }
-            </View>
-            <View style={{ flex: 4 / 4, }}>
-                <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'black' }}>{userInfo.HoVaTen}</Text>
-                <Text style={styles.infoText}>{userInfo.Phone}</Text>
-                <Text style={styles.infoText}>TK Chính: {userInfo.TaiKhoanChinh} đồng</Text>
-                <Text style={styles.infoText}>TK Khuyến mại: {userInfo.TaiKhoanKhuyenMai} đồng</Text>
-            </View>                                     
+            <View>
+                <View style={{ flexDirection: 'row', }}>
+                    <View style={{ flex: 1.5, alignItems: 'center', }}>
+                        {userInfo.Avatar ?
+                            <Avatar
+                                large
+                                rounded
+                                source={{ uri: userInfo.Avatar }}
+                                activeOpacity={1}
+                            /> :
+                            <Avatar
+                                large
+                                rounded
+                                source={{ uri: "https://www.touristisrael.com/wp-content/uploads/justin-300x300.jpg" }}
+                                activeOpacity={1}
+                            />    
+                        }
+                    </View>
+                    <View style={{ flex: 4 }}>
+                        <View style={{flexDirection: 'row'}}> 
+                            <View style={styles.infoView}>
+                                <Text style={styles.infoText}>{userInfo.TaiKhoanChinh} đ</Text>
+                                <Text style={styles.infoTextSub}> TK Chính </Text>
+                            </View>
+                            <View style={styles.infoView}>
+                                <Text style={styles.infoText}>20</Text>     
+                                <Text style={styles.infoTextSub}>Lượt xem HS </Text>                            
+                            </View>
+                            <View style={styles.infoView}>
+                                <Text style={styles.infoText}>20</Text>
+                                <Text style={styles.infoTextSub}> Lịch sử </Text>                            
+                            </View>                        
+                        </View>
+                        <Button 
+                            title='Gói tư vấn'
+                            borderRadius={4}
+                            backgroundColor='#F1F1F1'
+                            textStyle={{color: 'black', fontWeight: 'bold'}}
+                            buttonStyle={{height: 30}}
+                            containerViewStyle={{marginTop: 6}}
+                        />
+                    </View>         
+                </View>
+                <Text style={styles.name}>{userInfo.HoVaTen}</Text>                 
             </View>
         )
     }
 }
 
 const styles = StyleSheet.create({
-    infoText:{
-        fontSize:13
+    infoTextSub:{
+        fontSize:13,
     },
+    infoView:{
+        flex: 1,
+        alignItems: 'center'
+    },
+    infoText:{
+        fontSize:15,
+        color:'black',
+        fontWeight: 'bold'        
+    },
+    name:{ 
+        marginTop: 3,
+        fontSize: 18, 
+        fontWeight: 'bold',
+        color: 'black' 
+    }
 })

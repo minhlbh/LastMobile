@@ -1,7 +1,7 @@
 import  React, { Component } from 'react';
 import {View,StyleSheet ,FlatList} from 'react-native';
 import {
-     Avatar,List,ListItem
+     Avatar,List,ListItem, Divider,Text
 } from 'react-native-elements';
 
 // {
@@ -23,13 +23,14 @@ export class ListProfiles extends Component{
                 title={item.HoVaTen}
                 subtitle={item.GioiTinh}
                 titleStyle={{ color: 'black' }}
+                containerStyle={{borderBottomColor: '#bbb',borderBottomWidth: 0.15}}
             />
         )
     };
     render(){
         const {profilesList} = this.props;
         return (
-            <List>
+            <List containerStyle={{borderTopWidth: 0,borderBottomWidth:0}}>
                 <FlatList
                     data={this.props.profilesList}
                     //extraData={this.state}

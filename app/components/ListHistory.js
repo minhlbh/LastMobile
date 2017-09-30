@@ -32,14 +32,15 @@ export class ListHistory extends Component{
                     this.vaoRoom(item.IdGap)
                 }}
                 subtitle={'Bác sĩ: '+item.TenBacSi}
-               // titleStyle={{ color: 'black' }}
+                titleStyle={{ color: 'black' }}
+               containerStyle={{borderBottomColor: '#bbb',borderBottomWidth: 0.15}}
             />
         )
     };
     render(){
         const {historyList} = this.props;
         return (
-            <List>
+            <List containerStyle={{borderTopWidth: 0,borderBottomWidth:0}}>            
                 <FlatList
                     data={historyList}
                     //extraData={this.state}

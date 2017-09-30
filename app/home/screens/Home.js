@@ -13,7 +13,7 @@ import {
     ListDoctors,
     FixedHeader,
     ListHistory,
-    Loading
+    Loading, EmtyList
 } from '../../components';
 import { connect } from 'react-redux';
 //import * as userAction from '../../user/user.action';
@@ -85,10 +85,9 @@ class Home extends Component {
                         <StickyHeader name='Trưởng Khoa' />
                     )}
                 >
-                    
+                    {isPendingUser&& <Loading center animating={isPendingUser}  />}
                     {/* THÔNG TIN TÀI KHOẢN */}
                     <UserInfoHome userInfo={userInfo} />
-                    {isPendingUser&& <Loading center animating={isPendingUser}  />}
                     
                     <Divider style={styles.divider} />
                     {/* KHÁM ONLINE */}
@@ -113,13 +112,27 @@ class Home extends Component {
                                 </TouchableOpacity>}
                         </View>
                         <ListProfiles profilesList={profilesList.slice(0, 5)} />
+                        {!profilesList ? 
                         <ListItem
                             roundAvatar
                             avatar={{ uri: 'https://www.computerhope.com/jargon/p/plus.gif' }}
                             title='Tạo mới hồ sơ'
                             titleStyle={{ color: '#546CA8' }}
                             onPress={()=> navigation.navigate('CreateFastProfile')}
+                            containerStyle={{borderBottomColor: '#bbb',borderBottomWidth: 0}} 
+                            hideChevron={true}                           
                         />
+                        :
+                        <EmtyList 
+                            info={{
+                                mainIconName: 'folder-open-o', mainIconType:'font-awesome',
+                                text1: 'Bạn chưa có hồ sơ sức khỏe,',
+                                text2: 'Hãy tạo mới để quản lý sức khỏe của mình và người thân',
+                                btnIconName: 'plus', btnIconType: 'octicon', btnText: 'Tạo mới hồ sơ',
+                                color: '#1880A3'
+                            }}
+                        />}
+                        
                     </View>
                     {/* BÁC SĨ */}
                     <View style={styles.listContainer}>
@@ -131,6 +144,16 @@ class Home extends Component {
                             </TouchableOpacity> }
                         </View>
                         <ListDoctors doctorsList={DsBacSiCuaToi} />
+                        {DsBacSiCuaToi &&
+                        <EmtyList 
+                            info={{
+                                mainIconName: 'user-md', mainIconType:'font-awesome',
+                                text1: 'Bạn chưa kết nối với bác sĩ',
+                                btnIconName: 'ios-search-outline', btnIconType: 'ionicon', btnText: 'Gặp bác sĩ tư vấn',
+                                color: '#56BD5C'
+                            }}
+                          
+                        />}
                     </View>
 
                     {/* LỊCH SỬ KHÁM CHỮA */}
