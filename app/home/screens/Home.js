@@ -112,25 +112,25 @@ class Home extends Component {
                                 </TouchableOpacity>}
                         </View>
                         <ListProfiles profilesList={profilesList.slice(0, 5)} />
-                        {!profilesList ? 
-                        <ListItem
-                            roundAvatar
-                            avatar={{ uri: 'https://www.computerhope.com/jargon/p/plus.gif' }}
-                            title='Tạo mới hồ sơ'
-                            titleStyle={{ color: '#546CA8' }}
-                            onPress={()=> navigation.navigate('CreateFastProfile')}
-                            containerStyle={{borderBottomColor: '#bbb',borderBottomWidth: 0}} 
-                            hideChevron={true}                           
-                        />
+                        {profilesList ? 
+                            <ListItem
+                                roundAvatar
+                                avatar={{ uri: 'https://www.computerhope.com/jargon/p/plus.gif' }}
+                                title='Tạo mới hồ sơ'
+                                titleStyle={{ color: '#546CA8' }}
+                                onPress={()=> navigation.navigate('CreateFastProfile')}
+                                containerStyle={{borderBottomColor: '#bbb',borderBottomWidth: 0}} 
+                                hideChevron={true}                           
+                            />
                         :
-                        <EmtyList 
-                            info={{
-                                mainIconName: 'folder-open-o', mainIconType:'font-awesome',
-                                text1: 'Bạn chưa có hồ sơ sức khỏe,',
-                                text2: 'Hãy tạo mới để quản lý sức khỏe của mình và người thân',
-                                btnIconName: 'plus', btnIconType: 'octicon', btnText: 'Tạo mới hồ sơ',
-                                color: '#1880A3'
-                            }}
+                            <EmtyList 
+                                info={{
+                                    image: images.icon.folderHome,
+                                    text1: 'Bạn chưa có hồ sơ sức khỏe,',
+                                    text2: 'Hãy tạo mới để quản lý sức khỏe của mình và người thân',
+                                    btnIconName: 'plus', btnIconType: 'octicon', btnText: 'Tạo mới hồ sơ',
+                                    color: '#4990E2'
+                                }}
                         />}
                         
                     </View>
@@ -144,13 +144,14 @@ class Home extends Component {
                             </TouchableOpacity> }
                         </View>
                         <ListDoctors doctorsList={DsBacSiCuaToi} />
-                        {DsBacSiCuaToi &&
+                        {DsBacSiCuaToi = [] &&
                         <EmtyList 
                             info={{
-                                mainIconName: 'user-md', mainIconType:'font-awesome',
+                                image: images.icon.doctorHome,
                                 text1: 'Bạn chưa kết nối với bác sĩ',
-                                btnIconName: 'ios-search-outline', btnIconType: 'ionicon', btnText: 'Gặp bác sĩ tư vấn',
-                                color: '#56BD5C'
+                                btnIconName: 'ios-search-outline', btnIconType: 'ionicon', 
+                                btnText: 'Gặp bác sĩ tư vấn',
+                                color: '#42B72A'
                             }}
                           
                         />}
@@ -165,6 +166,16 @@ class Home extends Component {
                                 </TouchableOpacity>}
                         </View>
                         <ListHistory historyList={DsGap.slice(0,5)} navigation={navigation} khaiBaoUser={() => this.khaiBaoUser()} />
+                        {DsGap = [] &&
+                            <EmtyList 
+                                info={{
+                                    image: images.icon.chatHome,
+                                    text1: 'Bạn chưa kết nối với bác sĩ',
+                                    btnIconName: 'ios-search-outline', btnIconType: 'ionicon', 
+                                    btnText: 'Gặp bác sĩ tư vấn',
+                                    color: '#bbb'
+                                }}
+                        />}
                     </View>
                 </ParallaxScrollView>
             </View>

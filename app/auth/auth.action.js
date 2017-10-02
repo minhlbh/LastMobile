@@ -50,6 +50,7 @@ export const authWithFb = () => {
                             fetch(`https://graph.facebook.com/me?fields=email&&access_token=${data.accessToken.toString()}`)
                                 .then((response) => response.json())
                                 .then((res) => {
+                                    console.log('facebook',data.userID, res.email, data.accessToken.toString());
                                     accountApi.checkFacebookLogin(data.userID, res.email, data.accessToken.toString()).then(response => {
                                         console.log(response);
                                         if (response == 'Email chưa được dùng đăng kí tài khoản nào!') {

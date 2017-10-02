@@ -5,6 +5,11 @@ const images = {
     googlelogo: require('../images/google_icon.png'),
     facebooklogo: require('../images/facebook-2.png'),
     confirmCode: require('../images/confirmCode.png'),
-    addAvatar: require('../images/add-avatar.png')
+    addAvatar: require('../images/add-avatar.png'),
+    icon: {
+        doctorHome: require('../images/icons/doctor.png'),
+        folderHome: require('../images/icons/folder.png'),
+        chatHome: require('../images/icons/chat.png'),        
+    }
 }
 export default images;

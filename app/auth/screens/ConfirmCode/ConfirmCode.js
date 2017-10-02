@@ -49,7 +49,7 @@ class ConfirmCode extends Component {
                             onPress={() => navigation.goBack()}
                         >
                             <View style={styles.footer}>
-                                <Text style={styles.text}>Quay lại</Text>
+                                <Text style={styles.    text}>Quay lại</Text>
                             </View>
                         </TouchableOpacity>
                     </View>
