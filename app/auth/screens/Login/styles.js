@@ -18,7 +18,8 @@ export default StyleSheet.create({
         opacity: 0.3,
         backgroundColor: 'white',
         borderRadius: 5,
-        width: deviceWidth - 50
+        width: deviceWidth - 50,
+        height:43
     },
     buttonView: {
         opacity: 0.7,
@@ -27,7 +28,7 @@ export default StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderWidth: 1,
-        borderRadius: 10,
+        borderRadius: 4,
         borderColor: 'white',
         marginTop: 10
     },

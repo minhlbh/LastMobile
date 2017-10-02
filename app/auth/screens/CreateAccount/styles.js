@@ -10,6 +10,7 @@ export default StyleSheet.create({
         color: 'white'
     },
     formInput: {
+        height: 43,
         marginTop: 10,
         opacity: 0.3,
         backgroundColor: 'white',

@@ -18,14 +18,14 @@ import {
 import { connect } from 'react-redux';
 //import * as userAction from '../../user/user.action';
 import images from '../../config/images';
-import {signOut} from '../../auth/auth.action';
-import {resetNavigationTo} from '../../utils';
-import {getProfiles,getUserInfo} from '../../user/user.action';
+import { signOut } from '../../auth/auth.action';
+import { resetNavigationTo } from '../../utils';
+import { getProfiles, getUserInfo } from '../../user/user.action';
 
 console.disableYellowBox = true;
 
 class Home extends Component {
-    componentWillMount(){
+    componentWillMount() {
         this.props.getUserInfo();
         this.props.getProfiles();
     }
@@ -33,10 +33,10 @@ class Home extends Component {
     componentDidUpdate() {
         console.log(this.props.isConnectedSignalR)
     }
-    signOut(){
-        const { signOut, navigation } = this.props;        
-        signOut().then(()=>{
-            resetNavigationTo('Intro',navigation);
+    signOut() {
+        const { signOut, navigation } = this.props;
+        signOut().then(() => {
+            resetNavigationTo('Intro', navigation);
         })
     }
     gapBacSi() {
@@ -61,12 +61,12 @@ class Home extends Component {
     }
 
     render() {
-        var { profilesList, navigation, userInfo,isPendingUser } = this.props;
+        var { profilesList, navigation, userInfo, isPendingUser } = this.props;
         var DsGap = [];
         var DsBacSiCuaToi = [];
-        if(userInfo.DsGap){
+        if (userInfo.DsGap) {
             DsGap = userInfo.DsGap.reverse();
-            DsBacSiCuaToi= userInfo.DsBacSiCuaToi;
+            DsBacSiCuaToi = userInfo.DsBacSiCuaToi;
         }
         return (
             <View style={styles.container}>
@@ -75,7 +75,7 @@ class Home extends Component {
                     contentBackgroundColor="white"
                     parallaxHeaderHeight={100}
                     renderFixedHeader={() => (
-                        <FixedHeader icon1='notifications' icon2='settings' handleIconPress2={() =>this.signOut()}/>
+                        <FixedHeader icon1='notifications' icon2='settings' handleIconPress2={() => this.signOut()} />
                     )}
                     renderForeground={() => (
                         <HeaderForeground name='Trưởng Khoa' />
@@ -85,10 +85,10 @@ class Home extends Component {
                         <StickyHeader name='Trưởng Khoa' />
                     )}
                 >
-                    {isPendingUser&& <Loading center animating={isPendingUser}  />}
+                    {isPendingUser && <Loading center animating={isPendingUser} />}
                     {/* THÔNG TIN TÀI KHOẢN */}
                     <UserInfoHome userInfo={userInfo} />
-                    
+
                     <Divider style={styles.divider} />
                     {/* KHÁM ONLINE */}
                     <View style={{ marginRight: 30 }}>
@@ -106,7 +106,7 @@ class Home extends Component {
                     <View style={styles.listContainer}>
                         <View style={styles.headerListContainer}>
                             <View style={{ flex: 1 }}><Text style={styles.textDividerTitle}>HỒ SƠ BỆNH ÁN</Text></View>
-                            {profilesList.length > 5 && 
+                            {profilesList.length > 5 &&
                                 <TouchableOpacity onPress={() => navigation.navigate('Profiles')}>
                                     <View style={{ flex: 1, alignItems: 'flex-end' }}><Text style={styles.textdivider}> xem toàn bộ</Text></View>
                                 </TouchableOpacity>}
@@ -138,10 +138,10 @@ class Home extends Component {
                     <View style={styles.listContainer}>
                         <View style={styles.headerListContainer}>
                             <View style={{ flex: 1 }}><Text style={styles.textDividerTitle}>BÁC SĨ CỦA TÔI</Text></View>
-                            {DsBacSiCuaToi.length >5 && 
-                            <TouchableOpacity onPress={() => navigation.navigate('Doctor')}>
-                                <View style={{ flex: 1, alignItems: 'flex-end', }}><Text style={styles.textdivider}> xem toàn bộ</Text></View>
-                            </TouchableOpacity> }
+                            {DsBacSiCuaToi.length > 5 &&
+                                <TouchableOpacity onPress={() => navigation.navigate('Doctor')}>
+                                    <View style={{ flex: 1, alignItems: 'flex-end', }}><Text style={styles.textdivider}> xem toàn bộ</Text></View>
+                                </TouchableOpacity>}
                         </View>
                         <ListDoctors doctorsList={DsBacSiCuaToi} />
                         {DsBacSiCuaToi = [] &&
@@ -160,10 +160,10 @@ class Home extends Component {
                     {/* LỊCH SỬ KHÁM CHỮA */}
                     <View style={styles.listContainer}>
                         <View style={styles.headerListContainer}>
-                            <View style={{ flex: 1 }}><Text style={styles.textDividerTitle}>LỊCH SỬ KHÁM CHỮA</Text></View>                                   
-                            {DsGap.length > 5 &&<TouchableOpacity>
-                                    <View style={{ flex: 1, alignItems: 'flex-end' }}><Text style={styles.textdivider}> xem toàn bộ</Text></View>
-                                </TouchableOpacity>}
+                            <View style={{ flex: 1 }}><Text style={styles.textDividerTitle}>LỊCH SỬ KHÁM CHỮA</Text></View>
+                            {DsGap.length > 5 && <TouchableOpacity>
+                                <View style={{ flex: 1, alignItems: 'flex-end' }}><Text style={styles.textdivider}> xem toàn bộ</Text></View>
+                            </TouchableOpacity>}
                         </View>
                         <ListHistory historyList={DsGap.slice(0,5)} navigation={navigation} khaiBaoUser={() => this.khaiBaoUser()} />
                         {DsGap = [] &&
@@ -194,4 +194,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps, {signOut,getProfiles,getUserInfo})(Home);
+export default connect(mapStateToProps, { signOut, getProfiles, getUserInfo })(Home);
