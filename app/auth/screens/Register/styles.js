@@ -12,6 +12,7 @@ export default StyleSheet.create({
         color: 'white'
     },
     formInput: {
+        height: 43,
         marginTop: 10,
         opacity: 0.3,
         backgroundColor: 'white',
@@ -25,7 +26,7 @@ export default StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderWidth: 1,
-        borderRadius: 10,
+        borderRadius: 4,
         borderColor: 'white',
         marginTop: 10
     },
