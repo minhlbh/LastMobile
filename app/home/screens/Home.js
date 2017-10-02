@@ -170,10 +170,10 @@ class Home extends Component {
                             <EmtyList 
                                 info={{
                                     image: images.icon.chatHome,
-                                    text1: 'Bạn chưa kết nối với bác sĩ',
+                                    text1: 'Bạn chưa có cuộc tư vấn nào với bác sĩ',
                                     btnIconName: 'ios-search-outline', btnIconType: 'ionicon', 
                                     btnText: 'Gặp bác sĩ tư vấn',
-                                    color: '#bbb'
+                                    color: '#ddd'
                                 }}
                         />}
                     </View>
