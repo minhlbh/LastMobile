@@ -33,7 +33,7 @@ class ConfirmCode extends Component {
                             </TouchableOpacity>
                             <FormInput
                                 placeholder='mã xác nhận'
-                                placeholderTextColor='white'
+                                placeholderTextColor='rgba(255,255,255,0.5)'
                                 containerStyle={styles.formInput}
                                 underlineColorAndroid='transparent'
                                 inputStyle={{ color: 'white' }} />

@@ -64,7 +64,7 @@ class CreateAccount extends Component {
                         <Text style={[styles.text, { marginBottom: 15 }]}>Tạo tài khoản</Text>
                         <FormInput
                             placeholder='Mật khẩu mới'
-                            placeholderTextColor='rgba(255,255,255,0.4)'
+                            placeholderTextColor='rgba(255,255,255,0.5)'
                             containerStyle={styles.formInput}
                             underlineColorAndroid= 'transparent'
                             inputStyle={{ color: 'white' }}
@@ -72,10 +72,10 @@ class CreateAccount extends Component {
                         />
                         <FormInput
                             placeholder='Nhập lại mật khẩu'
-                            placeholderTextColor='white'
+                            placeholderTextColor='rgba(255,255,255,0.5)'
                             containerStyle={styles.formInput}
                             underlineColorAndroid= 'transparent'
-                            inputStyle={{ color: 'white' , borderBottomWidth: 0}}
+                            inputStyle={{ color: 'white'}}
                             secureTextEntry={true}                            
                         />
 

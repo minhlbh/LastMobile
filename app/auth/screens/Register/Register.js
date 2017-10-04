@@ -9,7 +9,7 @@ import {
 import styles from './styles'
 import * as authAction from '../../auth.action';
 import { connect } from 'react-redux';
-import { ErrorText, ButtonAuth,ButtonAuthFooter } from '../../../components';
+import { ErrorText, ButtonAuth, ButtonAuthFooter } from '../../../components';
 import accountApi from '../../../api/accountApi';
 import images from '../../../config/images';
 
@@ -30,7 +30,7 @@ class Register extends Component {
                 <LinearGradient
                     colors={['#209EFF', '#209EFF', '#10A7BF']}
                     style={styles.gradient}>
-                    <View style={{flex:1, justifyContent: 'flex-end' }}>
+                    <View style={{ flex: 1, justifyContent: 'flex-end' }}>
                         <View style={styles.formContainer}>
                             <Image
                                 source={images.confirmCode}
@@ -40,16 +40,15 @@ class Register extends Component {
                             <View style={[styles.formInput, { flexDirection: 'row' }]}>
                                 <FormLabel
                                     containerStyle={{ borderRightWidth: 1, borderRightColor: 'white' }}
-                                    labelStyle={{color:'white'}}>VN +84</FormLabel>
+                                    labelStyle={{ color: 'white' }}>VN +84</FormLabel>
                                 <FormInput
                                     underlineColorAndroid='transparent'
                                     placeholder='Số điện thoại'
-                                    placeholderTextColor='rgba(255,255,255,0.5)' 
-                                    style={{ width: 200 }}
+                                    placeholderTextColor='rgba(255,255,255,0.5)'
                                     inputStyle={{ color: 'white' }}
                                 />
                             </View>
-                            <ButtonAuth onPress={() => navigation.navigate('ConfirmCode')} title='Tiếp tục'/>
+                            <ButtonAuth onPress={() => navigation.navigate('ConfirmCode')} title='Tiếp tục' />
                         </View>
                         <View style={{ flex: 2, justifyContent: 'flex-end' }}>
                             <View style={{ flexDirection: 'row', alignSelf: 'center' }}>
@@ -67,8 +66,8 @@ class Register extends Component {
                             </View>
                         </View>
                         <View style={{ flex: 1, justifyContent: 'flex-end' }}>
-                            <ButtonAuthFooter 
-                                onPress={()=> navigation.navigate('Login')}
+                            <ButtonAuthFooter
+                                onPress={() => navigation.navigate('Login')}
                                 text='Bạn đã có tài khoản?'
                                 textBold='Đăng nhập'
                             />

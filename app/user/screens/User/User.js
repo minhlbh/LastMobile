@@ -61,7 +61,7 @@ class User extends Component {
                             <UserInfoHome userInfo={userInfo}/>
                         </View>
                     )}
-                    stickyHeaderHeight={30}
+                    stickyHeaderHeight={40}
                     renderStickyHeader={() => (
                         <StickyHeader name={userInfo.HoVaTen} />
                     )}
