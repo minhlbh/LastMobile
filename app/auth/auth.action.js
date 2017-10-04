@@ -11,6 +11,13 @@ import {
 
 export const auth = (user, pass) => {
     return dispatch => {
+        if(user.length <9 && pass.length < 6){
+            dispatch({
+                type: LOGIN.FAILURE,
+                payload: 'Số điện thoại hoặc mặt khẩu k đúng định dạng',
+            });
+            return
+        }
         dispatch({ type: LOGIN.PENDING });
         accountApi.getToken(user, pass)
             .then(data => {

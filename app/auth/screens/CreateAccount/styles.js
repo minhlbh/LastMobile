@@ -15,11 +15,11 @@ export default StyleSheet.create({
         opacity: 0.3,
         backgroundColor: 'white',
         borderRadius: 5,
-        width:deviceWidth - 40
+        width:deviceWidth - 50
     },
     buttonView: {
         opacity: 0.7,
-        width: deviceWidth/2 -  25 ,
+        width: deviceWidth/2 -  30 ,
         height: 40,
         justifyContent: 'center',
         alignItems: 'center',

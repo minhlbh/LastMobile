@@ -1,4 +1,5 @@
 export * from './loading-indicators';
+export * from './button';
 
 export * from './HeaderForeground';
 export * from './StickyHeader';

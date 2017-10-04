@@ -12,24 +12,38 @@ const styles = StyleSheet.create({
   }
 });
 
-export const EmtyList= ({info ,onPress} = this.props) =>
-  <View style={styles.container}>
-    <Image 
-      source={info.image}
-      style={styles.image}
-    />
-    <Text>{info.text1}</Text> 
-    {info.text2 && <Text> {info.text2}</Text>}
-    <TouchableOpacity style={{flexDirection: 'row', marginTop: 10}}
-      onPress={() => onPress()}  
-    >
-      <Icon 
-          name={info.btnIconName} 
-          type={info.btnIconType} 
-          color={info.color} 
-          style={{marginRight: 5}}
-          size= {30}
+
+type Props = {
+  info: Object,
+  onPress: Function
+}  
+
+export const EmtyList= ({info ,onPress} : Props) =>{
+  return (
+    <View style={styles.container}>
+      <Image 
+        source={info.image}
+        style={styles.image}
       />
-      <Text style={{color: info.color, fontSize:17}}>{info.btnText}</Text>
-    </TouchableOpacity>
-  </View>;
+      <Text>{info.text1}</Text> 
+      {info.text2 && <Text> {info.text2}</Text>}
+      <TouchableOpacity style={{flexDirection: 'row', marginTop: 10}}
+        onPress={onPress}  
+      >
+        <Icon 
+            name={info.btnIconName} 
+            type={info.btnIconType} 
+            color={info.color} 
+            style={{marginRight: 5}}
+            size= {30}
+        />
+        <Text style={{color: info.color, fontSize:17}}>{info.btnText}</Text>
+      </TouchableOpacity>
+    </View>
+  )
+}
+
+  // EmtyList.propTypes = {
+  //   info: React.PropTypes.object.isRequired,
+  //   onPress: React.PropTypes.func.isRequired,
+  // };

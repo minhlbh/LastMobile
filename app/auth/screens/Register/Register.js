@@ -9,7 +9,7 @@ import {
 import styles from './styles'
 import * as authAction from '../../auth.action';
 import { connect } from 'react-redux';
-import { Loading, ErrorText, InputCode } from '../../../components';
+import { ErrorText, ButtonAuth,ButtonAuthFooter } from '../../../components';
 import accountApi from '../../../api/accountApi';
 import images from '../../../config/images';
 
@@ -30,8 +30,8 @@ class Register extends Component {
                 <LinearGradient
                     colors={['#209EFF', '#209EFF', '#10A7BF']}
                     style={styles.gradient}>
-                    <View style={{ flex: 5, justifyContent: 'flex-end' }}>
-                        <View style={{ alignItems: 'center', flex: 4, justifyContent: 'flex-end', alignSelf: 'center' }}>
+                    <View style={{flex:1, justifyContent: 'flex-end' }}>
+                        <View style={styles.formContainer}>
                             <Image
                                 source={images.confirmCode}
                                 style={{ width: 100, height: 100, marginBottom: 20 }}
@@ -44,18 +44,12 @@ class Register extends Component {
                                 <FormInput
                                     underlineColorAndroid='transparent'
                                     placeholder='Số điện thoại'
-                                    placeholderTextColor='white'
+                                    placeholderTextColor='rgba(255,255,255,0.5)' 
                                     style={{ width: 200 }}
                                     inputStyle={{ color: 'white' }}
                                 />
                             </View>
-                            <TouchableOpacity style={{ alignSelf: 'center' }}
-                                onPress={() => navigation.navigate('ConfirmCode')}
-                            >
-                                <View style={styles.buttonView}>
-                                    <Text style={{ fontSize: 17, color: 'white' }}>Tiếp tục</Text>
-                                </View>
-                            </TouchableOpacity>
+                            <ButtonAuth onPress={() => navigation.navigate('ConfirmCode')} title='Tiếp tục'/>
                         </View>
                         <View style={{ flex: 2, justifyContent: 'flex-end' }}>
                             <View style={{ flexDirection: 'row', alignSelf: 'center' }}>
@@ -73,14 +67,11 @@ class Register extends Component {
                             </View>
                         </View>
                         <View style={{ flex: 1, justifyContent: 'flex-end' }}>
-                            <TouchableOpacity style={{ justifyContent: 'center', height: 40 }}
-                                onPress={() => navigation.navigate('Login')}
-                            >
-                                <View style={styles.footer}>
-                                    <Text style={styles.text}>Bạn đã có tài khoản?</Text>
-                                    <Text style={[styles.text, { fontWeight: 'bold' }]}> Đăng nhập</Text>
-                                </View>
-                            </TouchableOpacity>
+                            <ButtonAuthFooter 
+                                onPress={()=> navigation.navigate('Login')}
+                                text='Bạn đã có tài khoản?'
+                                textBold='Đăng nhập'
+                            />
                         </View>
                     </View>
                 </LinearGradient>

@@ -10,31 +10,12 @@ export default StyleSheet.create({
     text: {
         color: 'white'
     },
-    buttonView: {
-        opacity: 0.7,
-        width: deviceWidth - 40,
-        height: 40,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderWidth: 1,
-        borderRadius: 5,
-        borderColor: 'white',
-        marginTop: 10
-    },
     formInput: {
         height:43,
         marginTop: 10,
         opacity: 0.3,
         backgroundColor: 'white',
         borderRadius: 5,
-        width: deviceWidth - 40
+        width: deviceWidth - 50
     },
-    footer: {
-        backgroundColor: 'white',
-        opacity: 0.3,
-        height: 60,
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'row'
-    }
 })

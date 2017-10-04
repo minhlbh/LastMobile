@@ -17,29 +17,16 @@ export default StyleSheet.create({
         opacity: 0.3,
         backgroundColor: 'white',
         borderRadius: 5,
-        width:deviceWidth - 40
-    },
-    buttonView: {
-        opacity: 0.7,
-        width: deviceWidth - 40,
-        height: 40,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderWidth: 1,
-        borderRadius: 4,
-        borderColor: 'white',
-        marginTop: 10
+        width:deviceWidth - 50
     },
     textFooter: {
         color: 'white',
         fontSize: 11
     },
-    footer: {
-        backgroundColor: 'white',
-        opacity: 0.3,
-        height: 60,
-        alignItems: 'center',
-        flexDirection: 'row',
-        justifyContent:'center'
+    formContainer:{
+        alignItems: 'center', 
+        flex: 4, 
+        justifyContent: 'flex-end', 
+        alignSelf: 'center'
     }
 })

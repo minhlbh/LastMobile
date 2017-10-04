@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity, } from 'react-native';
 import styles from './styles'
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import {
@@ -40,6 +40,7 @@ class Home extends Component {
         })
     }
     gapBacSi() {
+        console.log('aaaaaaaaaaaaaaaaaaaaa')
         const { navigation, isConnectedSignalR, errorConnection } = this.props;
         if (isConnectedSignalR) {
             this.khaiBaoUser();
@@ -98,7 +99,7 @@ class Home extends Component {
                             imageSrc={{ uri: images.khamOnline }}
                             imageContainerStyle={{ height: 100, }}
                             title="Gặp bác sĩ"
-                            onPress={() => this.gapBacSi()}
+                            onPress={ this.gapBacSi.bind(this)}
                             featured
                         />
                     </View>
@@ -131,6 +132,7 @@ class Home extends Component {
                                     btnIconName: 'plus', btnIconType: 'octicon', btnText: 'Tạo mới hồ sơ',
                                     color: '#4990E2'
                                 }}
+                                onPress={ () => navigation.navigate('Profiles')}
                         />}
                         
                     </View>
@@ -153,7 +155,7 @@ class Home extends Component {
                                 btnText: 'Gặp bác sĩ tư vấn',
                                 color: '#42B72A'
                             }}
-                          
+                            onPress={() => this.gapBacSi()}
                         />}
                     </View>
 

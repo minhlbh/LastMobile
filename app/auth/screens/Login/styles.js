@@ -14,38 +14,25 @@ export default StyleSheet.create({
         marginBottom: 15
     },
     formInput: {
+        paddingLeft: 10,
         marginTop: 10,
-        opacity: 0.3,
-        backgroundColor: 'white',
+        //opacity: 0.3,
+        backgroundColor: 'rgba(255,255,255,0.1)',
         borderRadius: 5,
         width: deviceWidth - 50,
         height:43
     },
-    buttonView: {
-        opacity: 0.7,
-        width: deviceWidth - 50,
-        height: 40,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderWidth: 1,
-        borderRadius: 4,
-        borderColor: 'white',
-        marginTop: 10
-    },
     divider: {
-        width: 100,
-        height: 20,
-        justifyContent: 'center'
+        backgroundColor: 'rgba(255,255,255,0.5)', 
+        width: '35%'
     },
     text: {
         color: 'white'
     },
-    footer: {
-        backgroundColor: 'white',
-        opacity: 0.3,
-        height: 60,
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'row'
+    dividerContainer:{ 
+        flexDirection: 'row', 
+        alignSelf: 'center', 
+        marginBottom: 10, 
+        alignItems:'center' 
     }
 })

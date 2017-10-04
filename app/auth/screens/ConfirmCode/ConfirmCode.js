@@ -6,6 +6,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import {
     FormInput, Button, Divider, Icon, FormLabel
 } from 'react-native-elements';
+import {ButtonAuth,ButtonAuthFooter} from '../../../components';
 import styles from './styles'
 import images from '../../../config/images';
 
@@ -26,7 +27,7 @@ class ConfirmCode extends Component {
                                 />
                             </TouchableOpacity>
                             <Text style={[styles.text, { marginBottom: 10 }]}>Nhập mã xác nhận</Text>
-                            <Text style={styles.text}>Nhập mã gồm 4 chữ số chúng {'\n'} tôi đã gửi tới 01672034616 </Text>
+                            <Text style={styles.text}>Nhập mã gồm 6 chữ số chúng {'\n'} tôi đã gửi tới 01672034616 </Text>
                             <TouchableOpacity>
                                 <Text style={[styles.text, { fontWeight: 'bold' }]}>Gửi lại mã</Text>
                             </TouchableOpacity>
@@ -36,22 +37,13 @@ class ConfirmCode extends Component {
                                 containerStyle={styles.formInput}
                                 underlineColorAndroid='transparent'
                                 inputStyle={{ color: 'white' }} />
-                            <TouchableOpacity style={{ alignSelf: 'center' }}
-                                onPress={() => navigation.navigate('CreateAccount')}
-                            >
-                                <View style={styles.buttonView}>
-                                    <Text style={{ fontSize: 17, color: 'white' }}>Xác nhận</Text>
-                                </View>
-                            </TouchableOpacity>
+                            <ButtonAuth onPress={() => navigation.navigate('CreateAccount')} title='Xác nhận' />
                         </View>
                         <View style={{ flex: 2.5, justifyContent: 'flex-end' }}>
-                            <TouchableOpacity style={{ height: 40, justifyContent: 'center' }}
-                                onPress={() => navigation.goBack()}
-                            >
-                                <View style={styles.footer}>
-                                    <Text style={styles.text}>Quay lại</Text>
-                                </View>
-                            </TouchableOpacity>
+                            <ButtonAuthFooter 
+                                onPress={()=> navigation.goBack()}
+                                text='Quay lại'
+                            />
                         </View>
                     </View>
                 </LinearGradient>

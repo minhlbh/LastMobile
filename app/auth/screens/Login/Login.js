@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-    View, Text, StyleSheet, TouchableOpacity, TextInput, ScrollView
+    View, Text, StyleSheet, TouchableOpacity, TextInput, ActivityIndicator
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {
@@ -10,6 +10,7 @@ import styles from './styles'
 import images from '../../../config/images';
 import {connect } from 'react-redux';
 import * as authAction from '../../auth.action';
+import { ButtonAuth,ButtonAuthFooter} from '../../../components';
 
 class Login extends Component {
     constructor(props) {
@@ -47,13 +48,13 @@ class Login extends Component {
             <LinearGradient
                 colors={['#FF4081', '#7B1FA2']}
                 style={[styles.gradient, { flex: 1 }]}>
-                <View style={[{ flex: 7 }]}>
-                    <View style={{ flex: 2, justifyContent: 'flex-end' }}>
+                <View style={{ flex: 7 }}>
+                    <View style={{ flex: 2, justifyContent: 'flex-end'}}>
                         <View style={{ alignItems: 'center' }}>
                             <Text style={styles.textSymbol}>Trưởng khoa</Text>
                             <FormInput
                                 placeholder='Số điện thoại'
-                                placeholderTextColor='white'
+                                placeholderTextColor='rgba(255,255,255,0.5)'                                
                                 containerStyle={styles.formInput}
                                 underlineColorAndroid='transparent'
                                 inputStyle={{ color: 'white' }}
@@ -61,32 +62,28 @@ class Login extends Component {
                             />
                             <FormInput
                                 placeholder='Mật khẩu'
-                                placeholderTextColor='white'
+                                placeholderTextColor='rgba(255,255,255,0.5)'
                                 containerStyle={styles.formInput}
                                 underlineColorAndroid='transparent'
                                 inputStyle={{ color: 'white' }} 
-                                onChangeText={(password)=> this.setState({password})}                                
+                                onChangeText={(password)=> this.setState({password})} 
+                                secureTextEntry={true}                               
                             />
                         </View>
-                        <TouchableOpacity style={{ alignSelf: 'center' }}
-                            onPress={()=>this.login()}
-                        >
-                            <View style={styles.buttonView}>
-                                <Text style={{ fontSize: 17, color: 'white' }}>Đăng nhập</Text>
-                            </View>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity style={{ alignItems: 'center', marginTop: 20 }}>
+                       
+                        <ButtonAuth isPending={isLoggingIn} onPress={()=> this.login()} title='Đăng nhập'/>
+                             
+                        <TouchableOpacity style={{ alignSelf: 'center', marginTop: 20 }}>
                             <Text style={styles.text}>Quên mật khẩu?</Text>
                         </TouchableOpacity>
                     </View>
 
                     <View style={{ flex: 1, justifyContent: 'flex-end' }}>
-                        <View style={{ alignSelf: 'center', alignItems: 'center', flex: 2, justifyContent: 'flex-end' }}>
-                            <View style={{ flexDirection: 'row', alignSelf: 'center', marginBottom: 10 }}>
-                                <View style={styles.divider}><Divider /></View>
+                        <View style={{  alignItems: 'center', flex: 2, justifyContent: 'flex-end' }}>
+                            <View style={styles.dividerContainer}>
+                                <Divider style={styles.divider}/>
                                 <Text style={[styles.text, { marginLeft: 10, marginRight: 10 }]}>HOẶC</Text>
-                                <View style={styles.divider}><Divider /></View>
+                                <Divider style={styles.divider}/>                                
                             </View>
                             <TouchableOpacity 
                                 onPress={()=> this._loginFacebook()}
@@ -102,14 +99,11 @@ class Login extends Component {
                             </TouchableOpacity>
                         </View>
                         <View style={{ flex: 1, justifyContent: 'flex-end' }}>
-                            <TouchableOpacity style={{ height: 40, justifyContent: 'center' }}
-                                onPress={()=> navigation.navigate('Register') }
-                            >
-                                <View style={styles.footer}>
-                                    <Text style={styles.text}>Bạn chưa có tài khoản?</Text>
-                                    <Text style={[styles.text, { fontWeight: 'bold' }]}> Đăng kí</Text>
-                                </View>
-                            </TouchableOpacity>
+                            <ButtonAuthFooter 
+                                onPress={()=> navigation.navigate('Register')}
+                                text='Bạn chưa có tài khoản?'
+                                textBold='Đăng kí'
+                            />
                         </View>
                     </View>
                 </View>
