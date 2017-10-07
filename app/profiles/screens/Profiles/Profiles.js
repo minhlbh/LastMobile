@@ -24,7 +24,7 @@ class Profiles extends Component {
                     renderForeground={() => (
                         <HeaderForeground name='Hồ sơ bệnh án' icon2='search'/>
                     )}
-                    stickyHeaderHeight={30}
+                    stickyHeaderHeight={40}
                     renderStickyHeader={() => (
                         <StickyHeader name='Hồ sơ bệnh án' icon2='search'/>
                     )}

@@ -5,64 +5,13 @@ const deviceHeight = Dimensions.get('window').height;
 const deviceWidth = Dimensions.get('window').width;
 
 export default StyleSheet.create({
-    textDividerTitle: {
-        color: colors.dark,
-        fontSize: 15
-    },
-    generalText: {
-        color: 'black', fontWeight: 'bold'
-    },
-    textHeader: {
-        color: colors.header.text,
-        fontSize: 25,
-        fontWeight: 'bold'
-    },
     textInput: {
         height: 150,
-        borderTopWidth: (Platform.OS === 'ios') ? 1 : 0.5,
-        borderBottomWidth: (Platform.OS === 'ios') ? 1 : 0,
-        borderColor: colors.gray
-    },
-    picker: {
-        width: 170,
-    },
-    divider: {
-        backgroundColor: colors.gray,
-        height:0.5
-    },
-    button: {
-        backgroundColor: 'white',
     },
     container: {
         flex: 1,
-        paddingLeft: 10,
         backgroundColor: 'white',
         paddingTop: (Platform.OS === 'ios') ? 20 : 0
-    },
-    buttonView: {
-        borderBottomWidth: (Platform.OS === 'ios') ? 1 : 1.2,
-        borderLeftWidth: (Platform.OS === 'ios') ? 1 : 1.2,
-        borderRightWidth: (Platform.OS === 'ios') ? 1 : 1.2,
-        borderTopWidth: (Platform.OS === 'ios') ? 1 : 1.2,
-        borderRadius: (Platform.OS === 'ios') ? 25 : 0,
-        borderColor: '#5198D0'
-    },
-    switchView: {
-        flex: 1,
-        alignSelf: 'flex-end',
-        marginLeft: (Platform.OS === 'ios') ? 200 : 0,
-        marginTop: (Platform.OS === 'ios') ? 10 : 0,
-        marginRight:(Platform.OS === 'android')? 20:0
-    },
-    pickerView: {
-        flex: 1,
-        alignSelf: 'flex-end',
-        marginLeft: deviceWidth / 4
-    },
-    khoaView: {
-        flexDirection: 'row',
-        flex: 1,
-        marginTop: (Platform.OS === 'ios') ? 15 : 0,
     },
     transparentView: {
         backgroundColor: 'black',
@@ -79,5 +28,15 @@ export default StyleSheet.create({
         alignSelf: 'center',
         justifyContent: 'center',
         opacity: 1
+    },
+    text: {
+        color: 'black'
+    },
+    button: {
+        backgroundColor: '#42B72A',
+        borderRadius: 20,
+        height: 45,
+        marginBottom:3,
+        marginTop:3
     }
 })

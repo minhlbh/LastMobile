@@ -29,7 +29,7 @@ class Doctor extends Component {
                     renderFixedHeader={() => (
                         <FixedHeader  icon2='search' />
                     )}
-                    stickyHeaderHeight={30}
+                    stickyHeaderHeight={40}
                     renderStickyHeader={() => (
                         <StickyHeader name='Bác sĩ của tôi' />
                     )}
