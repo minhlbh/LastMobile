@@ -1,45 +1,24 @@
-import React, { Component } from 'react';
-import {View, StyleSheet, Dimensions } from 'react-native';
-import {
-     Icon,Text
-} from 'react-native-elements';
-import {colors} from '../config/styles';
+import React from 'react';
+import {View, StyleSheet, Text } from 'react-native';
 
-export  class StickyHeader extends Component {
-    render(){
-        return(
-                <View style={styles.viewHeader}>
-                    <Text style={styles.generalText}>{this.props.name}</Text>
-                </View>
-        )
-        
-    }
+type Props = {
+    name: string
+}  
+
+  
+export  const  StickyHeader  = ({  name } : Props ) =>{
+    return(
+        <View style={styles.viewHeader}>
+            <Text style={styles.generalText}>{name}</Text>
+        </View>
+    )
 }
 
-const deviceHeight = Dimensions.get('window').height;
-const deviceWidth = Dimensions.get('window').width;
-
 const styles= StyleSheet.create({
-    divider: {
-        marginTop: 10,
-        marginBottom: 40,
-    },
-    textDividerTitle: {
-        marginTop: 15,
-        color: colors.dark,
-        fontWeight: 'bold',
-    },
-    textdivider:{
-        color:'#546CA8',
-        marginTop: 15,
-    },
     generalText:{
         color:'black', 
         fontWeight:'bold',
         fontSize: 18
-    },
-    infoText:{
-        fontSize:13
     },
     viewHeader:{
         alignSelf:'center',

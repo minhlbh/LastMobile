@@ -7,7 +7,18 @@ import {createFastProfile} from '../../profile.action';
 import {connect } from 'react-redux';
 import {ErrorText, Loading} from '../../../components';
 import {getProfiles} from '../../../user/user.action';
+var ImagePicker = require('react-native-image-picker');
+import images from '../../../config/images';
+import khamApi from '../../../api/khamApi';
 
+
+var options = {
+    title: 'Chọn ảnh đại diện',
+    storageOptions: {
+        skipBackup: true,
+        path: 'images'
+    }
+};
 class CreateProfile extends Component {
     constructor(props){
         super(props);
@@ -15,8 +26,40 @@ class CreateProfile extends Component {
             birth: '',
             name: '',
             gender: '',
+            avatar:{}
         }
     }
+
+    pickImage() {
+        if(this.state.avatar){
+            khamApi.deleteImage(this.state.avatar.location).then((res) => {
+                console.log(res)
+            });
+        }
+        ImagePicker.showImagePicker(options, (response) => {
+            console.log('Response = ', response);
+            if (response.didCancel) {
+                console.log('User cancelled image picker');
+            }
+            else if (response.error) {
+                console.log('ImagePicker Error: ', response.error);
+            }
+            else if (response.customButton) {
+                console.log('User tapped custom button: ', response.customButton);
+            }
+            else {;
+                khamApi.uploadImg(response).then((res) => {
+                    console.log(res);
+                    //chỉ lấy tên ảnh
+                    var imageUri = res.location.replace('https://sharinglife.blob.core.windows.net/images/', '');
+
+                    var avatar = { uri: response.uri, location: imageUri }
+                    this.setState({ avatar });
+                })
+            }
+        });
+    }
+
     _renderLeftHeader() {
         return (
             <Icon
@@ -42,11 +85,13 @@ class CreateProfile extends Component {
         }
     }
     createProfile(){
-        const {name,birth,gender} = this.state;
-        this.props.createFastProfile(name,birth,gender);
+        const {name,birth,gender,avatar} = this.state;
+        this.props.createFastProfile(name,birth,gender,avatar.location);
     }
+
     render() {
         const {isPeddingCreateProfile,isCreatedProfile,error} = this.props;
+        const {avatar} = this.state;
         return (
             <View style={styles.container}>
                 <Header
@@ -55,10 +100,15 @@ class CreateProfile extends Component {
                     centerComponent={{ text: 'Tạo Hồ Sơ', style: { color: 'black', fontSize: 18, fontWeight: 'bold' } }}
                     rightComponent={{ icon: 'event-note', color: 'black' }}
                 />
-                <View>
-                    <TouchableOpacity style={{width:100, height:100, alignSelf:'center', marginBottom: 20}}>
-                        <Image source={{ uri: 'https://i0.wp.com/www.artstation.com/assets/default_avatar.jpg?ssl=1' }}
-                            style={styles.avatar} />
+                <View style={{ alignItems: 'center' }}>
+                    <TouchableOpacity
+                        onPress={()=> this.pickImage()}
+                    >
+                        <Image
+                            source={{uri: avatar.uri? avatar.uri :'https://i0.wp.com/www.artstation.com/assets/default_avatar.jpg?ssl=1'}}
+                            style={{ width: 100, height: 100, marginBottom: 20, borderRadius: avatar ? 50 : 0  }}
+                            
+                        />
                     </TouchableOpacity>
                 </View>
 

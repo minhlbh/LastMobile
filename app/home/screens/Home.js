@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, TouchableOpacity, } from 'react-native';
-import styles from './styles'
+import styles from './styles';
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import {
     Header, Avatar, ListItem, Tile, Divider, List, ListView, Icon, Text
@@ -13,7 +13,7 @@ import {
     ListDoctors,
     FixedHeader,
     ListHistory,
-    Loading, EmtyList
+    Loading, EmtyList, DoctorInfoPopup
 } from '../../components';
 import { connect } from 'react-redux';
 //import * as userAction from '../../user/user.action';
@@ -25,42 +25,54 @@ import { getProfiles, getUserInfo } from '../../user/user.action';
 console.disableYellowBox = true;
 
 class Home extends Component {
+    constructor(props){
+        super(props);
+        this.state ={
+            doctorInfo :{}, 
+            showDoctorInfo: false
+        }
+    }
     componentWillMount() {
-        this.props.getUserInfo();
-        this.props.getProfiles();
+        const {getProfiles ,getUserInfo} = this.props;
+        getUserInfo();
+        getProfiles();
     }
 
-    componentDidUpdate() {
-        console.log(this.props.isConnectedSignalR)
-    }
     signOut() {
         const { signOut, navigation } = this.props;
         signOut().then(() => {
             resetNavigationTo('Intro', navigation);
-        })
+        });
     }
     gapBacSi() {
-        console.log('aaaaaaaaaaaaaaaaaaaaa')
         const { navigation, isConnectedSignalR, errorConnection } = this.props;
         if (isConnectedSignalR) {
             this.khaiBaoUser();
             navigation.navigate('Kham');
         } else if (errorConnection) {
-            alert(errorConnection)
+            alert(errorConnection);
         } else {
-            alert('Chưa kết nối được với server')
+            alert('Chưa kết nối được với server');
         }
     }
 
     khaiBaoUser() {
         const { userInfo, proxy } = this.props;
         proxy.invoke('nguoiDungKhaiBaoUserName', userInfo.Email).done((directResponse) => {
-            console.log('khai bao username thanh cong')
+            console.log('khai bao username thanh cong',directResponse);
         }).fail(() => {
-            console.warn('khai bao username  fail')
+            console.warn('khai bao username  fail');
+            this.khaiBaoUser();
         });
     }
 
+    showDoctorInfoPopup= (info) =>{
+        console.log('aaaaa', info)
+        this.setState({
+            doctorInfo: info,
+            showDoctorInfo: true
+        })
+    }
     render() {
         var { profilesList, navigation, userInfo, isPendingUser } = this.props;
         var DsGap = [];
@@ -113,7 +125,7 @@ class Home extends Component {
                                 </TouchableOpacity>}
                         </View>
                         <ListProfiles profilesList={profilesList.slice(0, 5)} />
-                        {profilesList ? 
+                        {profilesList.length > 0 ? 
                             <ListItem
                                 roundAvatar
                                 avatar={{ uri: 'https://www.computerhope.com/jargon/p/plus.gif' }}
@@ -132,7 +144,7 @@ class Home extends Component {
                                     btnIconName: 'plus', btnIconType: 'octicon', btnText: 'Tạo mới hồ sơ',
                                     color: '#4990E2'
                                 }}
-                                onPress={ () => navigation.navigate('Profiles')}
+                                onPress={ () => navigation.navigate('CreateFastProfile')}
                         />}
                         
                     </View>
@@ -145,8 +157,8 @@ class Home extends Component {
                                     <View style={{ flex: 1, alignItems: 'flex-end', }}><Text style={styles.textdivider}> xem toàn bộ</Text></View>
                                 </TouchableOpacity>}
                         </View>
-                        <ListDoctors doctorsList={DsBacSiCuaToi} />
-                        {DsBacSiCuaToi = [] &&
+                        <ListDoctors doctorsList={DsBacSiCuaToi} onPress={(item) => this.showDoctorInfoPopup(item)}/>
+                        {DsBacSiCuaToi.length ==0 &&
                         <EmtyList 
                             info={{
                                 image: images.icon.doctorHome,
@@ -168,7 +180,7 @@ class Home extends Component {
                             </TouchableOpacity>}
                         </View>
                         <ListHistory historyList={DsGap.slice(0,5)} navigation={navigation} khaiBaoUser={() => this.khaiBaoUser()} />
-                        {DsGap = [] &&
+                        {DsGap ==0 &&
                             <EmtyList 
                                 info={{
                                     image: images.icon.chatHome,
@@ -180,8 +192,18 @@ class Home extends Component {
                         />}
                     </View>
                 </ParallaxScrollView>
+                {this.state.showDoctorInfo && 
+                    <View style={styles.viewDoctorInfo}>
+                        <DoctorInfoPopup 
+                            doctorInfo={this.state.doctorInfo}
+                        />
+                    </View> 
+                }
+                {this.state.showDoctorInfo && 
+                    <View style={styles.transparentView}/>
+                }
             </View>
-        )
+        );
     }
 }
 
@@ -193,7 +215,7 @@ function mapStateToProps(state) {
         isPendingUser: state.user.isPendingUser,
         proxy: state.kham.proxy,
         errorConnection: state.kham.errorConnection
-    }
+    };
 }
 
 export default connect(mapStateToProps, { signOut, getProfiles, getUserInfo })(Home);

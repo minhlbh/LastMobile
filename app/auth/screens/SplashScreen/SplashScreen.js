@@ -25,6 +25,7 @@ class Splash extends Component {
 
     AsyncStorage.getItem('access_token').then((token) => {
         if(token){
+            console.log(token);
             authByAsyncStorage(token);                        
             resetNavigationTo('Tabs', navigation);
         } else {

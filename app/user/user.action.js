@@ -17,7 +17,8 @@ export const getUserInfo = () => {
                 dispatch({
                     type: GET_AUTH_USER.SUCCESS,
                     payload: data,
-                  });
+                });
+            
             } else {
                 dispatch({
                     type: GET_AUTH_USER.FAILURE,

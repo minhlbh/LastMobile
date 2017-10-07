@@ -25,7 +25,8 @@ export class ListDoctors extends Component{
                 title={item.TenBacSi}
                 subtitle={tenDichVu}
                 titleStyle={{ color: 'black' }}
-                containerStyle={{borderBottomColor: '#bbb',borderBottomWidth: 0.15}}                
+                containerStyle={{borderBottomColor: '#bbb',borderBottomWidth: 0.15}}
+                onPress={() =>this.props.onPress(item)}                
             />
         )
     };

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-    View, Text, StyleSheet, TouchableOpacity, TextInput, ActivityIndicator
+    View, Text, StyleSheet, TouchableOpacity, TextInput, ActivityIndicator,ToastAndroid
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {
@@ -42,7 +42,10 @@ class Login extends Component {
         if (error) return (<ErrorText error={error} center />)
     }
     render() {
-        const { isAuthenticated, isLoggingIn, navigation } = this.props;
+        const { isAuthenticated, isLoggingIn, navigation ,error} = this.props;
+        if(error){
+            ToastAndroid.show(error, ToastAndroid.SHORT);            
+        }
         return (
             <View style={{ flex: 1 }}>
             <LinearGradient

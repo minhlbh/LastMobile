@@ -39,6 +39,7 @@ export const connectSignalR = () => {
                 type: GET_CONNECTION_SIGNALR.FAILURE,
                 payload: '',
             });
+            connectSignalR();
         });
 
         connection.error((error) => {
@@ -55,6 +56,7 @@ export const connectSignalR = () => {
                 type: GET_CONNECTION_SIGNALR.FAILURE,
                 payload: errorMessage +': '+detailedError ,
             });
+            connectSignalR();
         });
     };
 };

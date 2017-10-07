@@ -133,8 +133,8 @@ var accountApi = {
         })
 
     },
-    createFastProfile(name, birth, gender,token){
-        var url = `${apiUrl.taoMoiNhanhHoSo}?HoVaTen=${name}&NamSinh=${birth}&GioiTinh=${gender}`;
+    createFastProfile(name, birth, gender,token, avatar){
+        var url = `${apiUrl.taoMoiNhanhHoSo}?HoVaTen=${name}&NamSinh=${birth}&GioiTinh=${gender}&Avatar=${avatar}`;
         return fetch(url,{
             method: 'POST',
             headers:{

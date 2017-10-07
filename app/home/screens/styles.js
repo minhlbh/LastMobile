@@ -30,5 +30,21 @@ export default StyleSheet.create({
     headerListContainer:{
         flex: 1, 
         flexDirection: 'row'
+    },
+    transparentView: {
+        backgroundColor: 'black',
+        zIndex: 1, position: 'absolute',
+        justifyContent: 'center',
+        alignSelf: 'center',
+        opacity: 0.5,
+        width: 500,
+        height: 1000
+    },
+    viewDoctorInfo: {
+        zIndex: 2,
+        position: 'absolute',
+        alignSelf: 'center',
+        justifyContent: 'center',
+        opacity: 1
     }
 })
