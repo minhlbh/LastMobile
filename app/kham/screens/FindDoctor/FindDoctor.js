@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-    View, TouchableOpacity, Picker, Switch, TextInput, FlatList, Image
+    View, TouchableOpacity, Picker, Switch, TextInput, FlatList, Image, ScrollView
 } from 'react-native';
 import {
     Text, Icon, ListItem, Divider, Button, List, Avatar, FormInput
@@ -15,6 +15,7 @@ import ModalDropdown from 'react-native-modal-dropdown';
 import FoundDoctor from '../FoundDoctor';
 import { resetNavigationTo } from '../../../utils';
 import images from '../../../config/images';
+import Modal from 'react-native-modal';
 
 var ImagePicker = require('react-native-image-picker');
 
@@ -33,12 +34,18 @@ class FindDoctor extends Component {
         super(props);
         this.state = {
             idHoso: '',
+            hosoName: 'Chọn hồ sơ',
             idKhoa: '',
+            khoaName: 'Chọn khoa...',
             anDanh: false,
             vanDe: '',
             images: [],
+            isModalVisible: false,
+            isModalVisible2: false,
         }
     }
+    _showModal = () => this.setState({ isModalVisible: true })
+    _showModal2 = () => this.setState({ isModalVisible2: true })
 
     componentWillMount() {
         this.props.getListChuyenKhoa();
@@ -104,13 +111,6 @@ class FindDoctor extends Component {
             alert('Hiện các bác sĩ đang bận')
         });
     }
-
-    _onSelectedKhoa(index) {
-        this.setState({ idKhoa: this.props.listChuyenKhoa[index].Id })
-    }
-    _onSelectedHoSo(index) {
-        this.setState({ idHoso: this.props.profilesList[index].Id })
-    }
     render() {
         var { profilesList, listChuyenKhoa, navigation } = this.props;
         return (
@@ -142,12 +142,47 @@ class FindDoctor extends Component {
                             <List>
                                 <ListItem
                                     containerStyle={{ paddingLeft: 7 }}
-                                    onPress={() => { }}
+                                    onPress={this._showModal}
                                     roundAvatar
                                     avatar={images.defaultAvatar}
-                                    title='Chọn hồ sơ'
-                                    titleStyle={{ fontSize: 20, paddingLeft: 20 }}
+                                    title={<Text style={{ fontSize: 20, paddingLeft: 20 }}>{this.state.hosoName}</Text>}
+
                                 />
+                                <Modal isVisible={this.state.isModalVisible}>
+                                    <View style={{ flex: 1, backgroundColor: 'white', borderWidth: 1 }}>
+                                        <List
+                                            style={{ flex: 3 }}>
+                                            <ScrollView>
+                                                {
+                                                    profilesList.map((item) => (
+                                                        <ListItem
+                                                            roundAvatar
+                                                            onPress={() => this.setState({ hosoName: item.HoVaTen, idHoso: item.Id, isModalVisible: false },
+                                                                console.log(this.state.idHoso))}
+                                                            //avatar={{ uri: item.Avatar }}
+                                                            title={item.HoVaTen}
+                                                        />
+                                                    ))
+                                                }
+                                            </ScrollView>
+                                        </List>
+                                        <View
+                                            style={{ alignItems: 'flex-end', flexDirection: 'row' }}>
+                                            <Button
+                                                containerViewStyle={{ flex: 1 }}
+                                                buttonStyle={{ borderRadius: 4 }}
+                                                title='Tạo nhanh hồ sơ'
+                                                onPress={() => [navigation.navigate('CreateFastProfile'), this.setState({ isModalVisible: null })]}
+                                            />
+                                            <Button
+                                                containerViewStyle={{ flex: 1 }}
+                                                buttonStyle={{ borderRadius: 4 }}
+                                                title='Đóng'
+                                                onPress={() => { this.setState({ isModalVisible: null }) }}
+                                            />
+                                        </View>
+                                    </View>
+                                </Modal>
                                 <ListItem
                                     title='Ẩn danh'
                                     titleStyle={styles.text}
@@ -159,12 +194,41 @@ class FindDoctor extends Component {
                                     hideChevron
                                 />
                                 <ListItem
-                                    onPress={() => { }}
+                                    onPress={this._showModal2}
                                     titleStyle={styles.text}
                                     title='Chuyên khoa'
-                                    rightTitle='Đa khoa'
+                                    rightTitle={<Text>{this.state.khoaName}</Text>}
                                     rightTitleStyle={styles.text}
                                 />
+                                <Modal isVisible={this.state.isModalVisible2}>
+                                    <View style={{ flex: 1, backgroundColor: 'white', borderWidth: 1 }}>
+                                        <List
+                                            style={{ flex: 3 }}>
+                                            <ScrollView>
+
+                                                {
+                                                    listChuyenKhoa.map((item) => (
+                                                        <ListItem
+                                                            roundAvatar
+                                                            onPress={() => {
+                                                                this.setState({ idKhoa: item.Id, khoaName: item.Name, isModalVisible2: false },
+                                                                    console.log(this.state.idKhoa))
+                                                            }}
+                                                            title={item.Name}
+                                                        />
+
+                                                    ))
+                                                }
+                                            </ScrollView>
+                                        </List>
+                                        <Button
+                                            containerViewStyle={{ flex: 1, justifyContent: 'flex-end' }}
+                                            buttonStyle={{ borderRadius: 4 }}
+                                            title='Đóng'
+                                            onPress={() => { this.setState({ isModalVisible2: null }) }}
+                                        />
+                                    </View>
+                                </Modal>
                             </List>
                         </View>
 
