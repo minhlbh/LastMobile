@@ -29,5 +29,15 @@ export default StyleSheet.create({
         flex: 4,
         justifyContent: 'flex-end',
         alignSelf: 'center'
-    }
+    },
+    dividerContainer:{ 
+        flexDirection: 'row', 
+        alignSelf: 'center', 
+        marginBottom: 10, 
+        alignItems:'center' 
+    },
+    divider: {
+        backgroundColor: 'rgba(255,255,255,0.5)', 
+        width: '35%'
+    },
 })

@@ -93,7 +93,7 @@ class Intro extends Component {
                         title='Đăng kí'
                         fontSize={18}
                         buttonStyle={styles.button}
-                        onPress={() => this.props.navigation.navigate('Register')}
+                        onPress={() => this.props.navigation.navigate('VerifyPhone')}
                     />
                 </View>
             </View>

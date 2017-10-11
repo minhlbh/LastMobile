@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { StackNavigator } from "react-navigation";
 import Login from '../auth/screens/Login';
-import Register from '../auth/screens/Register';
+import VerifyPhone from '../auth/screens/VerifyPhone';
 import ConfirmCode from '../auth/screens/ConfirmCode';
 import CreateAccount from '../auth/screens/CreateAccount';
 
@@ -12,8 +12,8 @@ export default (LoginStack = StackNavigator({
             header: null
         }
     },
-    Register: {
-        screen: Register,
+    VerifyPhone: {
+        screen: VerifyPhone,
         navigationOptions: {
             header: null
         }

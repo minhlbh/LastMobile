@@ -1,7 +1,11 @@
 import {
     LOGIN,
     LOGOUT,
-    REGISTER
+    REGISTER,
+    VERIFY_PHONE,
+    ACTION_TYPE,
+    VERIFY_CODE,
+    REGISTER_FB
 } from './auth.type';
 
 const initialState = {
@@ -9,12 +13,15 @@ const initialState = {
     isSigningOut: false,
     isAuthenticated: false,
     accessToken: null,
-    isPendingUser: false,
-    error: '',
-    isSigningUp: false,
-    isRegistered: false,
-    errorSignUp: '', 
+    error: '', 
     idU: null,
+    isPendingVerifyPhone: false,
+    phone: '',
+    messVerifyPhone: '',
+    isRegister: true,
+    code: null,
+    isPendingVerifyCode: false,
+    fbToken: null
 };
 
 export const authReducer = (state = initialState, action = {}) => {
@@ -54,25 +61,50 @@ export const authReducer = (state = initialState, action = {}) => {
                 isSigningOut: false,
                 error: action.payload,
             };
-        case REGISTER.PENDING:
+        case VERIFY_PHONE.PENDING: 
             return {
                 ...state,
-                isSigningUp: true,
-                isRegistered: false,
-            };
-        case REGISTER.SUCCESS:
+                isPendingVerifyPhone: true,
+            }
+        case VERIFY_PHONE.SUCCESS: 
             return {
                 ...state,
-                isSigningUp: false,
-                isRegistered: true,
-                idU: action.payload
-            };
-        case REGISTER.FAILURE:
+                isPendingVerifyPhone: false,
+                phone: action.payload,
+                messVerifyPhone: action.mess
+            }
+        case VERIFY_PHONE.FAILURE:
             return {
                 ...state,
-                isSigningUp: false,
-                errorSignUp: action.payload,
-            };
+                isPendingVerifyPhone: false,
+            }
+        case ACTION_TYPE:
+            return {
+                ...initialState,
+                isRegister: action.payload
+            }
+        case VERIFY_CODE.PENDING: 
+            return {
+                ...state,
+                isPendingVerifyCode: true,
+            }
+        case VERIFY_CODE.SUCCESS: 
+            return {
+                ...state,
+                isPendingVerifyCode: false,
+                code: action.payload
+            }
+        case VERIFY_CODE.FAILURE:
+            return {
+                ...state,
+                isPendingVerifyCode: false,
+            }
+        case REGISTER_FB :
+            return {
+                ...initialState,
+                isRegister: true,
+                fbToken: action.payload
+            }
         default:
             return state;
     }

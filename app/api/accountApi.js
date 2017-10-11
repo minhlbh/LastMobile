@@ -20,106 +20,6 @@ var accountApi = {
         })
             .then((response) => response.json())
     },
-    signUp(name, email, phone, pass) {
-        let details = {
-            HoVaTen: name,
-            Email: email,
-            Phone: phone,
-            Password: pass,
-        };
-
-        var url = apiUrl.signUp;
-        return fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: postFormBody(details),
-        })
-            .then((response) => response.json())
-    },
-    confirmPhone(idU, code, phone) {
-        let details = {
-            PhoneNumber: phone,
-            Code: code,
-        };
-
-        var url = `${apiUrl.confirmPhone}?IdU=${idU}`;
-        return fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: postFormBody(details),
-        })
-            .then((response) => response.json())
-    },
-    forgotPassword(phone) {
-        let details = {
-            phone: phone,
-        };
-
-        var url = apiUrl.forgotPassword;
-        return fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: postFormBody(details),
-        })
-            .then((response) => response.json())
-    },
-    forgotPassConfirm(idU, phone, pass, code) {
-        let details = {
-            Code: code,
-            PhoneNumber: phone,
-            Password: pass,
-        };
-        var url = `${apiUrl.forgotPassword}?IdU=${idU}`;
-        return fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: postFormBody(details),
-        })
-            .then((response) => response.json())
-    },
-    checkFacebookLogin(id,email,token){
-        let details = {
-            id: id,
-            email: email,
-            token: token,
-        };
-
-        var url = `${apiUrl.checkFacebookLogin}`;
-        return fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: postFormBody(details),
-        })
-            .then((response) => response.json())
-    },
-    socialRegister(id,token,phone,email){
-        let details = {
-            id: id,
-            email: email,
-            token: token,
-            phone: phone,
-        };
-
-        var url = `${apiUrl.socialRegister}`;
-        return fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: postFormBody(details),
-        })
-            .then((response) => response.json())
-    },
     getUserInfo(value){
         var url = `${apiUrl.userInfo}`;
         return fetch(url,{
@@ -166,6 +66,134 @@ var accountApi = {
             }
         }).then((response) => response.json())
     },
+    getCodeVerify(phone, isRegister){
+        var url = `${apiUrl.getCodeVerify}?phone=${phone}&register=${isRegister}`;
+        return fetch(url).then(res => {
+            
+            if(res.status !== 200){
+                console.log(JSON.parse(res._bodyText).Message)
+                let error = new Error(JSON.parse(res._bodyText).Message);
+                    //error.message = JSON.parse(res._bodyText).Message;
+                throw error;
+            } else {
+                return res.json()
+            }
+        });
+    },
+    verifycode(phone, code){
+        let details = {
+            code: code,
+            phone: phone,
+        };
+        var url = `${apiUrl.verifyCode}`;
+        return fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: postFormBody(details),
+        }).then(res => {
+            if(res.status !== 200){
+                console.log(JSON.parse(res._bodyText).Message)
+                let error = new Error(JSON.parse(res._bodyText).Message);
+                throw error;
+            } else {
+                return res.json()
+            }
+        });
+    },
+    register(phone,HoVaTen,code,password,avatar_url,facebook_token,Id){
+        let details = {
+            phone: phone, 
+            HoVaTen: HoVaTen,
+            code: code,
+            password: password,
+            avatar_url: avatar_url,
+            facebook_token: facebook_token ,
+            Id: Id 
+        };
+        var url = `${apiUrl.register}`;
+        return fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: postFormBody(details),
+        }).then(res => {
+            if(res.status !== 200){
+                console.log(JSON.parse(res._bodyText).Message)
+                console.log(res)                
+                let error = new Error(JSON.parse(res._bodyText).Message);
+                throw error;
+            } else {
+                return res.json()
+            }
+        }); 
+    },
+    forgotPass(phone,code,password,avatar_url,Id){
+        let details = {
+            phone: phone, 
+            code: code,
+            password: password,
+            avatar_url: avatar_url,
+            Id: Id 
+        };
+        var url = `${apiUrl.forgotUpdate}`;
+        return fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: postFormBody(details),
+        }).then(res => {
+            if(res.status !== 200){
+                console.log(JSON.parse(res._bodyText).Message)
+                console.log(res)                
+                let error = new Error(JSON.parse(res._bodyText).Message);
+                throw error;
+            } else {
+                return res.json()
+            }
+        }); 
+    },
+    getUserByPhone(phone){
+        var url = `${apiUrl.uInfo}?phone=${phone}`;
+        return fetch(url).then(res => {
+            
+            if(res.status !== 200){
+                console.log(JSON.parse(res._bodyText).Message)
+                let error = new Error(JSON.parse(res._bodyText).Message);
+                    //error.message = JSON.parse(res._bodyText).Message;
+                throw error;
+            } else {
+                return res.json()
+            }
+        });
+    },
+    loginFb(id,email,token){
+        let details = {
+           id: id,
+           email: email,
+           token: token
+        };
+        var url = `${apiUrl.fblogin}`;
+        return fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: postFormBody(details),
+        }).then(res => {
+            if(res.status !== 200){
+                console.log(JSON.parse(res._bodyText).Message)
+                console.log(res)                
+                let error = new Error(JSON.parse(res._bodyText).Message);
+                throw error;
+            } else {
+                return res.json()
+            }
+        }); 
+    }
 };
 
 

@@ -1,4 +1,4 @@
-import { AsyncStorage } from 'react-native';
+import { AsyncStorage, ToastAndroid } from 'react-native';
 import accountApi from '../api/accountApi';
 import FBSDK, { LoginManager, AccessToken } from 'react-native-fbsdk';
 
@@ -7,15 +7,20 @@ import {
     LOGIN,
     LOGOUT,
     REGISTER,
+    VERIFY_PHONE,
+    ACTION_TYPE,
+    VERIFY_CODE,
+    REGISTER_FB
 } from './auth.type';
 
-export const auth = (user, pass) => {
+export const auth = (user, pass,navigation) => {
     return dispatch => {
         if(user.length <9 && pass.length < 6){
             dispatch({
                 type: LOGIN.FAILURE,
                 payload: 'Số điện thoại hoặc mặt khẩu k đúng định dạng',
             });
+            ToastAndroid.show('Số điện thoại hoặc mặt khẩu k đúng định dạng', ToastAndroid.SHORT);
             return
         }
         dispatch({ type: LOGIN.PENDING });
@@ -27,12 +32,13 @@ export const auth = (user, pass) => {
                         payload: data.access_token,
                     });
                     AsyncStorage.setItem('access_token', data.access_token);
-                    //this.props.navigation.navigate('Tabs');   
+                    navigation.navigate('Tabs');   
                 } else {
                     dispatch({
                         type: LOGIN.FAILURE,
                         payload: "Số điện thoại hoặc mật khẩu sai!",
                     });
+                    ToastAndroid.show("Số điện thoại hoặc mật khẩu sai!", ToastAndroid.SHORT);
                 }
             })
             .catch(error => {
@@ -44,7 +50,7 @@ export const auth = (user, pass) => {
     };
 };
 
-export const authWithFb = () => {
+export const authWithFb = (navigation) => {
     return dispatch => {
         dispatch({ type: LOGIN.PENDING });
         LoginManager.logInWithReadPermissions(['email']).then(
@@ -58,28 +64,25 @@ export const authWithFb = () => {
                                 .then((response) => response.json())
                                 .then((res) => {
                                     console.log('facebook',data.userID, res.email, data.accessToken.toString());
-                                    accountApi.checkFacebookLogin(data.userID, res.email, data.accessToken.toString()).then(response => {
-                                        console.log(response);
-                                        if (response == 'Email chưa được dùng đăng kí tài khoản nào!') {
-                                            // this.props.navigation.navigate("InputPhone", {
-                                            //     id: data.userID,
-                                            //     email: res.email,
-                                            //     token: data.accessToken.toString()
-                                            // });
-                                            alert(response)
-                                        } else if (response.access_token) {
+                                    accountApi.loginFb(data.userID, res.email, data.accessToken.toString()).then(response => {
+                                        if (response.access_token) {
                                             dispatch({
                                                 type: LOGIN.SUCCESS,
                                                 payload: response.access_token,
                                             });
                                             AsyncStorage.setItem('access_token', response.access_token);
-                                        } else {
-                                            dispatch({
-                                                type: LOGIN.FAILURE,
-                                                payload: response,
-                                            });
-                                        };
+                                            ToastAndroid.show('Đăng nhập thành công',ToastAndroid.SHORT);
+                                            navigation.navigate('Tabs');   
+                                        }               
                                     }).catch(error => {
+                                        if(error.message == 'dangky') {
+                                            dispatch({
+                                                type: REGISTER_FB,
+                                                payload: data.accessToken.toString(),
+                                            });
+                                            ToastAndroid.show('Bạn cần đăng kí số điện thoại',ToastAndroid.SHORT);
+                                            navigation.navigate('VerifyPhone');
+                                        }
                                         dispatch({
                                             type: LOGIN.FAILURE,
                                             payload: error,
@@ -91,7 +94,7 @@ export const authWithFb = () => {
                 }
             },
             function (error) {
-                alert('Đăng nhập xảy ra lỗi: ' + error);
+                ToastAndroid.show('Đăng nhập xảy ra lỗi: ' + error,ToastAndroid.SHORT);
             },
         )
     };
@@ -106,51 +109,15 @@ export const authByAsyncStorage = (token) => {
     };
 }
 
-export const register = (name, phone, email, pass) => {
+export const storeToken = (token) => {
     return dispatch => {
-        dispatch({ type: REGISTER.PENDING });
-        if (!name) {
-            dispatch({
-                type: REGISTER.FAILURE,
-                payload: "Chưa nhập họ và tên",
-            });
-        } else if (!phone) {
-            dispatch({
-                type: REGISTER.FAILURE,
-                payload: "Chưa nhập số điện thoại",
-            });
-        } else if (!pass) {
-            dispatch({
-                type: REGISTER.FAILURE,
-                payload: "Chưa nhập mật khẩu",
-            });
-        } else {
-            accountApi.signUp(name, email, phone, pass).then(data => {
-                console.log(data);
-                if (data.Id) {
-                    console.log(data);
-                    console.log(data);
-                    dispatch({
-                        type: REGISTER.SUCCESS,
-                        payload: data.Id
-                    });
-                } else {
-                    dispatch({
-                        type: REGISTER.FAILURE,
-                        payload: data,
-                    });
-                }
-            })
-                .catch(error => {
-                    dispatch({
-                        type: REGISTER.FAILURE,
-                        payload: '',
-                    });
-                });
-        }
-
+        AsyncStorage.setItem('access_token', token);
+        dispatch({
+            type: LOGIN.SUCCESS,
+            payload: token,
+        });
     };
-};
+}
 
 export const signOut = () => {
     return dispatch => {
@@ -170,3 +137,73 @@ export const signOut = () => {
             });
     };
 };
+
+export const vefifyPhone = (phone, navigation) => {
+    return ( dispatch, getState) => {
+        if(phone.length <= 9  ){
+            ToastAndroid.show('Số điện thoại không đúng định dạng', ToastAndroid.SHORT); 
+            return 
+        }
+        dispatch({ type: VERIFY_PHONE.PENDING }); 
+        accountApi.getCodeVerify(phone, getState().auth.isRegister).then(res => {
+            console.log(res);
+            if(res.err){
+                dispatch({
+                    type: VERIFY_PHONE.FAILURE,
+                });
+                ToastAndroid.show(res.mess, ToastAndroid.SHORT); 
+            }else {
+                dispatch({
+                    type: VERIFY_PHONE.SUCCESS,
+                    payload: phone,
+                    mess: res.mess
+                });
+                navigation.navigate('ConfirmCode')
+            }
+        }) .catch(error => {
+            dispatch({
+                type: VERIFY_PHONE.FAILURE,
+            });
+            ToastAndroid.show(error.message, ToastAndroid.SHORT); 
+        });    
+    }
+}
+
+export const actionTypeIsRegister = (isRegister ) => {
+    return dispatch => {
+        dispatch({
+            type: ACTION_TYPE,
+            payload: isRegister
+        });
+    }
+}
+
+export const verifyCode= (code, navigation) => {
+    return( dispatch, getState)=> {
+        if(code.length !== 6) {
+            ToastAndroid.show('Mã xác thực phải đủ 6 kí tự', ToastAndroid.SHORT);
+            return 
+        }
+        dispatch({ type: VERIFY_CODE.PENDING }); 
+        accountApi.verifycode(getState().auth.phone,code).then(res => {
+            console.log(res);
+            if(res.err){
+                dispatch({
+                    type: VERIFY_CODE.FAILURE,
+                });
+                ToastAndroid.show(res.mess, ToastAndroid.SHORT); 
+            }else {
+                dispatch({
+                    type: VERIFY_CODE.SUCCESS,
+                    payload: code
+                });
+                navigation.navigate('CreateAccount', {code: code});
+            }
+        }) .catch(error => {
+            dispatch({
+                type: VERIFY_CODE.FAILURE,
+            });
+            ToastAndroid.show(error.message, ToastAndroid.SHORT); 
+        });    
+    }
+}

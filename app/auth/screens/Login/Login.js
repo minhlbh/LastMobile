@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-    View, Text, StyleSheet, TouchableOpacity, TextInput, ActivityIndicator,ToastAndroid
+    View, Text, StyleSheet, TouchableOpacity, TextInput, ActivityIndicator,ToastAndroid,Image
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {
@@ -22,30 +22,22 @@ class Login extends Component {
         }
     }
 
-    componentDidUpdate() {
-        if (this.props.isAuthenticated) {
-            this.props.navigation.navigate('Tabs');
-        }
-    }
     login() {
         const { username, password } = this.state;
-        this.props.auth(username, password);
+        this.props.auth(username, password, this.props.navigation);
     }
     _loginFacebook() {
-        this.props.authWithFb();
+        this.props.authWithFb(this.props.navigation);
     }
 
     getLoginMess() {
-        const { isLoggingIn, isAuthenticated, error } = this.props;
+        const { isLoggingIn, isAuthenticated, error,  } = this.props;
         if (isLoggingIn) return (
             <Loading animating={isLoggingIn} center />)
         if (error) return (<ErrorText error={error} center />)
     }
     render() {
-        const { isAuthenticated, isLoggingIn, navigation ,error} = this.props;
-        if(error){
-            ToastAndroid.show(error, ToastAndroid.SHORT);            
-        }
+        const { isAuthenticated, isLoggingIn, navigation ,error,actionTypeIsRegister} = this.props;
         return (
             <View style={{ flex: 1 }}>
                 <LinearGradient
@@ -54,7 +46,8 @@ class Login extends Component {
                     <View style={{ flex: 7 }}>
                         <View style={{ flex: 2, justifyContent: 'flex-end' }}>
                             <View style={{ alignItems: 'center' }}>
-                                <Text style={styles.textSymbol}>Trưởng khoa</Text>
+                                <Image source={images.logo}
+                                style={{ width: 150, height: 150, }} />
                                 <FormInput
                                     placeholder='Số điện thoại'
                                     placeholderTextColor='rgba(255,255,255,0.5)'
@@ -76,7 +69,12 @@ class Login extends Component {
 
                             <ButtonAuth isPending={isLoggingIn} onPress={() => this.login()} title='Đăng nhập' />
 
-                            <TouchableOpacity style={{ alignSelf: 'center', marginTop: 20 }}>
+                            <TouchableOpacity style={{ alignSelf: 'center', marginTop: 20 }}
+                                onPress={() => {
+                                    navigation.navigate('VerifyPhone')
+                                    actionTypeIsRegister(false)
+                                }}
+                            >
                                 <Text style={styles.text}>Quên mật khẩu?</Text>
                             </TouchableOpacity>
                         </View>
@@ -103,7 +101,10 @@ class Login extends Component {
                             </View>
                             <View style={{ flex: 1, justifyContent: 'flex-end' }}>
                                 <ButtonAuthFooter
-                                    onPress={() => navigation.navigate('Register')}
+                                    onPress={() => {
+                                        navigation.navigate('VerifyPhone')
+                                        actionTypeIsRegister(true)
+                                    }}
                                     text='Bạn chưa có tài khoản?'
                                     textBold='Đăng kí'
                                 />
