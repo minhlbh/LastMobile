@@ -1,11 +1,12 @@
 import accountApi from '../api/accountApi';
-
+import {ToastAndroid} from 'react-native';
+import {getProfiles} from '../user/user.action';
 
 import {
     CREATE_FAST_PROFILE
 } from './profile.type';
 
-export const createFastProfile = (name, birth,gender,avatar) => {
+export const createFastProfile = (name, birth,gender,avatar, navigation) => {
     return ( dispatch, getState) => {
     const accessToken = getState().auth.accessToken;
       dispatch({ type: CREATE_FAST_PROFILE.PENDING });
@@ -15,6 +16,9 @@ export const createFastProfile = (name, birth,gender,avatar) => {
                 dispatch({
                     type: CREATE_FAST_PROFILE.SUCCESS,
                 });
+                dispatch(getProfiles());
+                ToastAndroid.show('Tạo hồ hơ nhanh thành công', ToastAndroid.SHORT);
+                navigation.goBack();
             } else {
                 dispatch({
                     type: LOGIN.FAILURE,

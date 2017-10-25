@@ -91,11 +91,11 @@ class Home extends Component {
                         <FixedHeader icon1='notifications' icon2='settings' handleIconPress2={() => this.signOut()} />
                     )}
                     renderForeground={() => (
-                        <HeaderForeground name='Trưởng Khoa' />
+                        <HeaderForeground name='Sputnich' />
                     )}
                     stickyHeaderHeight={40}
                     renderStickyHeader={() => (
-                        <StickyHeader name='Trưởng Khoa' />
+                        <StickyHeader name='Sputnich' />
                     )}
                 >
                     {isPendingUser && <Loading center animating={isPendingUser} />}
@@ -115,6 +115,30 @@ class Home extends Component {
                             featured
                         />
                     </View>
+                    
+                    {/* BÁC SĨ */}
+                    <View style={styles.listContainer}>
+                        <View style={styles.headerListContainer}>
+                            <View style={{ flex: 1 }}><Text style={styles.textDividerTitle}>BÁC SĨ CỦA TÔI</Text></View>
+                            {DsBacSiCuaToi.length > 5 &&
+                                <TouchableOpacity onPress={() => navigation.navigate('Doctor')}>
+                                    <View style={{ flex: 1, alignItems: 'flex-end', }}><Text style={styles.textdivider}> xem toàn bộ</Text></View>
+                                </TouchableOpacity>}
+                        </View>
+                        <ListDoctors doctorsList={DsBacSiCuaToi} onPress={(item) => this.showDoctorInfoPopup(item)}/>
+                        {DsBacSiCuaToi.length ==0 &&
+                            <EmtyList 
+                                info={{
+                                    image: images.icon.doctorHome,
+                                    text1: 'Bạn chưa kết nối với bác sĩ',
+                                    btnIconName: 'ios-search-outline', btnIconType: 'ionicon', 
+                                    btnText: 'Gặp bác sĩ tư vấn',
+                                    color: '#42B72A'
+                                }}
+                                onPress={() => this.gapBacSi()}
+                            />}
+                    </View>
+
                     {/* HỒ SƠ BỆNH ÁN */}
                     <View style={styles.listContainer}>
                         <View style={styles.headerListContainer}>
@@ -148,29 +172,6 @@ class Home extends Component {
                         />}
                         
                     </View>
-                    {/* BÁC SĨ */}
-                    <View style={styles.listContainer}>
-                        <View style={styles.headerListContainer}>
-                            <View style={{ flex: 1 }}><Text style={styles.textDividerTitle}>BÁC SĨ CỦA TÔI</Text></View>
-                            {DsBacSiCuaToi.length > 5 &&
-                                <TouchableOpacity onPress={() => navigation.navigate('Doctor')}>
-                                    <View style={{ flex: 1, alignItems: 'flex-end', }}><Text style={styles.textdivider}> xem toàn bộ</Text></View>
-                                </TouchableOpacity>}
-                        </View>
-                        <ListDoctors doctorsList={DsBacSiCuaToi} onPress={(item) => this.showDoctorInfoPopup(item)}/>
-                        {DsBacSiCuaToi.length ==0 &&
-                        <EmtyList 
-                            info={{
-                                image: images.icon.doctorHome,
-                                text1: 'Bạn chưa kết nối với bác sĩ',
-                                btnIconName: 'ios-search-outline', btnIconType: 'ionicon', 
-                                btnText: 'Gặp bác sĩ tư vấn',
-                                color: '#42B72A'
-                            }}
-                            onPress={() => this.gapBacSi()}
-                        />}
-                    </View>
-
                     {/* LỊCH SỬ KHÁM CHỮA */}
                     <View style={styles.listContainer}>
                         <View style={styles.headerListContainer}>

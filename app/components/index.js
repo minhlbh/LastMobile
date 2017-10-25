@@ -12,3 +12,4 @@ export * from './error-text';
 export * from './input-code';
 export * from './emty-list';
 export * from './doctor-info-popup';
+export * from './view-container'

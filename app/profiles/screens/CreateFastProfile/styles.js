@@ -1,46 +1,25 @@
 import { StyleSheet } from 'react-native';
 export default StyleSheet.create({
-    button1: {
-        borderWidth: 1.5,
-        borderColor: '#5198D0',
-        backgroundColor: 'white',
-        borderRadius: 20,
-        width: 100,
-        height: 40,
+    text: {
+        color: 'black',
     },
-    buttonText1: {
-        color: '#0E81FF',
-        paddingTop: 5,
-        paddingLeft: 10,
-        fontSize: 18,
-    },
-    buttonText2: {
-        color: '#686868',
-        paddingTop: 5,
-        paddingLeft: 15,
-        fontSize: 18,
-    },
-    container: {
+    AvatarandName: {
+        alignItems: 'center',
         justifyContent: 'center',
-        paddingTop: 30,
-        backgroundColor: 'white',
-        flex: 1
+        flex: 1.5
     },
-    avatar: {
-        width: 100,
-        height: 100,
-        alignSelf: 'center',
-        marginBottom:10
+    itemList: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        height: 50,
+        borderBottomWidth: 1,
+        borderBottomColor: '#D7D7D7'
     },
-    form :{
-        borderWidth: 1, 
-        marginLeft: 10, 
-        marginRight: 10,
-    },
-    buttonContainer: { 
-        flexDirection: 'row', 
-        alignSelf: 'center', 
-        paddingTop: 20, 
-        marginBottom: 20 
+    textDivider: {
+        height: 40,
+        borderBottomWidth: 1,
+        justifyContent: 'center',
+        borderColor: '#D7D7D7',
+        backgroundColor: '#F8F8F8'
     }
 })

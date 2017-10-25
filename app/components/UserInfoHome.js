@@ -3,14 +3,17 @@ import {View,StyleSheet } from 'react-native';
 import {
      Text,Avatar,Button
 } from 'react-native-elements';
- 
 
-export class UserInfoHome extends Component {
-    
-    render(){
-        const { userInfo} = this.props;
+
+type Props = {
+    userInfo: Object,
+    onPress: Function
+}  
+  
+
+export const UserInfoHome= ({userInfo ,onPress} : Props) =>{
         return(
-            <View>
+            <View style={styles.container}>
                 <View style={{ flexDirection: 'row', }}>
                     <View style={{ flex: 1.5, alignItems: 'center', }}>       
                         <Avatar
@@ -20,36 +23,15 @@ export class UserInfoHome extends Component {
                             activeOpacity={1}
                         />
                     </View>
-                    <View style={{ flex: 4 }}>
-                        <View style={{flexDirection: 'row'}}> 
-                            <View style={styles.infoView}>
-                                <Text style={styles.infoText}>{userInfo.TaiKhoanChinh} đ</Text>
-                                <Text style={styles.infoTextSub}> TK Chính </Text>
-                            </View>
-                            <View style={styles.infoView}>
-                                <Text style={styles.infoText}>{userInfo.TaiKhoanKhuyenMai}</Text>     
-                                <Text style={styles.infoTextSub}>Lượt xem HS </Text>                            
-                            </View>
-                            <View style={styles.infoView}>
-                                <Text style={styles.infoText}>20</Text>
-                                <Text style={styles.infoTextSub}> Lịch sử </Text>                            
-                            </View>                        
-                        </View>
-                        <Button 
-                            title='Gói tư vấn'
-                            borderRadius={4}
-                            backgroundColor='#F1F1F1'
-                            textStyle={{color: 'black', fontWeight: 'bold'}}
-                            buttonStyle={{height: 30}}
-                            containerViewStyle={{marginTop: 6}}
-                        />
+                    <View style={{ flex: 4 , justifyContent: 'center'}}>
+                        <Text style={styles.name}>{userInfo.HoVaTen}</Text>
+                        <Text style={styles.infoTextSub}> TK Chính: {userInfo.TaiKhoanChinh} đ </Text>
+                        <Text style={styles.infoTextSub}> Sổ y bạ: 0 sổ </Text>                      
                     </View>         
-                </View>
-                <Text style={styles.name}>{userInfo.HoVaTen}</Text>                 
+                </View>                         
             </View>
         )
     }
-}
 
 const styles = StyleSheet.create({
     infoTextSub:{
@@ -69,5 +51,9 @@ const styles = StyleSheet.create({
         fontSize: 18, 
         fontWeight: 'bold',
         color: 'black' 
+    },
+    container:{
+        backgroundColor: 'white',
+        paddingBottom: 10
     }
 })

@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
-import { View, Text, Image, TouchableOpacity } from 'react-native';
-import { FormInput, FormLabel, Header, Icon } from 'react-native-elements';
+import {
+    View, Text, Image, Picker, TouchableOpacity, StyleSheet,ToastAndroid
+} from 'react-native';
+import {
+    ListItem, FormInput, Button
+} from 'react-native-elements';
 import styles from './styles';
-import ModalDropdown from 'react-native-modal-dropdown';
+//import ModalDropdown from 'react-native-modal-dropdown';
 import {createFastProfile} from '../../profile.action';
 import {connect } from 'react-redux';
-import {ErrorText, Loading} from '../../../components';
+import {ErrorText, Loading, ViewContainer} from '../../../components';
 import {getProfiles} from '../../../user/user.action';
 var ImagePicker = require('react-native-image-picker');
 import images from '../../../config/images';
@@ -22,11 +26,14 @@ var options = {
 class CreateProfile extends Component {
     constructor(props){
         super(props);
+        var currentTime = new Date();
+        var year = currentTime.getFullYear()
         this.state = {
-            birth: '',
+            birth: year,
             name: '',
-            gender: '',
-            avatar:{}
+            gender: 'Nam',
+            avatar:{},
+            moTa: ''
         }
     }
 
@@ -60,104 +67,120 @@ class CreateProfile extends Component {
         });
     }
 
-    _renderLeftHeader() {
-        return (
-            <Icon
-                name='keyboard-arrow-left'
-                color='black'
-                onPress={() => this.props.navigation.goBack()}
-            />
-        )
-    }
-
     disableButton(){
         const {name,birth,gender} = this.state;
-        if(name && birth && gender) return false;
+        const {isPeddingCreateProfile} = this.props;        
+        if(name && birth && gender && !isPeddingCreateProfile) return false;
         return true;
     }
 
-    componentDidUpdate(){
-        const {isPeddingCreateProfile,isCreatedProfile,getProfiles,navigation} = this.props;
-        if(isCreatedProfile){
-            getProfiles();
-            alert('Tạo hồ hơ nhanh thành công');
-            navigation.goBack();
-        }
-    }
     createProfile(){
         const {name,birth,gender,avatar} = this.state;
-        this.props.createFastProfile(name,birth,gender,avatar.location);
+        this.props.createFastProfile(name,birth,gender,avatar.location, this.props.navigation);
     }
 
+    listYear = () => {
+        var currentTime = new Date();
+        var year = currentTime.getFullYear()
+
+        var listYear = [] ;
+        
+        for (var i = year; i > (year -100); i--) {
+            listYear.push(i);
+        }
+
+        return listYear;
+    }
     render() {
-        const {isPeddingCreateProfile,isCreatedProfile,error} = this.props;
+        const {isPeddingCreateProfile,isCreatedProfile,error, navigation} = this.props;
         const {avatar} = this.state;
+        var listYear = this.listYear();
         return (
-            <View style={styles.container}>
-                <Header
-                    outerContainerStyles={{ height: 45 }}
-                    leftComponent={this._renderLeftHeader()}
-                    centerComponent={{ text: 'Tạo Hồ Sơ', style: { color: 'black', fontSize: 18, fontWeight: 'bold' } }}
-                    rightComponent={{ icon: 'event-note', color: 'black' }}
-                />
-                <View style={{ alignItems: 'center' }}>
-                    <TouchableOpacity
-                        onPress={()=> this.pickImage()}
-                    >
-                        <Image
-                            source={{uri: avatar.uri? avatar.uri :'https://i0.wp.com/www.artstation.com/assets/default_avatar.jpg?ssl=1'}}
-                            style={{ width: 100, height: 100, marginBottom: 20, borderRadius: avatar ? 50 : 0  }}
-                            
-                        />
+            <ViewContainer
+                title='Tạo nhanh hồ sơ'
+                onBack={() => navigation.goBack()}
+            >      
+                <View style={styles.AvatarandName}>
+                    <TouchableOpacity onPress={()=> this.pickImage()}>
+                        <Image source={{ uri: avatar.uri? avatar.uri : 'https://www.shareicon.net/data/2015/09/09/98455_man_512x512.png' }}
+                            style={{ width: 100, height: 100 }} />
                     </TouchableOpacity>
+
+                    <FormInput
+                        containerStyle={{ alignSelf: 'center' }}
+                        underlineColorAndroid='transparent'
+                        value={this.state.hoTen}
+                        inputStyle={{ fontSize: 22, textAlign: 'center' }}
+                        onChangeText={(name) => this.setState({name})}
+                        maxLength={30}
+                        placeholder='Họ và tên'
+                    />
                 </View>
 
-                <View style={styles.form}>
-                    <View>
-                        <FormLabel>Họ tên</FormLabel>
-                        <FormInput
-                            placeholder='Nhập tên'
-                            onChangeText={(name) => this.setState({name})}                            
-                        />
+                <View style={{ flex: 3 }}>
+                    <View style={styles.itemList}>
+                        <View style={{ flex: 4, paddingLeft: 20 }}>
+                            <Text style={styles.text}>Giới tính</Text>
+                        </View>
+                        <View style={{ flex: 2 }}>
+                            <Picker
+                                mode='dropdown'
+                                selectedValue={this.state.gender}
+                                onValueChange={(itemValue, itemIndex) => this.setState({ gender: itemValue })}
+                            >
+                                <Picker.Item label='Nam' value='Nam' />
+                                <Picker.Item label='Nữ' value='Nữ' />
+                            </Picker>
+                        </View>
                     </View>
-                    <View>
-                        <FormLabel>Năm sinh</FormLabel>
-                        <FormInput
-                            placeholder='Năm sinh'
-                            onChangeText={(birth) => this.setState({birth})}
-                        />
-                        <FormLabel>Giới tính: </FormLabel>
-                        <ModalDropdown options={['Nam', 'Nữ']}
-                            style={{ marginTop: 10, marginLeft: 18 }}
-                            textStyle={{ fontSize: 15 }}
-                            dropdownStyle={{ width: 80, height: 90 }}
-                            dropdownTextStyle={{ fontSize: 15 }}
-                            defaultValue={"Chọn giới tính..."}
-                            onSelect={(index,value)=> this.setState({gender: value})}                            
-                        />
-                    </View>
-                    <View style={{marginTop: 10}}>
-                        {isPeddingCreateProfile && <Loading center animating={isPeddingCreateProfile}/>}
-                        {error && <ErrorText center error={error}/>}
-                    </View>
-                    <View style={styles.buttonContainer}>
-                        <TouchableOpacity style={{ marginLeft: -10 }} 
-                            disabled={this.disableButton()}
-                            onPress={() =>this.createProfile()}
-                        >
-                            <View style={styles.button1}>
-                                <Text style={styles.buttonText1}>Tạo hồ sơ</Text>
-                            </View>
-                        </TouchableOpacity>
 
-                        <TouchableOpacity style={{ marginLeft: 30 }}>
-                            <View style={styles.button}>
-                                <Text style={styles.buttonText2}>Hủy bỏ</Text>
-                            </View>
-                        </TouchableOpacity>
+                    <View style={styles.itemList}>
+                        <View style={{ flex: 4, paddingLeft: 20 }}>
+                            <Text style={styles.text}>Năm sinh</Text>
+                        </View>
+                        <View style={{ flex: 2 }}>
+                            <Picker
+                                mode='dialog'
+                                selectedValue={this.state.birth}
+                                onValueChange={(itemValue, itemIndex) => this.setState({ birth: itemValue })}
+                            >
+                                {listYear.map((item) => (
+                                    <Picker.Item label={`${item}`} value={item} />                                    
+                                ))}
+                            </Picker>
+                        </View>
+                    </View>
+
+                    <View style={styles.textDivider}>
+                        <Text style={[styles.text, { paddingLeft: 20 }]}>Ghi chú</Text>
+                    </View>
+                    <View style={{}}>
+                        <FormInput
+                            placeholder='Mô tả triệu chứng, vấn đề...'
+                            underlineColorAndroid='transparent'
+                            containerStyle={{ height: 150 }}
+                            multiline={true}
+                            inputStyle={{ textAlignVertical: 'top', height: 150 }}
+                            value={this.state.moTa}
+                            onChangeText={(des) => this.setState({ moTa: des })}
+                        />
                     </View>
                 </View>
-            </View>
+                <View style={{marginTop: 10}}>
+                    {isPeddingCreateProfile && <Loading center animating={isPeddingCreateProfile}/>}
+                    {error && <ErrorText center error={error}/>}
+                </View>
+
+                <Button
+                    title='Tạo sổ y bạ'
+                    textStyle={{ fontSize: 18 }}
+                    containerViewStyle={{ flex: 0.5 }}
+                    buttonStyle={{ backgroundColor: '#00749B' }}
+                    borderRadius={20}
+                    disabled={this.disableButton()}
+                    onPress={() =>this.createProfile()}
+                />
+            </ViewContainer>
         )
     }
 }
