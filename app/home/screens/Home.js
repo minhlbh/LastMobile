@@ -31,6 +31,7 @@ class Home extends Component {
             doctorInfo :{}, 
             showDoctorInfo: false
         }
+        this.gapBacSi = this.gapBacSi.bind(this);
     }
     componentWillMount() {
         const {getProfiles ,getUserInfo} = this.props;
@@ -111,7 +112,7 @@ class Home extends Component {
                             imageSrc={{ uri: images.khamOnline }}
                             imageContainerStyle={{ height: 100, }}
                             title="Gặp bác sĩ"
-                            onPress={ this.gapBacSi.bind(this)}
+                            onPress={this.gapBacSi}
                             featured
                         />
                     </View>
@@ -135,7 +136,7 @@ class Home extends Component {
                                     btnText: 'Gặp bác sĩ tư vấn',
                                     color: '#42B72A'
                                 }}
-                                onPress={() => this.gapBacSi()}
+                                onPress={this.gapBacSi}
                             />}
                     </View>
 

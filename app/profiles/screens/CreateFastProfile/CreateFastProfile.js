@@ -27,7 +27,8 @@ class CreateProfile extends Component {
     constructor(props){
         super(props);
         var currentTime = new Date();
-        var year = currentTime.getFullYear()
+        var year = currentTime.getFullYear();
+        this.pickImage = this.pickImage.bind(this);
         this.state = {
             birth: year,
             name: '',
@@ -101,7 +102,7 @@ class CreateProfile extends Component {
                 onBack={() => navigation.goBack()}
             >      
                 <View style={styles.AvatarandName}>
-                    <TouchableOpacity onPress={()=> this.pickImage()}>
+                    <TouchableOpacity onPress={this.pickImage}>
                         <Image source={{ uri: avatar.uri? avatar.uri : 'https://www.shareicon.net/data/2015/09/09/98455_man_512x512.png' }}
                             style={{ width: 100, height: 100 }} />
                     </TouchableOpacity>

@@ -76,29 +76,43 @@ export const getListChuyenKhoa = () => {
 
 export const storeDoctorInfo = () => {
     return ( dispatch, getState) => {
-        const proxy = getState().kham.proxy;
-        dispatch({ type: STORE_BAC_SI_INFO.PENDING })
-        proxy.on('timBacSiTheoChuyenKhoa_KetQua', (KetQua, IdDichVu, TenDichVu, GiaTien, BacSiId, HoVaTen, Avatar, GioiThieuNhanh) => {
-            console.log(KetQua)
-            if (!BacSiId) { //Nếu k có id bác sĩ trả về thì báo kết quả 
-                alert(KetQua);
-                dispatch({ type: STORE_BAC_SI_INFO.FAILURE })
-            } else { //Nếu có chuyển sang trang bác sĩ
-                var data = {
-                    idDichVu: IdDichVu,
-                    tenDichVu: TenDichVu,
-                    giaTien: GiaTien,
-                    bacSiId: BacSiId,
-                    hoVaTen: HoVaTen,
-                    avatar: Avatar,
-                    gioiThieuNhanh: GioiThieuNhanh
-                }
-                dispatch({
-                    type: STORE_BAC_SI_INFO.SUCCESS,
-                    payload: data,
-                });
-            }
+        var data = {
+            idDichVu: '123456789',
+            tenDichVu: 'Khám chữa bệnh',
+            giaTien: '1000000',
+            bacSiId: '123556568',
+            hoVaTen: 'Phúc Đỗ',
+            avatar: 'https://media.gq.com/photos/56eb1c3f1740841549748e55/master/w_1600/david-beckham-gq-0416-2.jpg',
+            gioiThieuNhanh: 'Khám chữa bệnh'
+        }
+        dispatch({
+            type: STORE_BAC_SI_INFO.SUCCESS,
+            payload: data,
         });
+
+        // const proxy = getState().kham.proxy;
+        // dispatch({ type: STORE_BAC_SI_INFO.PENDING })
+        // proxy.on('timBacSiTheoChuyenKhoa_KetQua', (KetQua, IdDichVu, TenDichVu, GiaTien, BacSiId, HoVaTen, Avatar, GioiThieuNhanh) => {
+        //     console.log(KetQua)
+        //     if (!BacSiId) { //Nếu k có id bác sĩ trả về thì báo kết quả 
+        //         alert(KetQua);
+        //         dispatch({ type: STORE_BAC_SI_INFO.FAILURE })
+        //     } else { //Nếu có chuyển sang trang bác sĩ
+        //         var data = {
+        //             idDichVu: IdDichVu,
+        //             tenDichVu: TenDichVu,
+        //             giaTien: GiaTien,
+        //             bacSiId: BacSiId,
+        //             hoVaTen: HoVaTen,
+        //             avatar: Avatar,
+        //             gioiThieuNhanh: GioiThieuNhanh
+        //         }
+        //         dispatch({
+        //             type: STORE_BAC_SI_INFO.SUCCESS,
+        //             payload: data,
+        //         });
+        //     }
+        // });
     };
 };
 
