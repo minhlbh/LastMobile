@@ -12,4 +12,6 @@ export * from './error-text';
 export * from './input-code';
 export * from './emty-list';
 export * from './doctor-info-popup';
-export * from './view-container'
+export * from './view-container';
+export * from './finding-doctor-modal';
+export * from './animation-view';

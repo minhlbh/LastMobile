@@ -12,6 +12,7 @@ const images = {
         doctorHome: require('../images/icons/doctor.png'),
         folderHome: require('../images/icons/folder.png'),
         chatHome: require('../images/icons/chat.png'),
-    }
+    },
+    defaultDoctor: require('../images/default_doctor.png')
 }
 export default images;

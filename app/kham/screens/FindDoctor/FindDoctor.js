@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-    View, TouchableOpacity, Picker, Switch, TextInput, FlatList, Image
+    View, TouchableOpacity, Picker, Switch, TextInput, FlatList, Image,Modal
 } from 'react-native';
 import {
     Text, Icon, ListItem, Divider, Button, List, Avatar, FormInput
@@ -11,12 +11,10 @@ import { HeaderForeground, StickyHeader, FixedHeader } from '../../../components
 import { connect } from 'react-redux';
 import * as khamAction from '../../kham.action';
 import khamApi from '../../../api/khamApi';
-import ModalDropdown from 'react-native-modal-dropdown';
-import FoundDoctor from '../FoundDoctor';
+import { ListProfiles , FindingDoctorModal} from '../../../components';
 import { resetNavigationTo } from '../../../utils';
 import images from '../../../config/images';
-
-var ImagePicker = require('react-native-image-picker');
+import  ImagePicker from 'react-native-image-picker';
 
 var options = {
     title: 'Chọn ảnh cho bác sĩ xem',
@@ -29,11 +27,13 @@ class FindDoctor extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            idHoso: '',
+            profile: {Avatar: images.defaultAvatar,HoVaTen: 'Chọn hồ sơ'},
             idKhoa: '',
             anDanh: false,
             vanDe: '',
             images: [],
+            isPickingProfile: false,
+            isFindingDoctor: false
         }
     }
 
@@ -41,6 +41,7 @@ class FindDoctor extends Component {
         this.props.getListChuyenKhoa();
         this.props.storeDoctorInfo();
     }
+
     pickImage() {
         ImagePicker.showImagePicker(options, (response) => {
             console.log('Response = ', response);
@@ -92,24 +93,20 @@ class FindDoctor extends Component {
     }
 
     findDoctor() {
-        const { idHoso, idKhoa, anDanh, vanDe } = this.state;
-        const idGap = this.props.idGap;
-        this.props.proxy.invoke('timBacSiTheoChuyenKhoa', idKhoa, idHoso, anDanh, vanDe, idGap).done((directResponse) => {
-            console.log('timBacSiTheoChuyenKhoa success');
-        }).fail(() => {
-            console.warn('timBacSiTheoChuyenKhoa fail')
-            alert('Hiện các bác sĩ đang bận')
-        });
-    }
-
-    _onSelectedKhoa(index) {
-        this.setState({ idKhoa: this.props.listChuyenKhoa[index].Id })
-    }
-    _onSelectedHoSo(index) {
-        this.setState({ idHoso: this.props.profilesList[index].Id })
+        this.setState({isFindingDoctor: true})
+        // const { idHoso, idKhoa, anDanh, vanDe } = this.state;
+        // const idGap = this.props.idGap;
+        // this.props.proxy.invoke('timBacSiTheoChuyenKhoa', idKhoa, idHoso, anDanh, vanDe, idGap).done((directResponse) => {
+        //     console.log('timBacSiTheoChuyenKhoa success');
+        // }).fail(() => {
+        //     console.warn('timBacSiTheoChuyenKhoa fail')
+        //     alert('Hiện các bác sĩ đang bận')
+        // });
     }
     render() {
         var { profilesList, listChuyenKhoa, navigation } = this.props;
+        const {profile, isFindingDoctor} = this.state;
+        const {chuyenKhoa} =  navigation.state.params;
         return (
 
             <View style={styles.container}>
@@ -119,7 +116,7 @@ class FindDoctor extends Component {
                     contentBackgroundColor="white"
                     parallaxHeaderHeight={80}
                     renderFixedHeader={() => (
-                        <FixedHeader icon0='close' navigation={() => resetNavigationTo('Tabs', navigation)} />
+                        <FixedHeader icon0='close' navigation={() => navigation.goBack()} />
                     )}
                     renderForeground={() => (
                         <View style={{ flex: 1, flexDirection: 'row', marginTop: 30 }}>
@@ -135,16 +132,41 @@ class FindDoctor extends Component {
                         <StickyHeader name='Gặp bác sĩ' />
                     )}>
                     <View>
-                        <View>
+                        <View >
                             <List>
                                 <ListItem
                                     containerStyle={{ paddingLeft: 7 }}
-                                    onPress={() => { }}
+                                    onPress={() => {this.setState({isPickingProfile: true}) }}
                                     roundAvatar
-                                    avatar={images.defaultAvatar}
-                                    title='Chọn hồ sơ'
+                                    avatar={profile.Avatar}
+                                    title={profile.HoVaTen}
                                     titleStyle={{ fontSize: 20, paddingLeft: 20 }}
                                 />
+                                {/* MODAL LIST HỒ SƠ*/}
+                                <Modal
+                                    animationType="slide"
+                                    transparent={false}
+                                    visible={this.state.isPickingProfile}
+                                    onRequestClose={() => {this.setState({isPickingProfile: false})}}
+                                    hardwareAccelerated={true}
+                                    >
+                                    <ListProfiles 
+                                        profilesList={profilesList} 
+                                        onPress={(profile) => this.setState({profile, isPickingProfile: false})} 
+                                    />
+                                    <ListItem
+                                        roundAvatar
+                                        avatar={{ uri: 'https://www.computerhope.com/jargon/p/plus.gif' }}
+                                        title='Tạo mới hồ sơ'
+                                        titleStyle={{ color: '#546CA8' }}
+                                        onPress={()=> {
+                                            this.setState({isPickingProfile: false})
+                                            navigation.navigate('CreateFastProfile')
+                                        }}
+                                        containerStyle={{borderBottomColor: '#bbb',borderBottomWidth: 0}} 
+                                        hideChevron={true}                           
+                                    />
+                                </Modal>
                                 <ListItem
                                     title='Ẩn danh'
                                     titleStyle={styles.text}
@@ -156,10 +178,10 @@ class FindDoctor extends Component {
                                     hideChevron
                                 />
                                 <ListItem
-                                    onPress={() => { }}
+                                    hideChevron
                                     titleStyle={styles.text}
                                     title='Chuyên khoa'
-                                    rightTitle='Đa khoa'
+                                    rightTitle={chuyenKhoa.Ten}
                                     rightTitleStyle={styles.text}
                                 />
                             </List>
@@ -191,7 +213,6 @@ class FindDoctor extends Component {
                                 <Image style={{ width: 80, height: 80, marginRight: 10 }} source={{ uri: image.uri }}>
                                     <View style={{ alignSelf: 'flex-end', width: 25, marginRight: 1 }}>
                                         <Icon
-                                            //raised
                                             size={20}
                                             name='x'
                                             type='octicon'
@@ -201,99 +222,6 @@ class FindDoctor extends Component {
                             ))}
                         </View>
                     </View>
-
-                    {/* <View style={{marginRight:10}}>
-                    <View style={{ flexDirection: 'row', flex: 1 }}>
-                        <View style={{ flex: 1, marginTop: 15 }}>
-                            <Text style={styles.textDividerTitle}>Hồ sơ</Text>
-                        </View>
-                        <View style={styles.pickerView}>
-                            <ModalDropdown
-                                options={profilesList.map((item) => item.HoVaTen)}
-                                textStyle={{fontSize:15 }}
-                                dropdownTextStyle={{fontSize:15}}
-                                defaultValue={"Chọn hồ sơ"}
-                                onSelect={(index)=> this._onSelectedHoSo(index)}
-                            />
-                        </View>
-                    </View>
-
-                    <Divider style={styles.divider} />
-
-                    <View style={styles.khoaView}>
-                        <View style={{ flex: 1, marginTop: 15 }}>
-                            <Text style={styles.textDividerTitle}>Khoa</Text>
-                        </View>
-                        <View style={styles.pickerView}>
-                            <ModalDropdown
-                                options={listChuyenKhoa.map((item) => item.Name) }
-                                textStyle={{fontSize:15 }}
-                                dropdownTextStyle={{ fontSize:15}}
-                                defaultValue={"Chọn khoa"}
-                                onSelect={(index)=> this._onSelectedKhoa(index)}
-                            />
-                        </View>
-                    </View>
-
-                    <Divider style={styles.divider} />
-
-                    <View style={{ flexDirection: 'row', flex: 1 }}>
-                        <View style={{ flex: 1, marginTop: 15 }}>
-                            <Text style={styles.textDividerTitle}>Ẩn danh</Text>
-                        </View>
-                        <View style={styles.switchView}>
-                            <Switch
-                                value={this.state.anDanh}
-                                onValueChange={(value) => this.setState({
-                                    anDanh: value
-                                })} />
-                        </View>
-                    </View>
-
-                    <View style={{ marginTop: 15 }}>
-                        <TextInput
-                            style={styles.textInput}
-                            multiline={true}
-                            placeholder='Vấn đề gặp phải'
-                            onChangeText={(text) => this.setState({ vanDe: text })}
-                            value={this.state.vanDe}
-                        />
-                    </View>
-
-                    <View>
-                        <View style={{ marginTop: 5, marginBottom: 10 }}>
-                            <Text style={styles.textDividerTitle}>HÌNH ẢNH</Text>
-                        </View>
-                        <View style={{ flexDirection: 'row' }}>
-                            <TouchableOpacity style={{ width: 80, height: 80, marginRight: 10 }} onPress={() => this.pickImage()}>
-                                <Image style={{ width: 80, height: 80 }} source={{ uri: 'https://image.freepik.com/free-icon/plus-sign-ios-7-interface-symbol_318-38775.jpg' }} />
-                            </TouchableOpacity>
-                            {this.state.images.map((image) => (
-                                <Image style={{ width: 80, height: 80, marginRight: 10 }} source={{ uri: image.uri }}>
-                                    <View style={{ alignSelf: 'flex-end', width: 25, marginRight: 1 }}>
-                                        <Icon
-                                            //raised
-                                            size={20}
-                                            name='x'
-                                            type='octicon'
-                                            onPress={() => this.deleteImage(image)} />
-                                    </View>
-                                </Image>
-                            ))}
-                        </View>
-                    </View>
-
-                    <View style={{ marginTop: 30 }}>
-                        <View style={styles.buttonView}>
-                            <Button
-                                buttonStyle={styles.button}
-                                onPress={() => this.findDoctor()}
-                                title="Tìm bác sĩ"
-                                textStyle={{ color: '#5198D0', fontSize: 18 }}
-                            />
-                        </View>
-                    </View>
-                    </View> */}
                 </ParallaxScrollView>
 
                 <Button
@@ -303,18 +231,11 @@ class FindDoctor extends Component {
                     textStyle={{ color: 'white', fontSize: 18 }}
                 />
 
-                {this.props.isFoundDoctor &&
-                    <View style={styles.viewDoctorInfo}>
-                        <FoundDoctor
-                            idHoSo={this.state.idHoso}
-                            vanDe={this.state.vanDe}
-                            anDanh={this.state.anDanh}
-                            navigation={this.props.navigation} />
-                    </View>
-                }
-                {this.props.isFoundDoctor &&
-                    <View style={styles.transparentView} />
-                }
+                <FindingDoctorModal 
+                    modalVisible={isFindingDoctor} 
+                    navigation={navigation}
+                    close={() => this.setState({isFindingDoctor: false})}
+                />
             </View>
         )
     }

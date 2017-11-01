@@ -49,7 +49,7 @@ class Home extends Component {
         const { navigation, isConnectedSignalR, errorConnection } = this.props;
         if (isConnectedSignalR) {
             this.khaiBaoUser();
-            navigation.navigate('Kham');
+            navigation.navigate('ListChuyenKhoa');
         } else if (errorConnection) {
             alert(errorConnection);
         } else {

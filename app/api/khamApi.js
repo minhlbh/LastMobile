@@ -24,7 +24,7 @@ var khamApi = {
     getListChuyenKhoa(){
         var url = `${apiUrl.listChuyenKhoa}`;
         return fetch(url,{
-            method: 'POST',
+            method: 'GET',
         }).then((response) => response.json())
     },
     deleteImage(location){

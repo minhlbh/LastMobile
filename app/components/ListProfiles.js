@@ -24,6 +24,7 @@ export class ListProfiles extends Component{
                 subtitle={item.GioiTinh}
                 titleStyle={{ color: 'black' }}
                 containerStyle={{borderBottomColor: '#bbb',borderBottomWidth: 0.15}}
+                onPress={() =>this.props.onPress(item)}  
             />
         )
     };
