@@ -41,10 +41,10 @@ export const getProfiles = () => {
         dispatch({ type: GET_PROFILES.PENDING });
       accountApi.getProfiles(accessToken)
         .then(data => {
-            if(data.accountSoYBa){
+            if(data.DsHoSo){
                 dispatch({
                     type: GET_PROFILES.SUCCESS,
-                    payload: data.accountSoYBa.DsHoSoSucKhoe.reverse(),
+                    payload: data.DsHoSo.reverse(),
                   });
             } else {
                 dispatch({

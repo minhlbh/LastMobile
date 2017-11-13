@@ -57,9 +57,9 @@ var accountApi = {
         })
     },
     getProfiles(token) {
-        var url = `${apiUrl.listHoSoSucKhoe}`;
+        var url = `${apiUrl.user_DsHoSo}`;
         return fetch(url, {
-            method: 'POST',
+            method: 'GET',
             headers: {
                 // 'Content-Type': 'application/x-www-form-urlencoded',
                 'Authorization': `bearer ${token}`

@@ -1,4 +1,4 @@
-const domain = 'http://api.truongkhoa.com/';
+const domain = 'https://api.sputnich.com/';
 
 var apiUrl = {
     account: {
@@ -11,7 +11,7 @@ var apiUrl = {
         userInfo:`${domain}api/Account/UserInfo`,
         taoMoiNhanhHoSo: `${domain}api/BADT/HoSoSucKhoe_Create_Fast`,
         history: `${domain}api/BADT/Gap_List`,
-        listHoSoSucKhoe: `${domain}api/BADT/HoSoSucKhoe_List`,
+        user_DsHoSo: `${domain}api/CSDLYT/User_DsHoSo`,
         getCodeVerify: `${domain}api/Account/GetCodeVerify`,
         verifyCode: `${domain}api/Account/PhoneVerify`,
         register: `${domain}api/Account/dangky`,
