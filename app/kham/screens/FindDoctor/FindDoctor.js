@@ -39,7 +39,7 @@ class FindDoctor extends Component {
 
     componentWillMount() {
         this.props.getListChuyenKhoa();
-        this.props.storeDoctorInfo();
+        //this.props.storeDoctorInfo();
     }
 
     pickImage() {

@@ -21,6 +21,7 @@ import images from '../../config/images';
 import { signOut } from '../../auth/auth.action';
 import { resetNavigationTo } from '../../utils';
 import { getProfiles, getUserInfo } from '../../user/user.action';
+import { getProfileDetail} from '../../profiles/profile.action';
 
 console.disableYellowBox = true;
 
@@ -47,14 +48,15 @@ class Home extends Component {
     }
     gapBacSi() {
         const { navigation, isConnectedSignalR, errorConnection } = this.props;
-        if (isConnectedSignalR) {
-            this.khaiBaoUser();
-            navigation.navigate('ListChuyenKhoa');
-        } else if (errorConnection) {
-            alert(errorConnection);
-        } else {
-            alert('Chưa kết nối được với server');
-        }
+        navigation.navigate('ListChuyenKhoa');
+        // if (isConnectedSignalR) {
+        //     this.khaiBaoUser();
+        //     navigation.navigate('ListChuyenKhoa');
+        // } else if (errorConnection) {
+        //     alert(errorConnection);
+        // } else {
+        //     alert('Chưa kết nối được với server');
+        // }
     }
 
     khaiBaoUser() {
@@ -134,7 +136,7 @@ class Home extends Component {
                                     text1: 'Bạn chưa kết nối với bác sĩ',
                                     btnIconName: 'ios-search-outline', btnIconType: 'ionicon', 
                                     btnText: 'Gặp bác sĩ tư vấn',
-                                    color: '#42B72A'
+                                    color: '#4A90E2'
                                 }}
                                 onPress={this.gapBacSi}
                             />}
@@ -149,7 +151,12 @@ class Home extends Component {
                                     <View style={{ flex: 1, alignItems: 'flex-end' }}><Text style={styles.textdivider}> xem toàn bộ</Text></View>
                                 </TouchableOpacity>}
                         </View>
-                        <ListProfiles profilesList={profilesList.slice(0, 5)} />
+                        <ListProfiles 
+                            profilesList={profilesList.slice(0, 5)} 
+                            onPress={(item) => {
+                                this.props.getProfileDetail(item.Id)
+                                navigation.navigate('ProfileDetail')
+                            } }/>
                         {profilesList.length > 0 ? 
                             <ListItem
                                 roundAvatar
@@ -220,4 +227,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps, { signOut, getProfiles, getUserInfo })(Home);
+export default connect(mapStateToProps, { signOut, getProfiles, getUserInfo,getProfileDetail })(Home);

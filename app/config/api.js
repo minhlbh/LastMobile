@@ -17,7 +17,8 @@ var apiUrl = {
         register: `${domain}api/Account/dangky`,
         forgotUpdate: `${domain}api/Account/forgotupdate`,
         uInfo: `${domain}api/Account/uInfo`,
-        fblogin: `${domain}api/Account/fblogin`
+        fblogin: `${domain}api/Account/fblogin`,
+        user_Hoso_detail: `${domain}api/CSDLYT/User_HoSo_Detail?Id=`
     },
     home: {
         listDichVu :`${domain}api/CSDLYT/DichVu_List`,

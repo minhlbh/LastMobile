@@ -193,6 +193,25 @@ var accountApi = {
                 return res.json()
             }
         }); 
+    },
+    profileDetail(token,id){
+        var url = `${apiUrl.user_Hoso_detail}${id}`;
+        return fetch(url,{
+            method: 'GET',
+            headers:{
+                'Authorization': `bearer ${token}` 
+            }
+        }).then(res => {
+            
+            if(res.status !== 200){
+                console.log(JSON.parse(res._bodyText).Message)
+                let error = new Error(JSON.parse(res._bodyText).Message);
+                    //error.message = JSON.parse(res._bodyText).Message;
+                throw error;
+            } else {
+                return res.json()
+            }
+        });
     }
 };
 

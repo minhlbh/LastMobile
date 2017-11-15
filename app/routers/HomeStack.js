@@ -6,6 +6,8 @@ import Chat from '../kham/screens/Chat';
 import ChatHistory from '../kham/screens/ChatHistory';
 import CreateFastProfile from '../profiles/screens/CreateFastProfile';
 import ListChuyenKhoa from '../kham/screens/ListChuyenKhoa';
+import ProfileDetail from '../profiles/screens/ProfileDetail';
+import EditProfile from '../profiles/screens/EditProfile';
 
 export default (HomeStack = StackNavigator({
     Home: {
@@ -48,5 +50,19 @@ export default (HomeStack = StackNavigator({
             header: null,
             tabBarVisible: false
         }
-    }
+    },
+    ProfileDetail: {
+        screen: ProfileDetail,
+        navigationOptions: {
+            header: null,
+            tabBarVisible: false
+        }
+    },
+    EditProfile: {
+        screen: EditProfile,
+        navigationOptions: {
+            header: null,
+            tabBarVisible: false
+        }
+    },
 }));

@@ -21,17 +21,17 @@ export class ListHistory extends Component{
     }
     _renderItem = ({item}) => {
         var avatar = 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg';
-        if(item.Avatar) avatar = item.Avatar;
+        if(item.BacSi.Avatar) avatar = item.BacSi.Avatar;
         return (
             <ListItem
                 roundAvatar
                 avatar={{ uri: avatar}}
                 key={item.IdGap}
-                title={item.VanDe}
+                title={'Bác sĩ: '+item.BacSi.TenBacSi}
                 onPress={() => {
                     this.vaoRoom(item.IdGap)
                 }}
-                subtitle={'Bác sĩ: '+item.TenBacSi}
+                subtitle={item.VanDe}
                 titleStyle={{ color: 'black' }}
                containerStyle={{borderBottomColor: '#bbb',borderBottomWidth: 0.15}}
             />
