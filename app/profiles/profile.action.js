@@ -60,6 +60,7 @@ export const getProfileDetail = (id) => {
 
 export const editProfile = (name, birth, gender, relationship, address, tinhThanh, email, phone, latLng) => {
     return( dispatch, getState) => {
+        console.log(birth)
         var profileInfo = getState().profile.profileInfo;
         profileInfo.HoVaTen = name;
         profileInfo.NgaySinh = birth;
@@ -75,5 +76,9 @@ export const editProfile = (name, birth, gender, relationship, address, tinhThan
             type: EDIT_PROFILE,
             payload: profileInfo,
         });
+
+        const accessToken = getState().auth.accessToken;
+        accountApi.editProfile(accessToken,profileInfo.Id, name, 
+            birth,gender,relationship,address,tinhThanh,email,phone,latLng);
     }
 }

@@ -212,6 +212,38 @@ var accountApi = {
                 return res.json()
             }
         });
+    },
+    editProfile(token,id, name, birth, gender, relationship, address, tinhThanh, email, phone, latLng){
+        let details = {
+            Id: id,
+            HoVaTen: name,
+            NgaySinh: new Date(birth),
+            GioiTinh: gender,
+            QuanHe: relationship,
+            TinhThanh: tinhThanh,
+            Email: email,
+            Phone: phone,
+            DiaChi: address,
+            LatLng: latLng
+         };
+         var url = `${apiUrl.user_HoSo_Edit}`;
+         return fetch(url, {
+             method: 'POST',
+             headers: {
+                 'Content-Type': 'application/x-www-form-urlencoded',
+                 'Authorization': `bearer ${token}`
+             },
+             body: postFormBody(details),
+         }).then(res => {
+             if(res.status !== 200){
+                 console.log(JSON.parse(res._bodyText).Message)
+                 console.log(res)                
+                 let error = new Error(JSON.parse(res._bodyText).Message);
+                 throw error;
+             } else {
+                 return res.json()
+             }
+         }); 
     }
 };
 

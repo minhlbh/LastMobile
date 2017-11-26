@@ -48,15 +48,15 @@ class Home extends Component {
     }
     gapBacSi() {
         const { navigation, isConnectedSignalR, errorConnection } = this.props;
-        navigation.navigate('ListChuyenKhoa');
-        // if (isConnectedSignalR) {
-        //     this.khaiBaoUser();
-        //     navigation.navigate('ListChuyenKhoa');
-        // } else if (errorConnection) {
-        //     alert(errorConnection);
-        // } else {
-        //     alert('Chưa kết nối được với server');
-        // }
+        
+        if (isConnectedSignalR) {
+            //this.khaiBaoUser();
+            navigation.navigate('ListChuyenKhoa');
+        } else if (errorConnection) {
+            alert(errorConnection);
+        } else {
+            alert('Chưa kết nối được với server');
+        }
     }
 
     khaiBaoUser() {

@@ -18,6 +18,7 @@ class ProfileDetail extends Component {
     render(){
         const { navigation,profileInfo} = this.props;
         var date = new Date(profileInfo.NgaySinh)
+        console.log('aaaaaaaaaaaaaaa'+date)
         return (
             <View style={{ flex: 1, backgroundColor: 'white' }}>
                 <ParallaxScrollView

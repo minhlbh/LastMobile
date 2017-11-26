@@ -8,50 +8,107 @@ import {
 import { GiftedChat,Actions } from 'react-native-gifted-chat';
 import { connect} from 'react-redux';
 import styles from './styles';
+import khamApi from '../../../api/khamApi';
 var ImagePicker = require('react-native-image-picker');
 
 class Chat extends Component {
     state = {
-        messages: [ {
-            _id: 1,
-            text: 'Hello developer',
-            createdAt: new Date(),
-            image:  'https://media.gq.com/photos/56eb1c3f1740841549748e55/master/w_1600/david-beckham-gq-0416-2.jpg',
-            user: {
-              _id: 2,
-              name: 'React Native',
-              avatar: 'https://media.gq.com/photos/56eb1c3f1740841549748e55/master/w_1600/david-beckham-gq-0416-2.jpg',
-            },
-          }],
+        messages: [],
     };
 
-    componentDidMount(){
-        this.props.proxy.on('chat', (Vai, HoVaTen, UserId, Avatar, ThoiGian, NoiDung) => {
-             if(Vai == "Bác sĩ"){
-                console.log(Vai, HoVaTen, UserId, Avatar, ThoiGian, NoiDung)
-                var message = {
-                    _id: this.state.messages.length + 1,
-                    text: NoiDung,
-                    createdAt: ThoiGian,
-                    user:{
-                        _id: 2,
-                        name: HoVaTen,
-                        avatar: Avatar
+    // {
+    //     _id: 1,
+    //     text: 'Hello developer',
+    //     createdAt: new Date(),
+    //     image:  'https://media.gq.com/photos/56eb1c3f1740841549748e55/master/w_1600/david-beckham-gq-0416-2.jpg',
+    //     user: {
+    //       _id: 2,
+    //       name: 'React Native',
+    //       avatar: 'https://media.gq.com/photos/56eb1c3f1740841549748e55/master/w_1600/david-beckham-gq-0416-2.jpg',
+    //     },
+    //   }
+    constructor(props){
+        super(props)
+        const {idGap, userId,accessToken} =  this.props;
+        khamApi.listChatMes(idGap, accessToken).then((res) =>{
+            if(res.DsChat){
+                var DsChat = res.DsChat;
+                DsChatMes.map((mes) => {
+                    if(mes.UserId === userId){
+                        var message = {
+                            _id: this.state.messages.length + 1,
+                            text: mes.NoiDung,
+                            createdAt: mes.ThoiGian,
+                            user:{
+                                _id: 1,
+                                name: mes.HoVaTen,
+                                avatar: mes.Avatar
+                            }
+                        }
+                        this.setState((previousState) => ({
+                            messages: GiftedChat.append(previousState.messages, message),
+                        }));
+                    }else {
+                        var message = {
+                            _id: this.state.messages.length + 1,
+                            text: mes.NoiDung,
+                            createdAt: mes.ThoiGian,
+                            user:{
+                                _id: 2,
+                                name: mes.HoVaTen,
+                                avatar: mes.Avatar
+                            }
+                        }
+                        this.setState((previousState) => ({
+                            messages: GiftedChat.append(previousState.messages, message),
+                        }));
                     }
+                })
+            }
+        })
+    }
+    componentDidMount(){
+        this.props.proxy.on('chat', (idGap, vai, name, userId, avatar, time, mess) => {
+            if(idGap === this.props.idGap){
+                if(userId === this.props.userId){
+                    var message = {
+                        _id: this.state.messages.length + 1,
+                        text: mess,
+                        createdAt: time,
+                        user:{
+                            _id: 1,
+                            name: name,
+                            avatar: avatar
+                        }
+                    }
+                    this.setState((previousState) => ({
+                        messages: GiftedChat.append(previousState.messages, message),
+                    }));
+                }else {
+                    var message = {
+                        _id: this.state.messages.length + 1,
+                        text: mess,
+                        createdAt: time,
+                        user:{
+                            _id: 2,
+                            name: name,
+                            avatar: avatar
+                        }
+                    }
+                    this.setState((previousState) => ({
+                        messages: GiftedChat.append(previousState.messages, message),
+                    }));
                 }
-                this.setState((previousState) => ({
-                    messages: GiftedChat.append(previousState.messages, message),
-                }));
-             }
+            }
         });
     }
     onSend(messages = []) {
         for (let i = 0; i < messages.length; i++) {
             this.props.proxy.invoke('sendChat',this.props.idGap ,messages[i].text)
             .done((directResponse) => {
-                console.log('direct-response-from-server-upAnh', directResponse);
+                console.log('sendChat', directResponse);
             }).fail((e) => {
-                    console.warn('up anh loi',e)
+                    console.warn('sendChat loi',e)
             });  
         }
         this.setState((previousState) => ({
@@ -132,7 +189,7 @@ class Chat extends Component {
                         color='blue' 
                         type='entypo'
                     />
-                    <Text style={styles.headerTitle}>BS: ĐỖ THÀNH PHÚC</Text>
+                    <Text style={styles.headerTitle}>{this.props.dichVuDetail.TenBacSi}</Text>
                </TouchableOpacity>
         )
     }
@@ -187,8 +244,11 @@ class Chat extends Component {
 }
 function mapStateToProps(state){
     return {
-        idGap: state.user.user.IdGap,
-        proxy: state.kham.proxy        
+        idGap: state.kham.idGap,
+        proxy: state.kham.proxy,
+        userId: state.kham.userId,
+        accessToken: state.auth.accessToken,    
+        dichVuDetail: state.kham.dichVuDetail    
     }
 }
 export default connect(mapStateToProps)(Chat);

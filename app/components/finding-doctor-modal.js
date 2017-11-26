@@ -6,13 +6,16 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import images from '../config/images';
 import {FadeInView} from '../components';
+import { setInterval } from 'core-js/library/web/timers';
+import { chonBacSi } from '../kham/kham.action';
 
 export class FindingDoctorModal extends Component {
     props: {
         modalVisible: boolean,
         doctorInfo: Object, 
-        navigation: Object,
-        close: Function
+        chonBacSi: Function,
+        close: Function,
+        isPendingFindDoctor: boolean
     };
 
     constructor() {
@@ -20,55 +23,94 @@ export class FindingDoctorModal extends Component {
        
         this.state = {
           connectingAnim: new Animated.Value(150),
-          doctorInfo:null,
-          yPosition:  new Animated.Value(150)
+          doctorInfo: null,
+          yPosition:  new Animated.Value(150),
+
         };
       }
 
-    componentDidMount() {
+    animation(){
         const anim1 = Animated.timing(                  
-          this.state.connectingAnim,            
-          {
-            toValue: 250,                   
-            duration: 1200,              
-          }
-        )
-        
-        const anim2 = Animated.timing(                 
-          this.state.yPosition,            
-          {
-            toValue: 70,                   
-            duration: 400,              
-          }
-        )
-        // finalAnim = Animated.sequence([anim1,anim2])
+            this.state.connectingAnim,            
+            {
+              toValue: 250,                   
+              duration: 1200,              
+            }
+          )
+          
+         
+  
         Animated.loop(anim1).start();
-        const setDoctorInfo = ()=>{
-            this.setState({doctorInfo: {
-                Avatar: "https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg",
-                HoVaTen: 'Đỗ Thành Phúc' 
-            }})
-        }
-        const stopAnimation = () => {
-            anim1.stop();
-            this.setState({connectingAnim: 150}) 
-            anim2.start();
-        }
-        setTimeout(function() {
-            setDoctorInfo();
-            stopAnimation();
-        }, 4000);
-      }
+    }
+    componentDidMount() {
+        this.animation()
+        // const anim1 = Animated.timing(                  
+        //   this.state.connectingAnim,            
+        //   {
+        //     toValue: 250,                   
+        //     duration: 1200,              
+        //   }
+        // )
+        
+        // const anim2 = Animated.timing(                 
+        //   this.state.yPosition,            
+        //   {
+        //     toValue: 70,                   
+        //     duration: 400,              
+        //   }
+        // )
+
+        // anim1.start(()=> {
+
+        // })
+        // const {
+        //     doctorInfo,
+        //     isPendingFindDoctor,
+        // } = this.props;
+        // const setDoctorInfo = ()=>{
+        //     this.setState({doctorInfo})
+        // }
+        // const stopAnimation = () => {
+        //     anim1.stop();
+        //     this.setState({connectingAnim: 150}) 
+        //     anim2.start();
+        // }
+       
+        // setInterval(function(){ 
+        //     if(this.state.doctorInfo){
+        //         stopAnimation();
+        //     }
+        // }, 1000);
+
+        // if(doctorInfo){
+        //     console.log('dsadsadsadsadasdsada', doctorInfo)
+        // // } else {
+        //     this.setState({doctorInfo: doctorInfo});
+        //     anim1.stop();
+        //     this.setState({connectingAnim: 150}) 
+        //     anim2.start();            
+        // }
+    }
     
     render() {
         const {
             modalVisible,
             onPress,
             close,
-            navigation
+            chonBacSi,
+            doctorInfo
         } = this.props;
-        let { connectingAnim ,doctorInfo, yPosition} = this.state;
-        
+        let { connectingAnim , yPosition} = this.state;
+        if(doctorInfo) {
+            const anim2 = Animated.timing(                 
+                this.state.yPosition,            
+                {
+                  toValue: 70,                   
+                  duration: 400,              
+                }
+            )
+            anim2.start()
+        }
         return(
             <Modal
                 animationType="fade"
@@ -95,18 +137,15 @@ export class FindingDoctorModal extends Component {
                         </View>
                         {doctorInfo && 
                             <FadeInView style={styles.doctorInfoContainer}>
-                                <Text style={styles.name}>{doctorInfo.HoVaTen}</Text>
-                                <Text style={styles.textNote}>Lưu ý: Câu trả lời trên sputnich không thể 
-                                thay thế hoàn toàn việc khám chữa bệnh. Nếu cần chữa trị khẩn cấp vui lòng 
-                                liên hệ các cơ sở y tế gần nhất</Text>
-                                <Text style={styles.textNote}>Lưu ý: Câu trả lời trên sputnich không thể 
-                                thay thế hoàn toàn việc khám chữa bệnh. Nếu cần chữa trị khẩn cấp vui lòng 
-                                liên hệ các cơ sở y tế gần nhất</Text>
+                                <Text style={styles.name}>{doctorInfo.TenBacSi}</Text>
+                                <Text style={styles.textNote}>{doctorInfo.TenDichVu}</Text>
+                                <Text style={styles.textNote}>{doctorInfo.GioiThieuNhanh}</Text>
+                                <Text style={styles.name}>Giá tư vấn: {doctorInfo.Gia} đ</Text>
                                 <Button
                                     title='Gặp bác sĩ' 
                                     buttonStyle={styles.btn}
                                     onPress={() => {
-                                        navigation.navigate('Chat');
+                                        chonBacSi();
                                         close();
                                     }}
                                     backgroundColor='white'

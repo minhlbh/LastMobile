@@ -18,7 +18,8 @@ var apiUrl = {
         forgotUpdate: `${domain}api/Account/forgotupdate`,
         uInfo: `${domain}api/Account/uInfo`,
         fblogin: `${domain}api/Account/fblogin`,
-        user_Hoso_detail: `${domain}api/CSDLYT/User_HoSo_Detail?Id=`
+        user_Hoso_detail: `${domain}api/CSDLYT/User_HoSo_Detail?Id=`,
+        user_HoSo_Edit: `${domain}api/CSDLYT/User_HoSo_Edit`
     },
     home: {
         listDichVu :`${domain}api/CSDLYT/DichVu_List`,
@@ -27,7 +28,8 @@ var apiUrl = {
         uploadImg: `${domain}api/DD/UploadImg`,
         listChuyenKhoa: `${domain}api/CSDLYT/tenchuyenkhoa_list`,
         deleteImage: `${domain}api/DD/DeleteImg`,
-        detailCuocGap: `${domain}api/BADT/Gap_Detail`
+        lichSuChat: `${domain}api/CSDLYT/Gap_LichSuChat?IdGap=`,
+        detailDichVu: `${domain}api/CSDLYT/DichVu_Detail?IdDichVu=`
     }
 }
 

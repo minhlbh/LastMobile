@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-    View, TouchableOpacity, Picker, Switch, TextInput, FlatList, Image,Modal
+    View, TouchableOpacity, Picker, Switch, TextInput, FlatList, Image,Modal,ToastAndroid
 } from 'react-native';
 import {
     Text, Icon, ListItem, Divider, Button, List, Avatar, FormInput
@@ -28,7 +28,6 @@ class FindDoctor extends Component {
         super(props);
         this.state = {
             profile: {Avatar: images.defaultAvatar,HoVaTen: 'Chọn hồ sơ'},
-            idKhoa: '',
             anDanh: false,
             vanDe: '',
             images: [],
@@ -38,7 +37,8 @@ class FindDoctor extends Component {
     }
 
     componentWillMount() {
-        this.props.getListChuyenKhoa();
+        const {chuyenKhoa, idGap} =  this.props.navigation.state.params;
+        this.props.nguoidungLoadGap(idGap,chuyenKhoa.Id);
         //this.props.storeDoctorInfo();
     }
 
@@ -93,22 +93,22 @@ class FindDoctor extends Component {
     }
 
     findDoctor() {
-        this.setState({isFindingDoctor: true})
-        // const { idHoso, idKhoa, anDanh, vanDe } = this.state;
-        // const idGap = this.props.idGap;
-        // this.props.proxy.invoke('timBacSiTheoChuyenKhoa', idKhoa, idHoso, anDanh, vanDe, idGap).done((directResponse) => {
-        //     console.log('timBacSiTheoChuyenKhoa success');
-        // }).fail(() => {
-        //     console.warn('timBacSiTheoChuyenKhoa fail')
-        //     alert('Hiện các bác sĩ đang bận')
-        // });
+        const {idGap ,navigation} = this.props;
+        const {profile,anDanh,vanDe} = this.state;
+        const {chuyenKhoa} =  navigation.state.params;        
+        if(profile.Id && vanDe){
+            this.setState({isFindingDoctor: true});
+            this.props.timBacSiTheoChuyenKhoa(idGap,profile.Id, anDanh, vanDe, profile.HoVaTen, profile.NgaySinh, profile.GioiTinh);
+        } else {
+            ToastAndroid.show('Vui lòng chọn hồ sơ và điền vấn đề', ToastAndroid.SHORT);
+        }
     }
+
     render() {
-        var { profilesList, listChuyenKhoa, navigation } = this.props;
+        var { profilesList, navigation ,isPeddingFindDoctor,dichVuDetail, chonBacSi} = this.props;
         const {profile, isFindingDoctor} = this.state;
         const {chuyenKhoa} =  navigation.state.params;
         return (
-
             <View style={styles.container}>
                 <ParallaxScrollView
                     contentContainerStyle={{ zIndex: 0, }}
@@ -166,7 +166,7 @@ class FindDoctor extends Component {
                                         containerStyle={{borderBottomColor: '#bbb',borderBottomWidth: 0}} 
                                         hideChevron={true}                           
                                     />
-                                </Modal>
+                                </Modal> 
                                 <ListItem
                                     title='Ẩn danh'
                                     titleStyle={styles.text}
@@ -233,8 +233,10 @@ class FindDoctor extends Component {
 
                 <FindingDoctorModal 
                     modalVisible={isFindingDoctor} 
-                    navigation={navigation}
+                    chonBacSi={() => chonBacSi(navigation)}
                     close={() => this.setState({isFindingDoctor: false})}
+                    doctorInfo={dichVuDetail}
+                    isPendingFindDoctor={isPeddingFindDoctor}
                 />
             </View>
         )
@@ -244,11 +246,12 @@ class FindDoctor extends Component {
 function mapStateToProps(state) {
     return {
         profilesList: state.user.profiles,
-        listChuyenKhoa: state.kham.listChuyenKhoa,
-        idGap: state.user.user.IdGap,
+        idGap: state.kham.idGap,
         isFoundDoctor: state.kham.isFoundDoctor,
         doctorInfo: state.kham.doctorInfo,
-        proxy: state.kham.proxy
+        proxy: state.kham.proxy,
+        isPeddingFindDoctor: state.kham.isPeddingFindDoctor,
+        dichVuDetail : state.kham.dichVuDetail
     }
 }
 

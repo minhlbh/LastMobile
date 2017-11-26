@@ -1,4 +1,4 @@
-import { AsyncStorage } from 'react-native';
+import { AsyncStorage,ToastAndroid } from 'react-native';
 import khamApi from '../api/khamApi';
 import signalr from 'react-native-signalr';
 import SignalR from './SignalR';
@@ -8,13 +8,16 @@ import {
     GET_PROXY_SIGNALR,
     GET_CHUYEN_KHOA,
     STORE_BAC_SI_INFO,
-    SET_IDGAP_HISTORY
+    SET_IDGAP_HISTORY,
+    KHAI_BAO_USERNAME,
+    NGUOI_DUNG_LOAD_GAP,
+    GET_DETAIL_DICH_VU
 } from './kham.type';
 
 
 export const connectSignalR = () => {
     return dispatch => {
-        const connection = signalr.hubConnection('http://admincloud.truongkhoa.com/SignalR');
+        const connection = signalr.hubConnection('http://sputnich.com/SignalR');
         const proxy = connection.createHubProxy('truongKhoaHub')
         dispatch({ type: GET_CONNECTION_SIGNALR.PENDING });
         // PROXY ON
@@ -34,12 +37,13 @@ export const connectSignalR = () => {
                     connection: connection,
                     proxy: proxy
                 });
+                dispatch(khaiBaoUserName());
         }).fail(() => {
             dispatch({
                 type: GET_CONNECTION_SIGNALR.FAILURE,
                 payload: '',
             });
-            connectSignalR();
+            dispatch(connectSignalR());
         });
 
         connection.error((error) => {
@@ -56,7 +60,7 @@ export const connectSignalR = () => {
                 type: GET_CONNECTION_SIGNALR.FAILURE,
                 payload: errorMessage +': '+detailedError ,
             });
-            connectSignalR();
+            dispatch(connectSignalR());
         });
     };
 };
@@ -65,7 +69,6 @@ export const getListChuyenKhoa = () => {
     return ( dispatch) => {
       khamApi.getListChuyenKhoa()
         .then(data => {
-            console.log(data)
             dispatch({
                 type: GET_CHUYEN_KHOA.SUCCESS,
                 payload: data.DsChuyenKhoa,
@@ -122,6 +125,93 @@ export const setIdGapHistory = (idGap) => {
         dispatch({
             type: SET_IDGAP_HISTORY.SUCCESS,
             payload: idGap,
+        });
+    }
+}
+
+export const khaiBaoUserName = () => {
+    return ( dispatch, getState) => {
+        const proxy = getState().kham.proxy;
+        const username = getState().user.user.Phone;
+       
+        proxy.invoke('nguoiDungKhaiBaoUserName', username).done((directResponse) => {
+            console.log('khai bao username thanh cong', 'userId = ' +directResponse);
+            dispatch({
+                type: KHAI_BAO_USERNAME,
+                payload: directResponse,
+            });
+        }).fail(() => {
+            console.warn('khai bao username  fail');
+            dispatch(khaiBaoUserName());
+        });
+    }
+}
+
+export const nguoidungLoadGap = (idGap, idChuyenKhoa) => {
+    return ( dispatch, getState) => {
+        const proxy = getState().kham.proxy;        
+        if (idGap) {
+            proxy.invoke('nguoidungLoadGap', "ChuyenKhoa",idGap,idChuyenKhoa).done((directResponse) => {
+                console.log('nguoidungLoadGap', 'idGap = ' +directResponse);
+                dispatch({
+                    type: NGUOI_DUNG_LOAD_GAP,
+                    payload: directResponse,
+                });
+            }).fail(() => {
+                console.warn('nguoidungLoadGap fail');
+            });
+        } else {
+            proxy.invoke('nguoidungLoadGap', "ChuyenKhoa",'',idChuyenKhoa).done((directResponse) => {
+                console.log('nguoidungLoadGap', 'idGap = ' +directResponse);
+                dispatch({
+                    type: NGUOI_DUNG_LOAD_GAP,
+                    payload: directResponse,
+                });
+            }).fail(() => {
+                console.warn('nguoidungLoadGap fail');
+            });
+        }
+    }
+}
+
+export const timBacSiTheoChuyenKhoa = (idGap, idHoSo, an, vanDe, name, birth, gender) => {
+    return (dispatch,getState ) => {
+        dispatch({ type: GET_DETAIL_DICH_VU.PENDING})
+        const proxy = getState().kham.proxy;                
+        proxy.invoke('nguoidungTimBacSiTheoChuyenKhoa', idGap, idHoSo, an, vanDe, name, birth, gender).done((directResponse) => {
+            console.log('nguoidungTimBacSiTheoChuyenKhoa success',directResponse);
+            khamApi.getDetailDichVu(directResponse).then((res) => {
+                if(res.ChiTietDichVu) {
+                    dispatch({
+                        type: GET_DETAIL_DICH_VU.SUCCESS,
+                        payload: res.ChiTietDichVu
+                    })
+                    console.log(res.ChiTietDichVu)
+                }else {
+                    dispatch({ type: GET_DETAIL_DICH_VU.FAILURE})
+                }
+            })
+        }).fail(() => {
+            ToastAndroid.show('Tìm bác sĩ không thành công', ToastAndroid.SHORT);
+            dispatch({ type: GET_DETAIL_DICH_VU.FAILURE})            
+        });
+
+    }
+}
+
+export const chonBacSi = (navigation) => {
+    return (dispatch,getState ) => {
+        const idGap = getState().kham.idGap;
+        const idDichVu = getState().kham.dichVuDetail.IdDichVu;
+        const proxy = getState().kham.proxy;                    
+        proxy.invoke('nguoidungChonBacSi', idGap, idDichVu).done((directResponse) => {
+            if(directResponse === 'OK'){
+                navigation.navigate('Chat');
+            }else {
+                ToastAndroid.show('Bác sĩ không đồng ý gặp', ToastAndroid.SHORT);           
+            }
+        }).fail(() => {
+            ToastAndroid.show('Có lỗi xảy ra vui lòng thử lại', ToastAndroid.SHORT);           
         });
     }
 }

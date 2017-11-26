@@ -42,15 +42,20 @@ var khamApi = {
             .then((response) => response.json())
     },
     listChatMes(idGap, accessToken){
-        var url = `${apiUrl.detailCuocGap}?IdGap=${idGap}`;
+        var url = `${apiUrl.lichSuChat}${idGap}`;
         return fetch(url, {
-            method: 'POST',
+            method: 'GET',
             headers: {
                 'Authorization': `bearer ${accessToken}`,
-                'Content-Type': 'application/x-www-form-urlencoded',
             },
         })
             .then((response) => response.json())
+    }, 
+    getDetailDichVu(id){
+        var url = `${apiUrl.detailDichVu}${id}`; 
+        return fetch(url,{
+            method: 'GET',
+        }).then((response) => response.json())
     }
 }
 

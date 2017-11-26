@@ -52,13 +52,13 @@ class EditProfile extends Component {
                     renderFixedHeader={() => (
                         <View style={{ position: 'absolute',flexDirection: 'row', flex:1}}>
                             <View style={{flex:1}}>
-                            <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', width: 100, marginLeft: 20}}
+                            <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', width: 100, marginLeft: 10}}
                                 onPress={()=> this.done()}
                             >
                                 <Text style={{ color: '#4385D5', fontSize: 16 }}>Done</Text>
                             </TouchableOpacity>
                             </View>
-                            <TouchableOpacity style={{alignSelf: 'center' , marginRight: 20}}>
+                            <TouchableOpacity style={{alignSelf: 'center' , marginRight: 10}}>
                                 <Text style={{ color: '#4385D5', fontSize: 16 }}>Cancel</Text>
                             </TouchableOpacity>            
                         </View>

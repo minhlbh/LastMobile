@@ -2,7 +2,10 @@ import {
     GET_CONNECTION_SIGNALR,
     GET_PROXY_SIGNALR,
     GET_CHUYEN_KHOA,
-    STORE_BAC_SI_INFO
+    STORE_BAC_SI_INFO,
+    KHAI_BAO_USERNAME,
+    NGUOI_DUNG_LOAD_GAP, 
+    GET_DETAIL_DICH_VU
 } from './kham.type';
 
 const initialState = {
@@ -16,7 +19,11 @@ const initialState = {
     doctorInfo: {},
     isPendingDoctorInfo: false,
     isFoundDoctor: false,
-    idGapHistory: null
+    idGapHistory: null,
+    userId : null,
+    idGap: null,
+    isPeddingFindDoctor: false,
+    dichVuDetail :null
 };
 
 export const khamReducer = (state = initialState, action = {}) => {
@@ -89,6 +96,41 @@ export const khamReducer = (state = initialState, action = {}) => {
         //         error: action.payload,
         //     };
         //DEFAULT
+
+        // KHAI_BAO_USERNAME 
+        case KHAI_BAO_USERNAME:
+            return {
+                ...state,
+                userId: action.payload
+            } 
+        
+        //NGUOI_DUNG_LOAD_GAP
+        case NGUOI_DUNG_LOAD_GAP: 
+            return {
+                ...state,
+                idGap: action.payload
+            } 
+        //GET_DETAIL_DICH_VU
+        case GET_DETAIL_DICH_VU.PENDING: 
+            return {
+                ...state,
+                isPeddingFindDoctor: true,
+                isFoundDoctor: false,
+            }
+        case GET_DETAIL_DICH_VU.SUCCESS:
+            return {
+                ...state,
+                isPeddingFindDoctor: false,
+                isFoundDoctor: true,
+                dichVuDetail: action.payload
+            }
+        case GET_DETAIL_DICH_VU.FAILURE: 
+            return {
+                ...state,
+                isPeddingFindDoctor: false,
+                isFoundDoctor: false,
+                dichVuDetail: {}
+            }
         default:
             return state;
     }
