@@ -13,7 +13,7 @@ import {
     ListDoctors,
     FixedHeader,
     ListHistory,
-    Loading, EmtyList, DoctorInfoPopup
+    Loading, EmtyList
 } from '../../components';
 import { connect } from 'react-redux';
 //import * as userAction from '../../user/user.action';
@@ -22,22 +22,20 @@ import { signOut } from '../../auth/auth.action';
 import { resetNavigationTo } from '../../utils';
 import { getProfiles, getUserInfo } from '../../user/user.action';
 import { getProfileDetail} from '../../profiles/profile.action';
+import {connectSignalR} from '../../kham/kham.action';
 
 console.disableYellowBox = true;
 
 class Home extends Component {
     constructor(props){
         super(props);
-        this.state ={
-            doctorInfo :{}, 
-            showDoctorInfo: false
-        }
         this.gapBacSi = this.gapBacSi.bind(this);
     }
     componentWillMount() {
         const {getProfiles ,getUserInfo} = this.props;
         getUserInfo();
         getProfiles();
+        this.props.connectSignalR();
     }
 
     signOut() {
@@ -59,23 +57,6 @@ class Home extends Component {
         }
     }
 
-    khaiBaoUser() {
-        const { userInfo, proxy } = this.props;
-        proxy.invoke('nguoiDungKhaiBaoUserName', userInfo.Email).done((directResponse) => {
-            console.log('khai bao username thanh cong',directResponse);
-        }).fail(() => {
-            console.warn('khai bao username  fail');
-            this.khaiBaoUser();
-        });
-    }
-
-    showDoctorInfoPopup= (info) =>{
-        console.log('aaaaa', info)
-        this.setState({
-            doctorInfo: info,
-            showDoctorInfo: true
-        })
-    }
     render() {
         var { profilesList, navigation, userInfo, isPendingUser } = this.props;
         var DsGap = [];
@@ -188,7 +169,7 @@ class Home extends Component {
                                 <View style={{ flex: 1, alignItems: 'flex-end' }}><Text style={styles.textdivider}> xem toàn bộ</Text></View>
                             </TouchableOpacity>}
                         </View>
-                        <ListHistory historyList={DsGap.slice(0,5)} navigation={navigation} khaiBaoUser={() => this.khaiBaoUser()} />
+                        <ListHistory historyList={DsGap.slice(0,5)} navigation={navigation} />
                         {DsGap ==0 &&
                             <EmtyList 
                                 info={{
@@ -201,16 +182,6 @@ class Home extends Component {
                         />}
                     </View>
                 </ParallaxScrollView>
-                {this.state.showDoctorInfo && 
-                    <View style={styles.viewDoctorInfo}>
-                        <DoctorInfoPopup 
-                            doctorInfo={this.state.doctorInfo}
-                        />
-                    </View> 
-                }
-                {this.state.showDoctorInfo && 
-                    <View style={styles.transparentView}/>
-                }
             </View>
         );
     }
@@ -222,9 +193,8 @@ function mapStateToProps(state) {
         isConnectedSignalR: state.kham.isConnectedSignalR,
         userInfo: state.user.user,
         isPendingUser: state.user.isPendingUser,
-        proxy: state.kham.proxy,
         errorConnection: state.kham.errorConnection
     };
 }
 
-export default connect(mapStateToProps, { signOut, getProfiles, getUserInfo,getProfileDetail })(Home);
+export default connect(mapStateToProps, { signOut, getProfiles, getUserInfo,getProfileDetail,connectSignalR })(Home);

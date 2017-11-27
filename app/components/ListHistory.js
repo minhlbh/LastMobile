@@ -13,11 +13,23 @@ import {
 export class ListHistory extends Component{
     _keyExtractor = (item, index) => item.id;
     
-    vaoRoom(idGap){
-        this.props.navigation.navigate('ChatHistory', {
-            idGap: idGap
+    vaoRoom(item){
+        const {navigation} = this.props;
+        if(item.TrangThai === "Vừa lập" || item.TrangThai === "Chốt yêu cầu"){
+            navigation.navigate('FindDoctor', {
+                idGap: item.Id,
+                chuyenKhoa: item.ChuyenKhoa,
+                vanDe : item.VanDe,
+                hoSo: item.HoSo,
             })
-        this.props.khaiBaoUser();
+        }else{
+            navigation.navigate('Chat', {
+                idGap: item.Id,
+                chuyenKhoa: item.ChuyenKhoa,
+                tenBacSi: item.BacSi.TenBacSi
+            })
+        }
+        
     }
     _renderItem = ({item}) => {
         var avatar = 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg';
@@ -29,7 +41,7 @@ export class ListHistory extends Component{
                 key={item.IdGap}
                 title={'Bác sĩ: '+item.BacSi.TenBacSi}
                 onPress={() => {
-                    this.vaoRoom(item.IdGap)
+                    this.vaoRoom(item)
                 }}
                 subtitle={item.VanDe}
                 titleStyle={{ color: 'black' }}

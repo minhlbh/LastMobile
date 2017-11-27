@@ -1,8 +1,6 @@
 import {
     GET_CONNECTION_SIGNALR,
-    GET_PROXY_SIGNALR,
     GET_CHUYEN_KHOA,
-    STORE_BAC_SI_INFO,
     KHAI_BAO_USERNAME,
     NGUOI_DUNG_LOAD_GAP, 
     GET_DETAIL_DICH_VU
@@ -16,8 +14,6 @@ const initialState = {
     errorConnection: '',
     isPendingProxy: false,
     listChuyenKhoa: [],
-    doctorInfo: {},
-    isPendingDoctorInfo: false,
     isFoundDoctor: false,
     idGapHistory: null,
     userId : null,
@@ -54,48 +50,6 @@ export const khamReducer = (state = initialState, action = {}) => {
                 ...state,
                 listChuyenKhoa: action.payload
             };
-        case STORE_BAC_SI_INFO.PENDING:
-            return {
-                ...state,
-                isPendingDoctorInfo: true,
-            }
-        case STORE_BAC_SI_INFO.SUCCESS:
-            return {
-                ...state,
-                isPendingDoctorInfo: false,
-                isFoundDoctor: true,
-                doctorInfo: action.payload
-            }
-        case STORE_BAC_SI_INFO.FAILURE:
-            return {
-                ...state,
-                isPendingDoctorInfo: false,
-                isFoundDoctor: false,
-            }
-        case STORE_BAC_SI_INFO.SUCCESS:
-            return {
-                ...state,
-                idGapHistory: action.payload
-            }
-        // //GET GET_PROXY_SIGNALR
-        // case GET_PROXY_SIGNALR.PENDING:
-        //     return {
-        //         ...state,
-        //         isPendingProxy: true,
-        //     };
-        // case GET_PROXY_SIGNALR.SUCCESS:
-        //     return {
-        //         ...state,
-        //         isPendingProxy: false,
-        //         proxy: action.payload,
-        //     };
-        // case GET_PROXY_SIGNALR.FAILURE:
-        //     return {
-        //         ...state,
-        //         isPendingProxys: false,
-        //         error: action.payload,
-        //     };
-        //DEFAULT
 
         // KHAI_BAO_USERNAME 
         case KHAI_BAO_USERNAME:

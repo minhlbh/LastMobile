@@ -1,6 +1,5 @@
 import { AsyncStorage } from 'react-native';
 import accountApi from '../api/accountApi';
-import SignalR from '../kham/SignalR';
 
 import {
     GET_AUTH_USER,

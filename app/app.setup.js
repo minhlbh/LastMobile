@@ -6,7 +6,7 @@ import * as khamAction from './kham/kham.action';
 class AppSetup extends Component {
     constructor(props){
         super(props);  
-        this.props.connectSignalR();
+        // this.props.connectSignalR();
     }
     render(){
         return (

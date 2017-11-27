@@ -1,18 +1,15 @@
 import { AsyncStorage,ToastAndroid } from 'react-native';
 import khamApi from '../api/khamApi';
 import signalr from 'react-native-signalr';
-import SignalR from './SignalR';
 
 import {
     GET_CONNECTION_SIGNALR,
-    GET_PROXY_SIGNALR,
     GET_CHUYEN_KHOA,
-    STORE_BAC_SI_INFO,
-    SET_IDGAP_HISTORY,
     KHAI_BAO_USERNAME,
     NGUOI_DUNG_LOAD_GAP,
     GET_DETAIL_DICH_VU
 } from './kham.type';
+import { setTimeout } from 'core-js/library/web/timers';
 
 
 export const connectSignalR = () => {
@@ -21,14 +18,7 @@ export const connectSignalR = () => {
         const proxy = connection.createHubProxy('truongKhoaHub')
         dispatch({ type: GET_CONNECTION_SIGNALR.PENDING });
         // PROXY ON
-        proxy.on('timBacSiTheoChuyenKhoa_KetQua', () => {});
         proxy.on('chat', () => {});
-        proxy.on('moiBacSi_BacSiTraLoi', () => {});
-        proxy.on('nguoiDungMobileVaoGap_DaVaoDuoc', (IdGap) => {
-            console.log('nguoiDungMobileVaoGap_DaVaoDuoc',IdGap)
-        });
-        proxy.on('loadUserOnline',  () => {});
-
         
         connection.start().done(() => {
             console.log('Now connected, connection ID=',connection.id)
@@ -77,58 +67,6 @@ export const getListChuyenKhoa = () => {
     };
 };
 
-
-export const storeDoctorInfo = () => {
-    return ( dispatch, getState) => {
-        // var data = {
-        //     idDichVu: '123456789',
-        //     tenDichVu: 'Khám chữa bệnh',
-        //     giaTien: '1000000',
-        //     bacSiId: '123556568',
-        //     hoVaTen: 'Phúc Đỗ',
-        //     avatar: 'https://media.gq.com/photos/56eb1c3f1740841549748e55/master/w_1600/david-beckham-gq-0416-2.jpg',
-        //     gioiThieuNhanh: 'Khám chữa bệnh'
-        // }
-        // dispatch({
-        //     type: STORE_BAC_SI_INFO.SUCCESS,
-        //     payload: data,
-        // });
-
-        const proxy = getState().kham.proxy;
-        dispatch({ type: STORE_BAC_SI_INFO.PENDING })
-        proxy.on('timBacSiTheoChuyenKhoa_KetQua', (KetQua, IdDichVu, TenDichVu, GiaTien, BacSiId, HoVaTen, Avatar, GioiThieuNhanh) => {
-            console.log(KetQua)
-            if (!BacSiId) { //Nếu k có id bác sĩ trả về thì báo kết quả 
-                alert(KetQua);
-                dispatch({ type: STORE_BAC_SI_INFO.FAILURE })
-            } else { //Nếu có chuyển sang trang bác sĩ
-                var data = {
-                    idDichVu: IdDichVu,
-                    tenDichVu: TenDichVu,
-                    giaTien: GiaTien,
-                    bacSiId: BacSiId,
-                    hoVaTen: HoVaTen,
-                    avatar: Avatar,
-                    gioiThieuNhanh: GioiThieuNhanh
-                }
-                dispatch({
-                    type: STORE_BAC_SI_INFO.SUCCESS,
-                    payload: data,
-                });
-            }
-        });
-    };
-};
-
-export const setIdGapHistory = (idGap) => {
-    return (dispatch) =>{
-        dispatch({
-            type: SET_IDGAP_HISTORY.SUCCESS,
-            payload: idGap,
-        });
-    }
-}
-
 export const khaiBaoUserName = () => {
     return ( dispatch, getState) => {
         const proxy = getState().kham.proxy;
@@ -142,7 +80,9 @@ export const khaiBaoUserName = () => {
             });
         }).fail(() => {
             console.warn('khai bao username  fail');
-            dispatch(khaiBaoUserName());
+            setTimeout(() => {
+                dispatch(khaiBaoUserName());
+            }, 1000);
         });
     }
 }
@@ -195,7 +135,6 @@ export const timBacSiTheoChuyenKhoa = (idGap, idHoSo, an, vanDe, name, birth, ge
             ToastAndroid.show('Tìm bác sĩ không thành công', ToastAndroid.SHORT);
             dispatch({ type: GET_DETAIL_DICH_VU.FAILURE})            
         });
-
     }
 }
 
@@ -206,7 +145,7 @@ export const chonBacSi = (navigation) => {
         const proxy = getState().kham.proxy;                    
         proxy.invoke('nguoidungChonBacSi', idGap, idDichVu).done((directResponse) => {
             if(directResponse === 'OK'){
-                navigation.navigate('Chat');
+                navigation.navigate('Chat',{tenBacSi:getState().kham.dichVuDetail.TenBacSi });
             }else {
                 ToastAndroid.show('Bác sĩ không đồng ý gặp', ToastAndroid.SHORT);           
             }

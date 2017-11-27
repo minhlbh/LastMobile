@@ -9,6 +9,7 @@ import { GiftedChat,Actions } from 'react-native-gifted-chat';
 import { connect} from 'react-redux';
 import styles from './styles';
 import khamApi from '../../../api/khamApi';
+import * as khamAction from '../../kham.action';
 var ImagePicker = require('react-native-image-picker');
 
 class Chat extends Component {
@@ -29,61 +30,65 @@ class Chat extends Component {
     //   }
     constructor(props){
         super(props)
-        const {idGap, userId,accessToken} =  this.props;
-        khamApi.listChatMes(idGap, accessToken).then((res) =>{
-            if(res.DsChat){
-                var DsChat = res.DsChat;
-                DsChatMes.map((mes) => {
-                    if(mes.UserId === userId){
-                        var message = {
-                            _id: this.state.messages.length + 1,
-                            text: mes.NoiDung,
-                            createdAt: mes.ThoiGian,
-                            user:{
-                                _id: 1,
-                                name: mes.HoVaTen,
-                                avatar: mes.Avatar
+        const {userId,accessToken,nguoidungLoadGap} =  this.props;
+        const {idGap, chuyenKhoa} =  this.props.navigation.state.params;
+        if(idGap){
+            nguoidungLoadGap(idGap,chuyenKhoa.Id )
+            khamApi.listChatMes(idGap, accessToken).then((res) =>{
+                if(res.DsChat){
+                    var DsChat = res.DsChat;
+                    DsChat.map((mes) => {
+                        if(mes.UserId === userId){
+                            var message = {
+                                _id: this.state.messages.length + 1,
+                                text: mes.NoiDung,
+                                createdAt: mes.ThoiGian,
+                                user:{
+                                    _id: 1,
+                                    name: mes.HoVaTen,
+                                    avatar: mes.Avatar
+                                }
                             }
-                        }
-                        this.setState((previousState) => ({
-                            messages: GiftedChat.append(previousState.messages, message),
-                        }));
-                    }else {
-                        var message = {
-                            _id: this.state.messages.length + 1,
-                            text: mes.NoiDung,
-                            createdAt: mes.ThoiGian,
-                            user:{
-                                _id: 2,
-                                name: mes.HoVaTen,
-                                avatar: mes.Avatar
+                            this.setState((previousState) => ({
+                                messages: GiftedChat.append(previousState.messages, message),
+                            }));
+                        }else {
+                            var message = {
+                                _id: this.state.messages.length + 1,
+                                text: mes.NoiDung,
+                                createdAt: mes.ThoiGian,
+                                user:{
+                                    _id: 2,
+                                    name: mes.HoVaTen,
+                                    avatar: mes.Avatar
+                                }
                             }
+                            this.setState((previousState) => ({
+                                messages: GiftedChat.append(previousState.messages, message),
+                            }));
                         }
-                        this.setState((previousState) => ({
-                            messages: GiftedChat.append(previousState.messages, message),
-                        }));
-                    }
-                })
-            }
-        })
+                    })
+                }
+            })
+        }      
     }
     componentDidMount(){
         this.props.proxy.on('chat', (idGap, vai, name, userId, avatar, time, mess) => {
             if(idGap === this.props.idGap){
                 if(userId === this.props.userId){
-                    var message = {
-                        _id: this.state.messages.length + 1,
-                        text: mess,
-                        createdAt: time,
-                        user:{
-                            _id: 1,
-                            name: name,
-                            avatar: avatar
-                        }
-                    }
-                    this.setState((previousState) => ({
-                        messages: GiftedChat.append(previousState.messages, message),
-                    }));
+                    // var message = {
+                    //     _id: this.state.messages.length + 1,
+                    //     text: mess,
+                    //     createdAt: time,
+                    //     user:{
+                    //         _id: 1,
+                    //         name: name,
+                    //         avatar: avatar
+                    //     }
+                    // }
+                    // this.setState((previousState) => ({
+                    //     messages: GiftedChat.append(previousState.messages, message),
+                    // }));
                 }else {
                     var message = {
                         _id: this.state.messages.length + 1,
@@ -176,7 +181,7 @@ class Chat extends Component {
             <Icon
                 name='keyboard-arrow-left'
                 color='black' 
-                onPress={() =>this.props.navigation.goBack()}
+                onPress={() =>this.props.navigation.navigate('Home')}
             />
         )
     }
@@ -189,7 +194,7 @@ class Chat extends Component {
                         color='blue' 
                         type='entypo'
                     />
-                    <Text style={styles.headerTitle}>{this.props.dichVuDetail.TenBacSi}</Text>
+                    <Text style={styles.headerTitle}>{this.props.navigation.state.params.tenBacSi}</Text>
                </TouchableOpacity>
         )
     }
@@ -247,8 +252,7 @@ function mapStateToProps(state){
         idGap: state.kham.idGap,
         proxy: state.kham.proxy,
         userId: state.kham.userId,
-        accessToken: state.auth.accessToken,    
-        dichVuDetail: state.kham.dichVuDetail    
+        accessToken: state.auth.accessToken,       
     }
 }
-export default connect(mapStateToProps)(Chat);
+export default connect(mapStateToProps, khamAction)(Chat);

@@ -37,9 +37,11 @@ class FindDoctor extends Component {
     }
 
     componentWillMount() {
-        const {chuyenKhoa, idGap} =  this.props.navigation.state.params;
+        const {chuyenKhoa, idGap,vanDe,hoSo} =  this.props.navigation.state.params;
+        if(hoSo){
+            this.setState({vanDe, profile: hoSo})
+        }
         this.props.nguoidungLoadGap(idGap,chuyenKhoa.Id);
-        //this.props.storeDoctorInfo();
     }
 
     pickImage() {
