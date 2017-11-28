@@ -15,3 +15,4 @@ export * from './doctor-info-popup';
 export * from './view-container';
 export * from './finding-doctor-modal';
 export * from './animation-view';
+export * from './item-gap';

@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { StackNavigator } from "react-navigation";
-import Doctor from '../doctor/screens/Doctor';
+import TuVan from '../tuVan/screens/TuVan';
 
-export default (DoctorStack = StackNavigator({
-    Doctor: {
-        screen: Doctor,
+export default (TuVanStack = StackNavigator({
+    TuVan: {
+        screen: TuVan,
         navigationOptions: {
             header: null
         }

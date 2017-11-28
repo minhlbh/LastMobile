@@ -65,6 +65,7 @@ class Home extends Component {
             DsGap = userInfo.DsGap.reverse();
             DsBacSiCuaToi = userInfo.DsBacSiCuaToi;
         }
+        console.log(userInfo)
         return (
             <View style={styles.container}>
                 <ParallaxScrollView

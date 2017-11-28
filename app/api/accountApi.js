@@ -244,6 +244,16 @@ var accountApi = {
                  return res.json()
              }
          }); 
+    },
+    getListTuVan(token) {
+        var url = apiUrl.User_DsCuocGap;
+        return fetch(url, {
+            method: 'GET',
+            headers: {
+                'Authorization': `bearer ${token}`,
+            },
+        })
+            .then((response) => response.json())
     }
 };
 

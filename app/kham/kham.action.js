@@ -82,7 +82,7 @@ export const khaiBaoUserName = () => {
             console.warn('khai bao username  fail');
             setTimeout(() => {
                 dispatch(khaiBaoUserName());
-            }, 1000);
+            }, 5000);
         });
     }
 }

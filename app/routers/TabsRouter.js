@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { TabNavigator } from "react-navigation";
 import HomeStack from './HomeStack';
 import ProfileStack from './ProfileStack';
-import DoctorStack from './DoctorStack';
+import TuVanStack from './TuVanStack';
 import UserStack from './UserStack';
 import { Icon } from 'react-native-elements';
 
@@ -14,8 +14,8 @@ const Tabs = TabNavigator({
       tabBarIcon: ({ tintColor }) => <Icon name="home"  color={tintColor}  size={28}/>
     },
   },
-  Doctor: {
-    screen: DoctorStack,
+  TuVan: {
+    screen: TuVanStack,
     navigationOptions: {
       tabBarLabel: 'Tư vấn',
       tabBarIcon: ({ tintColor }) => <Icon name="chat"  color={tintColor} size={28}/>

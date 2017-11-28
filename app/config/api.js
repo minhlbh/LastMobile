@@ -19,7 +19,8 @@ var apiUrl = {
         uInfo: `${domain}api/Account/uInfo`,
         fblogin: `${domain}api/Account/fblogin`,
         user_Hoso_detail: `${domain}api/CSDLYT/User_HoSo_Detail?Id=`,
-        user_HoSo_Edit: `${domain}api/CSDLYT/User_HoSo_Edit`
+        user_HoSo_Edit: `${domain}api/CSDLYT/User_HoSo_Edit`,
+        User_DsCuocGap: `${domain}api/CSDLYT/User_DsCuocGap`
     },
     home: {
         listDichVu :`${domain}api/CSDLYT/DichVu_List`,
