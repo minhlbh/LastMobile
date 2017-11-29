@@ -8,6 +8,7 @@ type Props = {
     onPress: Function
 }  
 export  const  ItemGap  = ({item, onPress } : Props ) =>{
+    var update = new Date(item.Update);
     return(
         <TouchableOpacity style={styles.container}
             onPress={onPress}
@@ -28,13 +29,13 @@ export  const  ItemGap  = ({item, onPress } : Props ) =>{
                 />
                 <View>
                     <Text style={styles.profileName}>{item.HoSo.HoVaTen}</Text>
-                    <Text style={styles.doctorName}>{item.BacSi.TenBacSi}</Text>
+                    <Text style={styles.doctorName}>Bác sĩ: {item.BacSi.TenBacSi}</Text>
                 </View>
             </View>
             <Text style={styles.vanDe}>{item.VanDe}</Text>
             <View style={styles.footerContainer}>
                 <Text style={styles.footerText}>{item.TrangThai}</Text>
-                <Text style={styles.footerText}>{item.Update}</Text>
+                <Text style={styles.footerText}>{update.getDate()} - {update.getMonth()+1} - {update.getFullYear()}</Text>
             </View>
         </TouchableOpacity>
     )
