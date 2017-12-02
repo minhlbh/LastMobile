@@ -3,6 +3,7 @@ package com.truongkhoa;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.hoxfon.react.RNTwilioVoice.TwilioVoicePackage;
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
@@ -38,6 +39,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new TwilioVoicePackage(),
             new LinearGradientPackage(),
             new RNFetchBlobPackage(),
             new ImagePickerPackage(),

@@ -64,6 +64,7 @@ class Home extends Component {
             DsGap = userInfo.DsGap.reverse();
             DsBacSiCuaToi = userInfo.DsBacSiCuaToi;
         }
+        //console.log(userInfo)
         return (
             <View style={styles.container}>
                 <ParallaxScrollView
@@ -104,11 +105,16 @@ class Home extends Component {
                         <View style={styles.headerListContainer}>
                             <View style={{ flex: 1 }}><Text style={styles.textDividerTitle}>BÁC SĨ CỦA TÔI</Text></View>
                             {DsBacSiCuaToi.length > 5 &&
-                                <TouchableOpacity onPress={() => navigation.navigate('Doctor')}>
+                                <TouchableOpacity 
+                                    onPress={() => navigation.navigate('Doctor')}
+                                >
                                     <View style={{ flex: 1, alignItems: 'flex-end', }}><Text style={styles.textdivider}> xem toàn bộ</Text></View>
                                 </TouchableOpacity>}
                         </View>
-                        <ListDoctors doctorsList={DsBacSiCuaToi} onPress={(item) => this.showDoctorInfoPopup(item)}/>
+                        <ListDoctors doctorsList={DsBacSiCuaToi} onPress={(item) => {
+                            this.props.getProfileDetail(item.IdBacSi)
+                            navigation.navigate('ProfileDetail')
+                        } }/>
                         {DsBacSiCuaToi.length ==0 &&
                             <EmtyList 
                                 info={{
@@ -164,9 +170,12 @@ class Home extends Component {
                     <View style={styles.listContainer}>
                         <View style={styles.headerListContainer}>
                             <View style={{ flex: 1 }}><Text style={styles.textDividerTitle}>LỊCH SỬ KHÁM CHỮA</Text></View>
-                            {DsGap.length > 5 && <TouchableOpacity>
-                                <View style={{ flex: 1, alignItems: 'flex-end' }}><Text style={styles.textdivider}> xem toàn bộ</Text></View>
-                            </TouchableOpacity>}
+                            {DsGap.length > 5 && 
+                                <TouchableOpacity
+                                    onPress={() => navigation.navigate('TuVan')}
+                                >
+                                    <View style={{ flex: 1, alignItems: 'flex-end' }}><Text style={styles.textdivider}> xem toàn bộ</Text></View>
+                                </TouchableOpacity>}
                         </View>
                         <ListHistory historyList={DsGap.slice(0,5)} navigation={navigation} />
                         {DsGap ==0 &&

@@ -30,7 +30,8 @@ var apiUrl = {
         listChuyenKhoa: `${domain}api/CSDLYT/tenchuyenkhoa_list`,
         deleteImage: `${domain}api/DD/DeleteImg`,
         lichSuChat: `${domain}api/CSDLYT/Gap_LichSuChat?IdGap=`,
-        detailDichVu: `${domain}api/CSDLYT/DichVu_Detail?IdDichVu=`
+        detailDichVu: `${domain}api/CSDLYT/DichVu_Detail?IdDichVu=`,
+        getTokenCall: `${domain}call/gettoken?Id=`
     }
 }
 

@@ -56,6 +56,12 @@ var khamApi = {
         return fetch(url,{
             method: 'GET',
         }).then((response) => response.json())
+    },
+    getTokenCallById(id){
+        var url = `${apiUrl.getTokenCall}${id}`;
+        return fetch(url, {
+            method: 'GET',            
+        }).then((response) => response._bodyText)
     }
 }
 

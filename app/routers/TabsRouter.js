@@ -37,10 +37,13 @@ const Tabs = TabNavigator({
   },
 }, {
     tabBarPosition: 'bottom',
+    lazy: true,   
+    swipeEnabled :false, 
     tabBarOptions: {
       activeTintColor: 'black',
       inactiveTintColor: '#CCC',
       showIcon: true,
+      animationEnabled : true,
       style: {
         backgroundColor: '#FFF',
         paddingTop: 0,

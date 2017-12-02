@@ -43,9 +43,9 @@ export const connectSignalR = () => {
             detailedError = error.source._response;
             }
             if (detailedError === 'An SSL error has occurred and a secure connection to the server cannot be made.') {
-            console.log('When using react-native-signalr on ios with http remember to enable http in App Transport Security https://github.com/olofd/react-native-signalr/issues/14')
+                console.log('When using react-native-signalr on ios with http remember to enable http in App Transport Security https://github.com/olofd/react-native-signalr/issues/14')
             }
-            console.debug('SignalR error: ' + errorMessage, detailedError)
+                console.debug('SignalR error: ' + errorMessage, detailedError)
             dispatch({
                 type: GET_CONNECTION_SIGNALR.FAILURE,
                 payload: errorMessage +': '+detailedError ,

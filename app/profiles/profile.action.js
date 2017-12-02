@@ -79,6 +79,6 @@ export const editProfile = (name, birth, gender, relationship, address, tinhThan
 
         const accessToken = getState().auth.accessToken;
         accountApi.editProfile(accessToken,profileInfo.Id, name, 
-            birth,gender,relationship,address,tinhThanh,email,phone,latLng);
+            Date.parse(birth),gender,relationship,address,tinhThanh,email,phone,latLng);
     }
 }

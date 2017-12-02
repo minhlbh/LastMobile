@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "891712822861",
+    "firebase_url": "https://sputnich-b8c23.firebaseio.com",
+    "project_id": "sputnich-b8c23",
+    "storage_bucket": "sputnich-b8c23.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:891712822861:android:3001a3e4598d3493",
+        "android_client_info": {
+          "package_name": "com.truongkhoa"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "891712822861-nfphpea7tkgq14ntmdike18eu7hhnuip.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCL-8_EP0RcYesCuAvrQZx6WwXHskQbnuA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

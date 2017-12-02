@@ -56,6 +56,7 @@
 		E82DF0F3926E464296EF353C /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F639CF76D17405D9F25086F /* libRNImagePicker.a */; };
 		FBD39D6836924D57B16A3A76 /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A37725244B2C471FA087A13E /* libRNVectorIcons.a */; };
 		5BC0004E99CB48C6AE4ACC94 /* libBVLinearGradient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE4E76F07FE04590B0A2B0C6 /* libBVLinearGradient.a */; };
+		50985D07316B40D5AA1EFFC0 /* libRNTwilioVoice.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FC812294E9D44A4B3D94B60 /* libRNTwilioVoice.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -371,6 +372,8 @@
 		EF318D6648764F35AEAFEE30 /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
 		0BCC44F654E34CD29DA76831 /* BVLinearGradient.xcodeproj */ = {isa = PBXFileReference; name = "BVLinearGradient.xcodeproj"; path = "../node_modules/react-native-linear-gradient/BVLinearGradient.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		CE4E76F07FE04590B0A2B0C6 /* libBVLinearGradient.a */ = {isa = PBXFileReference; name = "libBVLinearGradient.a"; path = "libBVLinearGradient.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		AAD75C5E5ACB483D9CFE879B /* RNTwilioVoice.xcodeproj */ = {isa = PBXFileReference; name = "RNTwilioVoice.xcodeproj"; path = "../node_modules/react-native-twilio-programmable-voice/ios/RNTwilioVoice.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		8FC812294E9D44A4B3D94B60 /* libRNTwilioVoice.a */ = {isa = PBXFileReference; name = "libRNTwilioVoice.a"; path = "libRNTwilioVoice.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -408,6 +411,7 @@
 				C3BAC16939B7490BB90B17B5 /* libRNFetchBlob.a in Frameworks */,
 				640C65B83E8647A4A2014B78 /* libRCTFBSDK.a in Frameworks */,
 				5BC0004E99CB48C6AE4ACC94 /* libBVLinearGradient.a in Frameworks */,
+				50985D07316B40D5AA1EFFC0 /* libRNTwilioVoice.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -656,6 +660,7 @@
 				E309A68F56A041A0B763D326 /* RNFetchBlob.xcodeproj */,
 				B8C6FEA80BB24D5B9900C479 /* RCTFBSDK.xcodeproj */,
 				0BCC44F654E34CD29DA76831 /* BVLinearGradient.xcodeproj */,
+				AAD75C5E5ACB483D9CFE879B /* RNTwilioVoice.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1296,12 +1301,14 @@
 					"$(SRCROOT)..\node_modules\neact-native-fetch-blobios/**",
 					"$(SRCROOT)..\node_modules\neact-native-fbsdkiosRCTFBSDK/**",
 					"$(SRCROOT)\..\node_modules\react-native-linear-gradient\BVLinearGradient",
+					"$(SRCROOT)\..\node_modules\react-native-twilio-programmable-voice\ios\RNTwilioVoice",
 				);
 				INFOPLIST_FILE = TruongKhoaTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1329,12 +1336,14 @@
 					"$(SRCROOT)..\node_modules\neact-native-fetch-blobios/**",
 					"$(SRCROOT)..\node_modules\neact-native-fbsdkiosRCTFBSDK/**",
 					"$(SRCROOT)\..\node_modules\react-native-linear-gradient\BVLinearGradient",
+					"$(SRCROOT)\..\node_modules\react-native-twilio-programmable-voice\ios\RNTwilioVoice",
 				);
 				INFOPLIST_FILE = TruongKhoaTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1366,6 +1375,7 @@
 					"$(SRCROOT)..\node_modules\neact-native-fetch-blobios/**",
 					"$(SRCROOT)..\node_modules\neact-native-fbsdkiosRCTFBSDK/**",
 					"$(SRCROOT)\..\node_modules\react-native-linear-gradient\BVLinearGradient",
+					"$(SRCROOT)\..\node_modules\react-native-twilio-programmable-voice\ios\RNTwilioVoice",
 				);
 				INFOPLIST_FILE = TruongKhoa/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1396,6 +1406,7 @@
 					"$(SRCROOT)..\node_modules\neact-native-fetch-blobios/**",
 					"$(SRCROOT)..\node_modules\neact-native-fbsdkiosRCTFBSDK/**",
 					"$(SRCROOT)\..\node_modules\react-native-linear-gradient\BVLinearGradient",
+					"$(SRCROOT)\..\node_modules\react-native-twilio-programmable-voice\ios\RNTwilioVoice",
 				);
 				INFOPLIST_FILE = TruongKhoa/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1430,11 +1441,13 @@
 					"$(SRCROOT)..\node_modules\neact-native-fetch-blobios/**",
 					"$(SRCROOT)..\node_modules\neact-native-fbsdkiosRCTFBSDK/**",
 					"$(SRCROOT)\..\node_modules\react-native-linear-gradient\BVLinearGradient",
+					"$(SRCROOT)\..\node_modules\react-native-twilio-programmable-voice\ios\RNTwilioVoice",
 				);
 				INFOPLIST_FILE = "TruongKhoa-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1472,11 +1485,13 @@
 					"$(SRCROOT)..\node_modules\neact-native-fetch-blobios/**",
 					"$(SRCROOT)..\node_modules\neact-native-fbsdkiosRCTFBSDK/**",
 					"$(SRCROOT)\..\node_modules\react-native-linear-gradient\BVLinearGradient",
+					"$(SRCROOT)\..\node_modules\react-native-twilio-programmable-voice\ios\RNTwilioVoice",
 				);
 				INFOPLIST_FILE = "TruongKhoa-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1515,6 +1530,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.TruongKhoa-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1539,6 +1555,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
