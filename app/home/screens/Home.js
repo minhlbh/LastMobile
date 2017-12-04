@@ -23,6 +23,7 @@ import { resetNavigationTo } from '../../utils';
 import { getProfiles, getUserInfo } from '../../user/user.action';
 import { getProfileDetail} from '../../profiles/profile.action';
 import {connectSignalR} from '../../kham/kham.action';
+import TwilioVoice from 'react-native-twilio-programmable-voice';
 
 console.disableYellowBox = true;
 
@@ -36,6 +37,13 @@ class Home extends Component {
         getUserInfo();
         getProfiles();
         this.props.connectSignalR();
+        TwilioVoice.getActiveCall()
+        .then(incomingCall => {
+            if (incomingCall){
+                this.props.navigation.navigate('Call')
+                console.log(incomingCall)
+            }
+        });
     }
 
     signOut() {

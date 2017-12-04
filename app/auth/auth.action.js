@@ -1,7 +1,7 @@
 import { AsyncStorage, ToastAndroid } from 'react-native';
 import accountApi from '../api/accountApi';
 import FBSDK, { LoginManager, AccessToken } from 'react-native-fbsdk';
-
+import TwilioVoice from 'react-native-twilio-programmable-voice';
 
 import {
     LOGIN,
@@ -12,9 +12,10 @@ import {
     VERIFY_CODE,
     REGISTER_FB
 } from './auth.type';
+import khamApi from '../api/khamApi';
 
 export const auth = (user, pass,navigation) => {
-    return dispatch => {
+    return async dispatch => {
         if(user.length <9 && pass.length < 6){
             dispatch({
                 type: LOGIN.FAILURE,
@@ -32,6 +33,15 @@ export const auth = (user, pass,navigation) => {
                         payload: data.access_token,
                     });
                     AsyncStorage.setItem('access_token', data.access_token);
+                    khamApi.getTokenCallById(user).then( async res => {
+                        console.log(res)
+                        try { 
+                            const success = await TwilioVoice.initWithToken(res);
+                            console.log(success)
+                        } catch (err) {
+                            console.err(err)
+                        }
+                    })
                     navigation.navigate('Tabs');   
                 } else {
                     dispatch({

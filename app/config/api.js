@@ -31,7 +31,7 @@ var apiUrl = {
         deleteImage: `${domain}api/DD/DeleteImg`,
         lichSuChat: `${domain}api/CSDLYT/Gap_LichSuChat?IdGap=`,
         detailDichVu: `${domain}api/CSDLYT/DichVu_Detail?IdDichVu=`,
-        getTokenCall: `${domain}call/gettoken?Id=`
+        getTokenCall: `${domain}call/gettokenandroid?Id=`
     }
 }
 

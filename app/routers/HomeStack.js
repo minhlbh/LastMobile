@@ -8,7 +8,7 @@ import CreateFastProfile from '../profiles/screens/CreateFastProfile';
 import ListChuyenKhoa from '../kham/screens/ListChuyenKhoa';
 import ProfileDetail from '../profiles/screens/ProfileDetail';
 import EditProfile from '../profiles/screens/EditProfile';
-
+import Call from '../kham/screens/Call'
 export default (HomeStack = StackNavigator({
     Home: {
         screen: Home,
@@ -60,6 +60,13 @@ export default (HomeStack = StackNavigator({
     },
     EditProfile: {
         screen: EditProfile,
+        navigationOptions: {
+            header: null,
+            tabBarVisible: false
+        }
+    },
+    Call: {
+        screen: Call,
         navigationOptions: {
             header: null,
             tabBarVisible: false

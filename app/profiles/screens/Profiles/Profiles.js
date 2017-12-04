@@ -11,12 +11,12 @@ import {
     StickyHeader,
     ListProfiles
 } from '../../../components';
-import TwilioVoice from 'react-native-twilio-programmable-voice'
+import TwilioVoice from 'react-native-twilio-programmable-voice';
 import khamApi from '../../../api/khamApi';
 class Profiles extends Component {
    
     componentDidMount(){
-        this.initTelephony().done();
+        //this.initTelephony().done();
         TwilioVoice.addEventListener('deviceReady', () => {
             console.log('aaaaaaaaaaaaaaaaaaaaaaaaâ')
         })
@@ -24,13 +24,14 @@ class Profiles extends Component {
         .then(incomingCall => {
             if (incomingCall){
                 _deviceDidReceiveIncoming(incomingCall)
+                console.log(incomingCall)
             }
-        })
+        });
     }
 
     async initTelephony() {
         try { 
-                    const success = await TwilioVoice.initWithToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImN0eSI6InR3aWxpby1mcGE7dj0xIn0.eyJpc3MiOiJTSzBjMDY0ZDRiYTBmMzM0MzdhN2Q1NGE3ZGIzZjc5NmMzIiwiZXhwIjoxNTEyMjA4NTkyLCJqdGkiOiJTSzBjMDY0ZDRiYTBmMzM0MzdhN2Q1NGE3ZGIzZjc5NmMzLTE1MTIyMDQ5OTIiLCJzdWIiOiJBQzA3MTY0NjZiN2MyNmNkOTZkOTI2MDcwOWZhMzFkMzBhIiwiZ3JhbnRzIjp7ImlkZW50aXR5IjoicGh1Y2RvIiwidm9pY2UiOnsib3V0Z29pbmciOnsiYXBwbGljYXRpb25fc2lkIjoiQVBkNDEzNzVjZWY3Y2M0ODNlYmJmNDVkYWJhMjcwMmRiMyJ9LCJwdXNoX2NyZWRlbnRpYWxfc2lkIjoiQ1JjZjVjMDJmMzUyNDI3ZTU2YTMyNWY0NDJjYzVjN2I3NiJ9fX0.mKbjoMv2l5Dsw00MGbH1Nzgj7HaGoP81xqID5gPHhQI') 
+                    const success = await TwilioVoice.initWithToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImN0eSI6InR3aWxpby1mcGE7dj0xIn0.eyJpc3MiOiJTSzBjMDY0ZDRiYTBmMzM0MzdhN2Q1NGE3ZGIzZjc5NmMzIiwiZXhwIjoxNTEyMzc4NDg3LCJqdGkiOiJTSzBjMDY0ZDRiYTBmMzM0MzdhN2Q1NGE3ZGIzZjc5NmMzLTE1MTIzNzQ4ODciLCJzdWIiOiJBQzA3MTY0NjZiN2MyNmNkOTZkOTI2MDcwOWZhMzFkMzBhIiwiZ3JhbnRzIjp7ImlkZW50aXR5IjoicGh1Y2RvIiwidm9pY2UiOnsib3V0Z29pbmciOnsiYXBwbGljYXRpb25fc2lkIjoiQVBkNDEzNzVjZWY3Y2M0ODNlYmJmNDVkYWJhMjcwMmRiMyJ9LCJwdXNoX2NyZWRlbnRpYWxfc2lkIjoiQ1JjZjVjMDJmMzUyNDI3ZTU2YTMyNWY0NDJjYzVjN2I3NiJ9fX0.MCXEJLMKmhvmAQ-1ay1pNfz5PYoZjhYQ-niakeASjvA') 
                     console.log(success)          
         } catch (err) {
             console.err(err)
