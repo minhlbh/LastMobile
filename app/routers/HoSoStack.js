@@ -51,9 +51,10 @@ export default (HoSoStack = StackNavigator({
         screen: Tabs,
         navigationOptions: {
             title: 'Hồ sơ',
+            headerStyle: { backgroundColor: '#fff', elevation:0 },
             headerTitleStyle : { 
                 alignSelf: 'center',     
-            }
+            },      
         }
     },
 }));

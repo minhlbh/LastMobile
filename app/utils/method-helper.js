@@ -1,4 +1,6 @@
 import { NavigationActions } from 'react-navigation';
+import 'intl';
+import 'intl/locale-data/jsonp/de';
 
 export const resetNavigationTo = (routeName, navigation) => {
     const resetAction = NavigationActions.reset({

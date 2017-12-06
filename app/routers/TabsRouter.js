@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { TabNavigator } from "react-navigation";
 import HomeStack from './HomeStack';
-import ProfileStack from './ProfileStack';
+import CalendarStack from './CalendarStack';
 import HoSoStack from './HoSoStack';
 import UserStack from './UserStack';
 import { Icon } from 'react-native-elements';
@@ -18,14 +18,14 @@ const Tabs = TabNavigator({
     screen: HoSoStack,
     navigationOptions: {
       tabBarLabel: 'Hồ sơ',
-      tabBarIcon: ({ tintColor }) => <Icon name="chat"  color={tintColor} size={28}/>
+      tabBarIcon: ({ tintColor }) => <Icon name="format-list-bulleted"  color={tintColor} size={28}/>
     },
   },
-  Profiles: {
-    screen: ProfileStack,
+  Calendar: {
+    screen: CalendarStack,
     navigationOptions: {
-      tabBarLabel: 'Tìm bệnh án',
-      tabBarIcon: ({ tintColor }) => <Icon name="search" color={tintColor} size={28}/>
+      tabBarLabel: 'Lịch',
+      tabBarIcon: ({ tintColor }) => <Icon type='material-community' name="calendar-blank" color={tintColor} size={28}/>
     },
   },
   User: {
