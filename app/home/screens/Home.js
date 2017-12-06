@@ -19,7 +19,7 @@ import { connect } from 'react-redux';
 //import * as userAction from '../../user/user.action';
 import images from '../../config/images';
 import { signOut } from '../../auth/auth.action';
-import { resetNavigationTo } from '../../utils';
+import { resetNavigationTo, formatterCurrency } from '../../utils';
 import { getProfiles, getUserInfo } from '../../user/user.action';
 import { getProfileDetail} from '../../profiles/profile.action';
 import {connectSignalR} from '../../kham/kham.action';
@@ -44,6 +44,9 @@ class Home extends Component {
                 console.log(incomingCall)
             }
         });
+        TwilioVoice.addEventListener('deviceDidReceiveIncoming', () => {
+            this.props.navigation.navigate('Call')
+        })
     }
 
     signOut() {

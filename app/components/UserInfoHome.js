@@ -3,6 +3,7 @@ import {View,StyleSheet } from 'react-native';
 import {
      Text,Avatar,Button
 } from 'react-native-elements';
+import {formatterCurrency } from '../utils';
 
 
 type Props = {
@@ -25,7 +26,7 @@ export const UserInfoHome= ({userInfo ,onPress} : Props) =>{
                     </View>
                     <View style={{ flex: 4 , justifyContent: 'center'}}>
                         <Text style={styles.name}>{userInfo.HoVaTen}</Text>
-                        <Text style={styles.infoTextSub}> TK Chính: {userInfo.TaiKhoanChinh} đ </Text>
+                        <Text style={styles.infoTextSub}> TK Chính: {formatterCurrency.format(userInfo.TaiKhoanChinh)}</Text>
                         <Text style={styles.infoTextSub}> Sổ y bạ: 0 sổ </Text>                      
                     </View>         
                 </View>                         

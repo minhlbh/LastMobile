@@ -49,11 +49,11 @@ const styles= StyleSheet.create({
         flexDirection : 'row',       
     },
     profileName: {
-        fontSize: 18,
+        fontSize: 16,
         color: 'black'
     },
     doctorName: {
-        fontSize: 16,
+        fontSize: 14,
         color: 'gray'
     },
     footerContainer: {
@@ -65,7 +65,7 @@ const styles= StyleSheet.create({
     },
     vanDe: {
         color:'#808080',
-        fontSize: 15,
+        fontSize: 13,
         marginTop: 8
     }
 })

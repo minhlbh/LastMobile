@@ -9,3 +9,9 @@ export const resetNavigationTo = (routeName, navigation) => {
   
     navigation.dispatch(resetAction);
   };
+
+//format tien
+export  var formatterCurrency = new Intl.NumberFormat('de-DE', {
+    style: 'currency',
+    currency: 'VND',
+  });
