@@ -37,7 +37,7 @@ class EditProfile extends Component {
     done(){
         const {name, birth, gender, relation, address, province, email, latLng, phone} = this.state;
         this.props.editProfile(name, birth,gender,relation,address,province,email,phone,latLng);
-        console.log(name, birth, gender, relation, address, province, email, latLng, phone)
+        //console.log(name, birth.toISOString().split('Z')[0].replace("000","00") + "+070640", gender, relation, address, province, email, latLng, phone)
         this.props.navigation.goBack();
     }
     render(){
@@ -71,9 +71,8 @@ class EditProfile extends Component {
                         <StickyHeader name='Sửa hồ sơ' />
                     )}>
                         <Text style={[styles.dividerText, {paddingLeft: 20}]}>CHI TIẾT HỒ SƠ</Text>
-                    <List >
                         <ListItem
-                            containerStyle={styles.firstItem}
+                            containerStyle={styles.itemContainer}
                             title='Họ và tên'
                             hideChevron={true}
                             textInput={true}
@@ -86,6 +85,7 @@ class EditProfile extends Component {
                         <ListItem
                             onPress={() => this.pickDate()}
                             title='Ngày sinh' 
+                            containerStyle={styles.itemContainer}
                             rightTitle={`${birth.getDate()} - ${birth.getMonth() + 1} - ${birth.getFullYear()}`}
                         /> 
                         <View style={styles.pickerItem}>
@@ -107,6 +107,7 @@ class EditProfile extends Component {
                             textInputContainerStyle={styles.formInputContainer}
                             textInputStyle={styles.formInputStyle}
                             textInputValue={this.state.relation}
+                            containerStyle={styles.itemContainer}
                             textInputOnChangeText={(relation) => this.setState({ relation })}
                         />
 
@@ -118,6 +119,7 @@ class EditProfile extends Component {
                             textInputContainerStyle={styles.formInputContainer}
                             textInputStyle={styles.formInputStyle}
                             textInputValue={this.state.address}
+                            containerStyle={styles.itemContainer}
                             textInputOnChangeText={(address) => this.setState({ address })}
                         />
 
@@ -129,6 +131,7 @@ class EditProfile extends Component {
                             textInputContainerStyle={styles.formInputContainer}
                             textInputStyle={styles.formInputStyle}
                             textInputValue={this.state.province}
+                            containerStyle={styles.itemContainer}
                             textInputOnChangeText={(province) => this.setState({ province })}
                         />
 
@@ -141,6 +144,7 @@ class EditProfile extends Component {
                             textInputStyle={styles.formInputStyle}
                             textInputValue={this.state.email}
                             textInputOnChangeText={(email) => this.setState({ email })}
+                            containerStyle={styles.itemContainer}                            
                         />
 
                         <ListItem
@@ -152,15 +156,15 @@ class EditProfile extends Component {
                             textInputStyle={styles.formInputStyle}
                             textInputValue={this.state.phone}
                             textInputOnChangeText={(phone) => this.setState({ phone })}
+                            containerStyle={styles.itemContainer}
                         />
-                    </List>
                     <View>
                         <View style={styles.dividerView}>
                             <Text style={styles.dividerText}>TỌA ĐỘ</Text>
                         </View>
                         <View style={{ backgroundColor: 'white' }}>
                             <ListItem
-                                containerStyle={styles.firstItem}
+                                containerStyle={styles.itemContainer}
                                 title='Tọa độ'
                                 rightTitle={this.state.latLng}
                             />

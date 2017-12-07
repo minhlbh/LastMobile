@@ -17,18 +17,12 @@ export default StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        borderBottomWidth: 1,
         height: 40,
-        borderBottomColor: '#BFBFBF'
     },
     pickerTextItem: {
         flex: 3,
         marginLeft: 20,
         color: '#43484D'
-    },
-    firstItem: {
-        borderTopColor: '#BFBFBF',
-        borderTopWidth: 1
     },
     dividerView: {
         height: 60,
@@ -37,6 +31,10 @@ export default StyleSheet.create({
     },
     dividerText: {
         fontWeight: '600',
-        fontSize: 11
+        fontSize: 15
     },
+    itemContainer:{
+        borderBottomWidth: 0,
+        borderTopWidth: 0,
+    }
 })

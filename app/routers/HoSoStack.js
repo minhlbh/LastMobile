@@ -44,7 +44,7 @@ const Tabs = TabNavigator({
         },
         scrollEnabled : true
       }
-    });
+  });
 
 export default (HoSoStack = StackNavigator({
     HoSo: {

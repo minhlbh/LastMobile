@@ -45,17 +45,6 @@ var accountApi = {
             alert(e)
         })
     },
-    listHistory(token){
-        var url = `${apiUrl.history}`;
-        return fetch(url,{
-            method: 'POST',
-            headers:{
-                'Authorization': `bearer ${token}` 
-            }
-        }).then((response) => response.json()).catch((e) => {
-            alert(e)
-        })
-    },
     getProfiles(token) {
         var url = `${apiUrl.user_DsHoSo}`;
         return fetch(url, {
@@ -217,7 +206,7 @@ var accountApi = {
         let details = {
             Id: id,
             HoVaTen: name,
-            NgaySinh: new Date(birth),
+            NgaySinh: birth,
             GioiTinh: gender,
             QuanHe: relationship,
             TinhThanh: tinhThanh,
@@ -247,6 +236,16 @@ var accountApi = {
     },
     getListTuVan(token) {
         var url = apiUrl.User_DsCuocGap;
+        return fetch(url, {
+            method: 'GET',
+            headers: {
+                'Authorization': `bearer ${token}`,
+            },
+        })
+            .then((response) => response.json())
+    },
+    getEventMonth(month, token){
+        var url = apiUrl.event_user_month + month;
         return fetch(url, {
             method: 'GET',
             headers: {
