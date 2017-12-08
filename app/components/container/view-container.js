@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View,TouchableOpacity ,Text} from 'react-native';
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
-import {StickyHeader} from '../components';
+import {StickyHeader} from '../../components';
 import { Icon } from 'react-native-elements';
 
 type Props = {
@@ -17,13 +17,11 @@ const styles = StyleSheet.create({
         marginLeft: 20,
         fontSize: 30
     }
-
 });
 
 export const ViewContainer = ({ onBack, children,title }: Props) =>
 <View style={{ flex: 1, backgroundColor: 'white' }}>
     <ParallaxScrollView
-        contentContainerStyle={{ zIndex: 0, }}
         backgroundColor="white"
         contentBackgroundColor="white"
         parallaxHeaderHeight={100}
@@ -36,12 +34,12 @@ export const ViewContainer = ({ onBack, children,title }: Props) =>
                         name='chevron-left'
                         color='#1864D3'
                         size={40} />
-                    <Text style={{ color: '#4385D5', fontSize: 16 }}>Quay lại</Text>
+                    <Text style={{ color: '#1864D3', fontSize: 16 }}>Quay lại</Text>
                 </TouchableOpacity>
             </View>
         )}
         renderForeground={() => (
-            <View style={{ flex: 1, marginTop: 50 }}>
+            <View style={{ flex: 1, marginTop: 40 }}>
                 <View style={{ flex: 1, }}>
                     <View>
                         <Text style={styles.foregroudText}>{title}</Text>

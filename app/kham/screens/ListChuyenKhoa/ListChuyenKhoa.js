@@ -24,8 +24,8 @@ class ListChuyenKhoa extends Component {
                             title={chuyenKhoa.Ten} 
                             titleStyle={styles.chuyenKhoaText}
                             subtitle={chuyenKhoa.TomTat}
-                            containerStyle={{borderBottomColor: '#bbb',borderBottomWidth: 0.15}}
-                            onPress={() => navigation.navigate('FindDoctor',{chuyenKhoa})}
+                            containerStyle={{borderBottomWidth: 0}}
+                            onPress={() => navigation.navigate('DoctorInfo',{chuyenKhoa})}
                         />
                             {chuyenKhoa.DsChuyenKhoaCon.map((chuyenKhoaCon) => (
                                 <View style={{paddingLeft: 25}}>
@@ -33,8 +33,8 @@ class ListChuyenKhoa extends Component {
                                         titleContainerStyle={styles.conTitleContainer}
                                         title={chuyenKhoaCon.Ten} 
                                         subtitle={chuyenKhoaCon.TomTat}
-                                        containerStyle={{borderBottomColor: '#bbb',borderBottomWidth: 0.5}}
-                                        onPress={() => navigation.navigate('FindDoctor', {chuyenKhoa: chuyenKhoaCon})}                            
+                                        containerStyle={{borderBottomColor: '#bbb',borderBottomWidth: 0.15}}
+                                        onPress={() => navigation.navigate('DoctorInfo', {chuyenKhoa: chuyenKhoaCon})}                            
                                     />
                                 </View>
                             ))}

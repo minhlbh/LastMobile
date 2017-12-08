@@ -7,7 +7,7 @@ import {
 } from 'react-native-elements';
 import styles from './styles';
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
-import { HeaderForeground, StickyHeader, FixedHeader } from '../../../components';
+import { CloseHeaderContainer } from '../../../components';
 import { connect } from 'react-redux';
 import * as khamAction from '../../kham.action';
 import khamApi from '../../../api/khamApi';
@@ -112,27 +112,10 @@ class FindDoctor extends Component {
         const {chuyenKhoa} =  navigation.state.params;
         return (
             <View style={styles.container}>
-                <ParallaxScrollView
-                    contentContainerStyle={{ zIndex: 0, }}
-                    backgroundColor="white"
-                    contentBackgroundColor="white"
-                    parallaxHeaderHeight={80}
-                    renderFixedHeader={() => (
-                        <FixedHeader icon0='close' navigation={() => navigation.goBack()} />
-                    )}
-                    renderForeground={() => (
-                        <View style={{ flex: 1, flexDirection: 'row', marginTop: 30 }}>
-                            <View style={{ flex: 1, }}>
-                                <TouchableOpacity>
-                                    <Text h3 style={{ color: 'black', fontWeight: 'bold', marginLeft: 20 }}>Tìm bác sĩ</Text>
-                                </TouchableOpacity>
-                            </View>
-                        </View>
-                    )}
-                    stickyHeaderHeight={40}
-                    renderStickyHeader={() => (
-                        <StickyHeader name='Gặp bác sĩ' />
-                    )}>
+                <CloseHeaderContainer
+                        onClose={() => navigation.goBack()}
+                        title='Tìm bác sĩ'
+                    >
                     <View>
                         <View >
                             <List>
@@ -224,7 +207,7 @@ class FindDoctor extends Component {
                             ))}
                         </View>
                     </View>
-                </ParallaxScrollView>
+                </CloseHeaderContainer>
 
                 <Button
                     buttonStyle={styles.button}

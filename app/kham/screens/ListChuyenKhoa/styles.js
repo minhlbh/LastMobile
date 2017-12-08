@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
     chuyenKhoaText:{
-        color: 'blue',
+        color: '#1864D3',
         fontSize: 18
     },
     conTitleContainer:{

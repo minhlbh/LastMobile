@@ -8,6 +8,7 @@ import ListChuyenKhoa from '../kham/screens/ListChuyenKhoa';
 import ProfileDetail from '../profiles/screens/ProfileDetail';
 import EditProfile from '../profiles/screens/EditProfile';
 import Call from '../kham/screens/Call';
+import DoctorInfo from '../kham/screens/DoctorInfo';
 
 export default (HomeStack = StackNavigator({
     Home: {
@@ -21,6 +22,13 @@ export default (HomeStack = StackNavigator({
         navigationOptions: {
             header: null,
             tabBarVisible: false
+        }
+    },
+    DoctorInfo: {
+        screen: DoctorInfo,
+        navigationOptions: {
+            header: null,
+            tabBarVisible: false            
         }
     },
     FindDoctor: {
