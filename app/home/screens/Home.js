@@ -24,6 +24,7 @@ import { getProfiles, getUserInfo } from '../../user/user.action';
 import { getProfileDetail} from '../../profiles/profile.action';
 import {connectSignalR} from '../../kham/kham.action';
 import TwilioVoice from 'react-native-twilio-programmable-voice';
+import {initEventCall} from '../../kham/call.action';
 
 console.disableYellowBox = true;
 
@@ -33,20 +34,11 @@ class Home extends Component {
         this.gapBacSi = this.gapBacSi.bind(this);
     }
     componentWillMount() {
-        const {getProfiles ,getUserInfo} = this.props;
+        const {getProfiles ,getUserInfo, navigation} = this.props;
         getUserInfo();
         getProfiles();
         this.props.connectSignalR();
-        TwilioVoice.getActiveCall()
-        .then(incomingCall => {
-            if (incomingCall){
-                this.props.navigation.navigate('Call')
-                console.log(incomingCall)
-            }
-        });
-        TwilioVoice.addEventListener('deviceDidReceiveIncoming', () => {
-            this.props.navigation.navigate('Call')
-        })
+        initEventCall(navigation);
     }
 
     signOut() {

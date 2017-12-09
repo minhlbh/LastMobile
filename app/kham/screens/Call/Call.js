@@ -10,6 +10,10 @@ class Call extends Component {
         isCalling: false
     }
 
+    componentWillMount(){
+        const {isComingCall} =  this.props.navigation.state.params;
+        if(!isComingCall) this.setState({isCalling: true})           
+    }
     onCall() {
         TwilioVoice.accept();
         this.setState({isCalling: true})
@@ -24,11 +28,13 @@ class Call extends Component {
         this.props.navigation.goBack();
     }
     render() {
+        const {data} =  this.props.navigation.state.params;
+        console.log(data)
         return (
             <View style={styles.container}>
 
                 <View style={styles.panelName}>
-                    <Text style={[styles.text, { fontSize: 25 }]}>Bác sĩ</Text>
+                    <Text style={[styles.text, { fontSize: 25 }]}>Bác sĩ : {data.call_from}</Text>
                     <Text style={styles.text}>Đang liên hệ...</Text>
                 </View>
 

@@ -14,9 +14,9 @@ import {
 } from './auth.type';
 import khamApi from '../api/khamApi';
 
-export const auth = (user, pass,navigation) => {
+export const auth = (user, pass, navigation) => {
     return async dispatch => {
-        if(user.length <9 && pass.length < 6){
+        if (user.length < 9 && pass.length < 6) {
             dispatch({
                 type: LOGIN.FAILURE,
                 payload: 'Số điện thoại hoặc mặt khẩu k đúng định dạng',
@@ -33,16 +33,16 @@ export const auth = (user, pass,navigation) => {
                         payload: data.access_token,
                     });
                     AsyncStorage.setItem('access_token', data.access_token);
-                    khamApi.getTokenCallById(user).then( async res => {
-                        console.log(res)
-                        try { 
+                    khamApi.getTokenCallById(user).then(async res => {
+                        AsyncStorage.setItem('call_token', res);
+                        try {
                             const success = await TwilioVoice.initWithToken(res);
                             console.log(success)
                         } catch (err) {
                             console.err(err)
                         }
                     })
-                    navigation.navigate('Tabs');   
+                    navigation.navigate('Tabs');
                 } else {
                     dispatch({
                         type: LOGIN.FAILURE,
@@ -73,7 +73,7 @@ export const authWithFb = (navigation) => {
                             fetch(`https://graph.facebook.com/me?fields=email&&access_token=${data.accessToken.toString()}`)
                                 .then((response) => response.json())
                                 .then((res) => {
-                                    console.log('facebook',data.userID, res.email, data.accessToken.toString());
+                                    console.log('facebook', data.userID, res.email, data.accessToken.toString());
                                     accountApi.loginFb(data.userID, res.email, data.accessToken.toString()).then(response => {
                                         if (response.access_token) {
                                             dispatch({
@@ -81,16 +81,16 @@ export const authWithFb = (navigation) => {
                                                 payload: response.access_token,
                                             });
                                             AsyncStorage.setItem('access_token', response.access_token);
-                                            ToastAndroid.show('Đăng nhập thành công',ToastAndroid.SHORT);
-                                            navigation.navigate('Tabs');   
-                                        }               
+                                            ToastAndroid.show('Đăng nhập thành công', ToastAndroid.SHORT);
+                                            navigation.navigate('Tabs');
+                                        }
                                     }).catch(error => {
-                                        if(error.message == 'dangky') {
+                                        if (error.message == 'dangky') {
                                             dispatch({
                                                 type: REGISTER_FB,
                                                 payload: data.accessToken.toString(),
                                             });
-                                            ToastAndroid.show('Bạn cần đăng kí số điện thoại',ToastAndroid.SHORT);
+                                            ToastAndroid.show('Bạn cần đăng kí số điện thoại', ToastAndroid.SHORT);
                                             navigation.navigate('VerifyPhone');
                                         }
                                         dispatch({
@@ -104,7 +104,7 @@ export const authWithFb = (navigation) => {
                 }
             },
             function (error) {
-                ToastAndroid.show('Đăng nhập xảy ra lỗi: ' + error,ToastAndroid.SHORT);
+                ToastAndroid.show('Đăng nhập xảy ra lỗi: ' + error, ToastAndroid.SHORT);
             },
         )
     };
@@ -149,20 +149,20 @@ export const signOut = () => {
 };
 
 export const vefifyPhone = (phone, navigation) => {
-    return ( dispatch, getState) => {
-        if(phone.length <= 9  ){
-            ToastAndroid.show('Số điện thoại không đúng định dạng', ToastAndroid.SHORT); 
-            return 
+    return (dispatch, getState) => {
+        if (phone.length <= 9) {
+            ToastAndroid.show('Số điện thoại không đúng định dạng', ToastAndroid.SHORT);
+            return
         }
-        dispatch({ type: VERIFY_PHONE.PENDING }); 
+        dispatch({ type: VERIFY_PHONE.PENDING });
         accountApi.getCodeVerify(phone, getState().auth.isRegister).then(res => {
             console.log(res);
-            if(res.err){
+            if (res.err) {
                 dispatch({
                     type: VERIFY_PHONE.FAILURE,
                 });
-                ToastAndroid.show(res.mess, ToastAndroid.SHORT); 
-            }else {
+                ToastAndroid.show(res.mess, ToastAndroid.SHORT);
+            } else {
                 dispatch({
                     type: VERIFY_PHONE.SUCCESS,
                     payload: phone,
@@ -170,16 +170,16 @@ export const vefifyPhone = (phone, navigation) => {
                 });
                 navigation.navigate('ConfirmCode')
             }
-        }) .catch(error => {
+        }).catch(error => {
             dispatch({
                 type: VERIFY_PHONE.FAILURE,
             });
-            ToastAndroid.show(error.message, ToastAndroid.SHORT); 
-        });    
+            ToastAndroid.show(error.message, ToastAndroid.SHORT);
+        });
     }
 }
 
-export const actionTypeIsRegister = (isRegister ) => {
+export const actionTypeIsRegister = (isRegister) => {
     return dispatch => {
         dispatch({
             type: ACTION_TYPE,
@@ -188,32 +188,32 @@ export const actionTypeIsRegister = (isRegister ) => {
     }
 }
 
-export const verifyCode= (code, navigation) => {
-    return( dispatch, getState)=> {
-        if(code.length !== 6) {
+export const verifyCode = (code, navigation) => {
+    return (dispatch, getState) => {
+        if (code.length !== 6) {
             ToastAndroid.show('Mã xác thực phải đủ 6 kí tự', ToastAndroid.SHORT);
-            return 
+            return
         }
-        dispatch({ type: VERIFY_CODE.PENDING }); 
-        accountApi.verifycode(getState().auth.phone,code).then(res => {
+        dispatch({ type: VERIFY_CODE.PENDING });
+        accountApi.verifycode(getState().auth.phone, code).then(res => {
             console.log(res);
-            if(res.err){
+            if (res.err) {
                 dispatch({
                     type: VERIFY_CODE.FAILURE,
                 });
-                ToastAndroid.show(res.mess, ToastAndroid.SHORT); 
-            }else {
+                ToastAndroid.show(res.mess, ToastAndroid.SHORT);
+            } else {
                 dispatch({
                     type: VERIFY_CODE.SUCCESS,
                     payload: code
                 });
-                navigation.navigate('CreateAccount', {code: code});
+                navigation.navigate('CreateAccount', { code: code });
             }
-        }) .catch(error => {
+        }).catch(error => {
             dispatch({
                 type: VERIFY_CODE.FAILURE,
             });
-            ToastAndroid.show(error.message, ToastAndroid.SHORT); 
-        });    
+            ToastAndroid.show(error.message, ToastAndroid.SHORT);
+        });
     }
 }

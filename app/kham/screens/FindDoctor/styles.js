@@ -38,5 +38,9 @@ export default StyleSheet.create({
         height: 45,
         marginBottom:6,
         marginTop:3
-    }
+    },
+    itemContainer: { 
+        borderBottomColor: '#bbb', 
+        borderBottomWidth: 0.2 
+    },
 })

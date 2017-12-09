@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-    View, TouchableOpacity, Picker, Switch, TextInput, FlatList, Image,Modal,ToastAndroid
+    View, TouchableOpacity, Picker, Switch, TextInput, FlatList, Image, Modal, ToastAndroid
 } from 'react-native';
 import {
     Text, Icon, ListItem, Divider, Button, List, Avatar, FormInput
@@ -11,10 +11,10 @@ import { CloseHeaderContainer } from '../../../components';
 import { connect } from 'react-redux';
 import * as khamAction from '../../kham.action';
 import khamApi from '../../../api/khamApi';
-import { ListProfiles , FindingDoctorModal} from '../../../components';
+import { ListProfiles, FindingDoctorModal } from '../../../components';
 import { resetNavigationTo } from '../../../utils';
 import images from '../../../config/images';
-import  ImagePicker from 'react-native-image-picker';
+import ImagePicker from 'react-native-image-picker';
 
 var options = {
     title: 'Chọn ảnh cho bác sĩ xem',
@@ -27,7 +27,7 @@ class FindDoctor extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            profile: {Avatar: images.defaultAvatar,HoVaTen: 'Chọn hồ sơ'},
+            profile: { Avatar: images.defaultAvatar, HoVaTen: 'Chọn hồ sơ' },
             anDanh: false,
             vanDe: '',
             images: [],
@@ -37,11 +37,11 @@ class FindDoctor extends Component {
     }
 
     componentWillMount() {
-        const {chuyenKhoa, idGap,vanDe,hoSo} =  this.props.navigation.state.params;
-        if(hoSo){
-            this.setState({vanDe, profile: hoSo})
+        const { chuyenKhoa, idGap, vanDe, hoSo } = this.props.navigation.state.params;
+        if (hoSo) {
+            this.setState({ vanDe, profile: hoSo })
         }
-        this.props.nguoidungLoadGap(idGap,chuyenKhoa.Id);
+        this.props.nguoidungLoadGap(idGap, chuyenKhoa.Id);
     }
 
     pickImage() {
@@ -95,33 +95,32 @@ class FindDoctor extends Component {
     }
 
     findDoctor() {
-        const {idGap ,navigation} = this.props;
-        const {profile,anDanh,vanDe} = this.state;
-        const {chuyenKhoa} =  navigation.state.params;        
-        if(profile.Id && vanDe){
-            this.setState({isFindingDoctor: true});
-            this.props.timBacSiTheoChuyenKhoa(idGap,profile.Id, anDanh, vanDe, profile.HoVaTen, profile.NgaySinh, profile.GioiTinh);
+        const { idGap, navigation } = this.props;
+        const { profile, anDanh, vanDe } = this.state;
+        const { chuyenKhoa } = navigation.state.params;
+        if (profile.Id && vanDe) {
+            this.setState({ isFindingDoctor: true });
+            this.props.timBacSiTheoChuyenKhoa(idGap, profile.Id, anDanh, vanDe, profile.HoVaTen, profile.NgaySinh, profile.GioiTinh);
         } else {
             ToastAndroid.show('Vui lòng chọn hồ sơ và điền vấn đề', ToastAndroid.SHORT);
         }
     }
 
     render() {
-        var { profilesList, navigation ,isPeddingFindDoctor,dichVuDetail, chonBacSi} = this.props;
-        const {profile, isFindingDoctor} = this.state;
-        const {chuyenKhoa} =  navigation.state.params;
+        var { profilesList, navigation, isPeddingFindDoctor, dichVuDetail, chonBacSi } = this.props;
+        const { profile, isFindingDoctor } = this.state;
+        const { chuyenKhoa } = navigation.state.params;
         return (
             <View style={styles.container}>
                 <CloseHeaderContainer
-                        onClose={() => navigation.goBack()}
-                        title='Tìm bác sĩ'
-                    >
+                    onClose={() => navigation.goBack()}
+                    title='Tìm bác sĩ'
+                >
                     <View>
                         <View >
-                            <List>
                                 <ListItem
-                                    containerStyle={{ paddingLeft: 7 }}
-                                    onPress={() => {this.setState({isPickingProfile: true}) }}
+                                    containerStyle={[{ paddingLeft: 7 },styles.itemContainer]}
+                                    onPress={() => { this.setState({ isPickingProfile: true }) }}
                                     roundAvatar
                                     avatar={profile.Avatar}
                                     title={profile.HoVaTen}
@@ -132,27 +131,28 @@ class FindDoctor extends Component {
                                     animationType="slide"
                                     transparent={false}
                                     visible={this.state.isPickingProfile}
-                                    onRequestClose={() => {this.setState({isPickingProfile: false})}}
+                                    onRequestClose={() => { this.setState({ isPickingProfile: false }) }}
                                     hardwareAccelerated={true}
-                                    >
-                                    <ListProfiles 
-                                        profilesList={profilesList} 
-                                        onPress={(profile) => this.setState({profile, isPickingProfile: false})} 
+                                >
+                                    <ListProfiles
+                                        profilesList={profilesList}
+                                        onPress={(profile) => this.setState({ profile, isPickingProfile: false })}
                                     />
                                     <ListItem
                                         roundAvatar
                                         avatar={{ uri: 'https://www.computerhope.com/jargon/p/plus.gif' }}
                                         title='Tạo mới hồ sơ'
                                         titleStyle={{ color: '#546CA8' }}
-                                        onPress={()=> {
-                                            this.setState({isPickingProfile: false})
+                                        onPress={() => {
+                                            this.setState({ isPickingProfile: false })
                                             navigation.navigate('CreateFastProfile')
                                         }}
-                                        containerStyle={{borderBottomColor: '#bbb',borderBottomWidth: 0}} 
-                                        hideChevron={true}                           
+                                        containerStyle={{ borderBottomColor: '#bbb', borderBottomWidth: 0 }}
+                                        hideChevron={true}
                                     />
-                                </Modal> 
+                                </Modal>
                                 <ListItem
+                                    containerStyle={styles.itemContainer}
                                     title='Ẩn danh'
                                     titleStyle={styles.text}
                                     switchButton
@@ -163,19 +163,19 @@ class FindDoctor extends Component {
                                     hideChevron
                                 />
                                 <ListItem
+                                    containerStyle={styles.itemContainer}                                    
                                     hideChevron
                                     titleStyle={styles.text}
                                     title='Chuyên khoa'
                                     rightTitle={chuyenKhoa.Ten}
                                     rightTitleStyle={styles.text}
-                                />
-                            </List>
+                                />                 
                         </View>
 
                         <View style={{ height: 35, justifyContent: 'center', backgroundColor: '#F8F8F8' }}>
                             <Text style={{ paddingLeft: 20, color: 'black' }}>VẤN ĐỀ GẶP PHẢI</Text>
                         </View>
-                        <View style={{ borderTopWidth: 1, borderBottomWidth: 1, borderColor: '#CDCDCD' }}>
+                        <View style={{ borderTopWidth: 0.2, borderBottomWidth: 0.2, borderColor: '#bbb' }}>
                             <FormInput
                                 underlineColorAndroid='transparent'
                                 placeholder='Mô tả triệu chứng, vấn đề ....'
@@ -216,10 +216,10 @@ class FindDoctor extends Component {
                     textStyle={{ color: 'white', fontSize: 18 }}
                 />
 
-                <FindingDoctorModal 
-                    modalVisible={isFindingDoctor} 
+                <FindingDoctorModal
+                    modalVisible={isFindingDoctor}
                     chonBacSi={() => chonBacSi(navigation)}
-                    close={() => this.setState({isFindingDoctor: false})}
+                    close={() => this.setState({ isFindingDoctor: false })}
                     doctorInfo={dichVuDetail}
                     isPendingFindDoctor={isPeddingFindDoctor}
                 />
@@ -236,7 +236,7 @@ function mapStateToProps(state) {
         doctorInfo: state.kham.doctorInfo,
         proxy: state.kham.proxy,
         isPeddingFindDoctor: state.kham.isPeddingFindDoctor,
-        dichVuDetail : state.kham.dichVuDetail
+        dichVuDetail: state.kham.dichVuDetail
     }
 }
 

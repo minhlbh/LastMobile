@@ -27,7 +27,7 @@ const Tabs = TabNavigator({
       },
   }, {
       tabBarPosition: 'top',
-      lazy: true,   
+      //lazy: true,   
       tabBarOptions: {
         activeTintColor: 'black',
         inactiveTintColor: '#CCC',

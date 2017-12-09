@@ -6,9 +6,26 @@ import { connect } from 'react-redux';
 import styles from './styles';
 import images from '../../../config/images';
 import TwilioVoice from 'react-native-twilio-programmable-voice';
+import {initTelephony, initEventCall} from '../../../kham/call.action';
 
 class DoctorInfo extends Component {
     state = {}
+    componentWillMount(){
+        this.initCall().done();
+    }
+    onCall(){
+        TwilioVoice.connect({To: '0911416817'});
+        this.props.navigation.navigate('Call', {
+            data :{
+                call_from: 'Sputnich'
+            },
+            isComingCall: false
+        })
+    }
+
+    async initCall (){
+        await initTelephony();
+    }
     render() {
         const { navigation } = this.props;
         return (
@@ -38,7 +55,7 @@ class DoctorInfo extends Component {
 
                 <View style={styles.footerButtonContainer}>
                     <TouchableOpacity style={[styles.button, { borderRightWidth: 1, borderColor: '#f2f2f2' }]}
-                        onPress={()=>{TwilioVoice.connect({To: '0911416817'})}}
+                        onPress={() => this.onCall()}
                     >
                         <Icon name='call' size={33} color='green' />
                         <Text style={{color:'black'}}>7.000 đ/phút</Text>
