@@ -9,7 +9,9 @@ import { GiftedChat,Actions } from 'react-native-gifted-chat';
 import { connect} from 'react-redux';
 import styles from './styles';
 import khamApi from '../../../api/khamApi';
-import * as khamAction from '../../kham.action';
+import {nguoidungLoadGap} from '../../kham.action';
+import {connectCall} from '../../call.action';
+
 var ImagePicker = require('react-native-image-picker');
 
 class Chat extends Component {
@@ -117,7 +119,7 @@ class Chat extends Component {
             });  
         }
         this.setState((previousState) => ({
-          messages: GiftedChat.append(previousState.messages, messages),
+            messages: GiftedChat.append(previousState.messages, messages),
         }));
         
     }
@@ -199,12 +201,16 @@ class Chat extends Component {
         )
     }
 
+    call(){
+        var idNguoiNhan = this.props.navigation.state.params.idBacSi;
+        this.props.connectCall(idNguoiNhan, this.props.navigation);
+    }
     _renderRightHeader(){
         return (
             <Icon
                 name='videocam'
                 color='black' 
-                onPress={() =>{}}
+                onPress={() => this.call()}
             />
         )
     }
@@ -255,4 +261,4 @@ function mapStateToProps(state){
         accessToken: state.auth.accessToken,       
     }
 }
-export default connect(mapStateToProps, khamAction)(Chat);
+export default connect(mapStateToProps, {nguoidungLoadGap,connectCall})(Chat);

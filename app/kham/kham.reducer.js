@@ -3,7 +3,8 @@ import {
     GET_CHUYEN_KHOA,
     KHAI_BAO_USERNAME,
     NGUOI_DUNG_LOAD_GAP, 
-    GET_DETAIL_DICH_VU
+    GET_DETAIL_DICH_VU, 
+    CALL
 } from './kham.type';
 
 const initialState = {
@@ -19,7 +20,15 @@ const initialState = {
     userId : null,
     idGap: null,
     isPeddingFindDoctor: false,
-    dichVuDetail :null
+    dichVuDetail :null,
+    //CALL
+    isPendingConnectCall : false,
+    choPhepCall: false, 
+    liDoTuChoiCall: null,
+    soGiayConLaiCall: null,
+    idCuocGoi: null,
+    //CHỌN BÁC SĨ BY CHUYÊN KHOA
+    doctorInfo : null
 };
 
 export const khamReducer = (state = initialState, action = {}) => {
@@ -85,6 +94,29 @@ export const khamReducer = (state = initialState, action = {}) => {
                 isFoundDoctor: false,
                 dichVuDetail: {}
             }
+        //CALL
+        case CALL.PENDING:
+            return {
+                ...state,
+                isPendingConnectCall: true,
+            };
+        case CALL.SUCCESS:
+            return {
+                ...state,
+                isPendingConnectCall: false,
+                choPhepCall: true, 
+                soGiayConLaiCall: action.soGiayConLaiCall ,
+                idCuocGoi: action.idCuocGoi      
+            };
+        case CALL.FAILURE:
+            return {
+                ...state,
+                isPendingConnectCall: false,
+                choPhepCall: false,
+                liDoTuChoiCall: action.liDoTuChoiCall,
+            };
+        //CHỌN BÁC SĨ BY CHUYÊN KHOA
+
         default:
             return state;
     }

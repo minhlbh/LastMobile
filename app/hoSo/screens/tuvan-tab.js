@@ -37,7 +37,8 @@ class TuVanTab extends Component {
             navigation.navigate('Chat', {
                 idGap: item.Id,
                 chuyenKhoa: item.ChuyenKhoa,
-                tenBacSi: item.BacSi.TenBacSi
+                tenBacSi: item.BacSi.TenBacSi, 
+                idBacSi: item.BacSi.IdBacSi
             })
         }
 

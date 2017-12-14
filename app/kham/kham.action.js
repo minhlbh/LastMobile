@@ -145,7 +145,10 @@ export const chonBacSi = (navigation) => {
         const proxy = getState().kham.proxy;                    
         proxy.invoke('nguoidungChonBacSi', idGap, idDichVu).done((directResponse) => {
             if(directResponse === 'OK'){
-                navigation.navigate('Chat',{tenBacSi:getState().kham.dichVuDetail.TenBacSi });
+                navigation.navigate('Chat',{
+                    tenBacSi:getState().kham.dichVuDetail.TenBacSi,
+                    idBacSi:getState().kham.dichVuDetail.IdBacSi 
+                });
             }else {
                 ToastAndroid.show('Bác sĩ không đồng ý gặp', ToastAndroid.SHORT);           
             }
