@@ -7,6 +7,7 @@ import styles from './styles';
 import images from '../../../config/images';
 import TwilioVoice from 'react-native-twilio-programmable-voice';
 import { initTelephony, initEventCall, connectCall } from '../../../kham/call.action';
+import { storeDoctor } from '../../../kham/kham.action';
 
 class DoctorInfo extends Component {
     state = {
@@ -20,12 +21,25 @@ class DoctorInfo extends Component {
         })
         this.initCall().done();
     }
-    onCall(idNguoiNhan) {
-        this.props.connectCall(idNguoiNhan, this.props.navigation);
+    onCall(idNguoiNhan, phone, idDichVu) {
+        this.props.connectCall(idNguoiNhan,phone,idDichVu, this.props.navigation);
     }
 
     onChat (doctorInfo) {
-        this.navigation.navigate('FindDoctor', { chuyenKhoa: navigation.state.params.chuyenKhoa })
+        const { navigation ,storeDoctor} = this.props;   
+        var doctor = {
+            IdBacSi: doctorInfo.IdBacSi,
+            TenBacSi: doctorInfo.HoVaTen,
+            Avatar: doctorInfo.Avatar,
+            GioiThieuNhanh: doctorInfo.GioiThieuNhanh,
+            Phone: doctorInfo.SoPhone,
+        }
+        storeDoctor(doctor, doctorInfo.DsDichVu[0].IdDichVu);
+        console.log(doctor, doctorInfo.DsDichVu[0].IdDichVu)
+        navigation.navigate('FindDoctor', { 
+            chuyenKhoa: navigation.state.params.chuyenKhoa,
+            isTuVan: true 
+        })
     }
     async initCall() {
         await initTelephony();
@@ -53,7 +67,7 @@ class DoctorInfo extends Component {
                                 height={120}
                                 width={120}
                             />
-                            {doctorInfo &&
+                            {doctorInfo ?
                                 <View style={{alignItems: 'center'}}>
                                     <Text style={styles.doctorName}>{doctorInfo.HoVaTen}</Text>
                                     <View style={{ flexDirection: 'row', marginTop: 10 }}>
@@ -61,14 +75,15 @@ class DoctorInfo extends Component {
                                         <Text style={{ fontSize: 15 }}>Chuyên khoa: {chuyenKhoa.Ten}</Text>
                                     </View>
                                     <Text style={{ marginTop: 20, }}>{doctorInfo.GioiThieuNhanh}</Text>
-                                </View>}
+                                </View>
+                                : <Text style={styles.doctorName}>Tất cả các bác sĩ đang bận</Text>}
                         </View>
                     </CloseHeaderContainer>
                 </View>
-
+                {doctorInfo &&
                 <View style={styles.footerButtonContainer}>
                     <TouchableOpacity style={[styles.button, { borderRightWidth: 1, borderColor: '#f2f2f2' }]}
-                        onPress={() => this.onCall(doctorInfo.IdBacSi)}
+                        onPress={() => this.onCall(doctorInfo.IdBacSi, doctorInfo.SoPhone, doctorInfo.DsDichVu[0].IdDichVu)}
                     >
                         <Icon name='call' size={33} color='green' />
                         <Text style={{ color: 'black' }}>7.000 đ/phút</Text>
@@ -80,7 +95,7 @@ class DoctorInfo extends Component {
                         <Text style={{ color: 'black' }}>80.000 đ/lượt tư vấn</Text>
                     </TouchableOpacity>
                 </View>
-
+                }
             </View>
         );
     }
@@ -92,5 +107,5 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps, {connectCall})(DoctorInfo);
+export default connect(mapStateToProps, {connectCall,storeDoctor})(DoctorInfo);
 

@@ -18,11 +18,11 @@ import {
 import { connect } from 'react-redux';
 //import * as userAction from '../../user/user.action';
 import images from '../../config/images';
-import { signOut } from '../../auth/auth.action';
+import { signOut, storeToken } from '../../auth/auth.action';
 import { resetNavigationTo, formatterCurrency } from '../../utils';
 import { getProfiles, getUserInfo } from '../../user/user.action';
 import { getProfileDetail} from '../../profiles/profile.action';
-import {connectSignalR} from '../../kham/kham.action';
+import {connectSignalR, storeDoctor} from '../../kham/kham.action';
 import TwilioVoice from 'react-native-twilio-programmable-voice';
 import {initEventCall} from '../../kham/call.action';
 
@@ -180,7 +180,7 @@ class Home extends Component {
                                     <View style={{ flex: 1, alignItems: 'flex-end' }}><Text style={styles.textdivider}> xem toàn bộ</Text></View>
                                 </TouchableOpacity>}
                         </View>
-                        <ListHistory historyList={DsGap.slice(0,5)} navigation={navigation} />
+                        <ListHistory historyList={DsGap.slice(0,5)} navigation={navigation} storeDoctor={this.props.storeDoctor}/>
                         {DsGap ==0 &&
                             <EmtyList 
                                 info={{
@@ -208,4 +208,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps, { signOut, getProfiles, getUserInfo,getProfileDetail,connectSignalR })(Home);
+export default connect(mapStateToProps, { signOut, getProfiles, getUserInfo,getProfileDetail,connectSignalR ,storeDoctor})(Home);

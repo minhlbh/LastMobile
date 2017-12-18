@@ -6,8 +6,6 @@ import styles from './styles';
 import images from '../../../config/images';
 import * as callAction from '../../call.action';
 import { connect } from 'react-redux';
-import { setInterval } from 'core-js/library/web/timers';
-
 
 class Call extends Component {
     state = {
@@ -27,7 +25,7 @@ class Call extends Component {
 
     reject() {
         if (this.state.isCalling) {
-            TwilioVoice.disconnect()
+            TwilioVoice.disconnect();
         } else {
             TwilioVoice.reject();
         }
@@ -50,11 +48,11 @@ class Call extends Component {
             //}
         }.bind(this))
         TwilioVoice.addEventListener('connectionDidDisconnect', function(data) {
+            clearInterval(this.state.interval)
             console.log(data)
             const { idCuocGoi, updateCall } = this.props;
             updateCall(idCuocGoi, this.state.timming, true);
             this.props.navigation.goBack();
-            clearInterval(this.state.interval)
         }.bind(this))
     }
 

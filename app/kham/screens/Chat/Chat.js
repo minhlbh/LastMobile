@@ -10,7 +10,7 @@ import { connect} from 'react-redux';
 import styles from './styles';
 import khamApi from '../../../api/khamApi';
 import {nguoidungLoadGap} from '../../kham.action';
-import {connectCall} from '../../call.action';
+import {connectCall, initTelephony} from '../../call.action';
 
 var ImagePicker = require('react-native-image-picker');
 
@@ -74,6 +74,9 @@ class Chat extends Component {
             })
         }      
     }
+    async initCall() {
+        await initTelephony();
+    }
     componentDidMount(){
         this.props.proxy.on('chat', (idGap, vai, name, userId, avatar, time, mess) => {
             if(idGap === this.props.idGap){
@@ -108,6 +111,7 @@ class Chat extends Component {
                 }
             }
         });
+        this.initCall().done();
     }
     onSend(messages = []) {
         for (let i = 0; i < messages.length; i++) {
@@ -196,14 +200,14 @@ class Chat extends Component {
                         color='blue' 
                         type='entypo'
                     />
-                    <Text style={styles.headerTitle}>{this.props.navigation.state.params.tenBacSi}</Text>
+                    <Text style={styles.headerTitle}>{this.props.doctorInfo.TenBacSi}</Text>
                </TouchableOpacity>
         )
     }
 
     call(){
-        var idNguoiNhan = this.props.navigation.state.params.idBacSi;
-        this.props.connectCall(idNguoiNhan, this.props.navigation);
+        const {doctorInfo, navigation, connectCall, idDichVu} = this.props;
+        connectCall(doctorInfo.IdBacSi,doctorInfo.Phone, idDichVu,navigation);;
     }
     _renderRightHeader(){
         return (
@@ -258,7 +262,9 @@ function mapStateToProps(state){
         idGap: state.kham.idGap,
         proxy: state.kham.proxy,
         userId: state.kham.userId,
-        accessToken: state.auth.accessToken,       
+        accessToken: state.auth.accessToken,    
+        doctorInfo: state.kham.doctorInfo,
+        idDichVu: state.kham.idDichVu
     }
 }
 export default connect(mapStateToProps, {nguoidungLoadGap,connectCall})(Chat);

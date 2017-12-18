@@ -2,9 +2,9 @@ import {
     GET_CONNECTION_SIGNALR,
     GET_CHUYEN_KHOA,
     KHAI_BAO_USERNAME,
-    NGUOI_DUNG_LOAD_GAP, 
-    GET_DETAIL_DICH_VU, 
-    CALL
+    NGUOI_DUNG_LOAD_GAP,  
+    CALL,
+    STORE_DOCTOR
 } from './kham.type';
 
 const initialState = {
@@ -15,12 +15,8 @@ const initialState = {
     errorConnection: '',
     isPendingProxy: false,
     listChuyenKhoa: [],
-    isFoundDoctor: false,
-    idGapHistory: null,
     userId : null,
     idGap: null,
-    isPeddingFindDoctor: false,
-    dichVuDetail :null,
     //CALL
     isPendingConnectCall : false,
     choPhepCall: false, 
@@ -28,7 +24,8 @@ const initialState = {
     soGiayConLaiCall: null,
     idCuocGoi: null,
     //CHỌN BÁC SĨ BY CHUYÊN KHOA
-    doctorInfo : null
+    doctorInfo : null,
+    idDichVu: null
 };
 
 export const khamReducer = (state = initialState, action = {}) => {
@@ -73,27 +70,6 @@ export const khamReducer = (state = initialState, action = {}) => {
                 ...state,
                 idGap: action.payload
             } 
-        //GET_DETAIL_DICH_VU
-        case GET_DETAIL_DICH_VU.PENDING: 
-            return {
-                ...state,
-                isPeddingFindDoctor: true,
-                isFoundDoctor: false,
-            }
-        case GET_DETAIL_DICH_VU.SUCCESS:
-            return {
-                ...state,
-                isPeddingFindDoctor: false,
-                isFoundDoctor: true,
-                dichVuDetail: action.payload
-            }
-        case GET_DETAIL_DICH_VU.FAILURE: 
-            return {
-                ...state,
-                isPeddingFindDoctor: false,
-                isFoundDoctor: false,
-                dichVuDetail: {}
-            }
         //CALL
         case CALL.PENDING:
             return {
@@ -116,7 +92,12 @@ export const khamReducer = (state = initialState, action = {}) => {
                 liDoTuChoiCall: action.liDoTuChoiCall,
             };
         //CHỌN BÁC SĨ BY CHUYÊN KHOA
-
+        case STORE_DOCTOR:
+            return {
+                ...state,
+                doctorInfo: action.payload,
+                idDichVu: action.idDichVu
+            }
         default:
             return state;
     }

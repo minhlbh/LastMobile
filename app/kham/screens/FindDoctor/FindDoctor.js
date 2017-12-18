@@ -32,7 +32,7 @@ class FindDoctor extends Component {
             vanDe: '',
             images: [],
             isPickingProfile: false,
-            isFindingDoctor: false
+            isThanhToanTaiNha: false
         }
     }
 
@@ -93,23 +93,29 @@ class FindDoctor extends Component {
             this.setState({ images })
         }
     }
-
-    findDoctor() {
-        const { idGap, navigation } = this.props;
-        const { profile, anDanh, vanDe } = this.state;
+    
+    gapBacSi() {
+        const { gapBacSi, navigation } = this.props;
         const { chuyenKhoa } = navigation.state.params;
+        const { profile, anDanh, vanDe, isThanhToanTaiNha } = this.state;
         if (profile.Id && vanDe) {
-            this.setState({ isFindingDoctor: true });
-            this.props.timBacSiTheoChuyenKhoa(idGap, profile.Id, anDanh, vanDe, profile.HoVaTen, profile.NgaySinh, profile.GioiTinh);
+            var kieuThanhToan = '';
+            if(isThanhToanTaiNha) {
+                kieuThanhToan = 'Tiền mặt';
+            }else {
+                kieuThanhToan = 'Online';              
+            }
+                
+            gapBacSi(navigation, profile.Id, anDanh, vanDe, profile.HoVaTen, profile.NgaySinh, profile.GioiTinh, kieuThanhToan);
         } else {
             ToastAndroid.show('Vui lòng chọn hồ sơ và điền vấn đề', ToastAndroid.SHORT);
         }
     }
-
     render() {
-        var { profilesList, navigation, isPeddingFindDoctor, dichVuDetail, chonBacSi } = this.props;
-        const { profile, isFindingDoctor } = this.state;
-        const { chuyenKhoa } = navigation.state.params;
+        var { profilesList, navigation, chonBacSi, doctorInfo } = this.props;
+        console.log(doctorInfo)
+        const { profile } = this.state;
+        const { chuyenKhoa, isTuVan } = navigation.state.params;
         return (
             <View style={styles.container}>
                 <CloseHeaderContainer
@@ -118,58 +124,70 @@ class FindDoctor extends Component {
                 >
                     <View>
                         <View >
+                            <ListItem
+                                containerStyle={[{ paddingLeft: 7 }, styles.itemContainer]}
+                                onPress={() => { this.setState({ isPickingProfile: true }) }}
+                                roundAvatar
+                                avatar={profile.Avatar}
+                                title={profile.HoVaTen}
+                                titleStyle={{ fontSize: 20, paddingLeft: 20 }}
+                            />
+                            {/* MODAL LIST HỒ SƠ*/}
+                            <Modal
+                                animationType="slide"
+                                transparent={false}
+                                visible={this.state.isPickingProfile}
+                                onRequestClose={() => { this.setState({ isPickingProfile: false }) }}
+                                hardwareAccelerated={true}
+                            >
+                                <ListProfiles
+                                    profilesList={profilesList}
+                                    onPress={(profile) => this.setState({ profile, isPickingProfile: false })}
+                                />
                                 <ListItem
-                                    containerStyle={[{ paddingLeft: 7 },styles.itemContainer]}
-                                    onPress={() => { this.setState({ isPickingProfile: true }) }}
                                     roundAvatar
-                                    avatar={profile.Avatar}
-                                    title={profile.HoVaTen}
-                                    titleStyle={{ fontSize: 20, paddingLeft: 20 }}
+                                    avatar={{ uri: 'https://www.computerhope.com/jargon/p/plus.gif' }}
+                                    title='Tạo mới hồ sơ'
+                                    titleStyle={{ color: '#546CA8' }}
+                                    onPress={() => {
+                                        this.setState({ isPickingProfile: false })
+                                        navigation.navigate('CreateFastProfile')
+                                    }}
+                                    containerStyle={{ borderBottomColor: '#bbb', borderBottomWidth: 0 }}
+                                    hideChevron={true}
                                 />
-                                {/* MODAL LIST HỒ SƠ*/}
-                                <Modal
-                                    animationType="slide"
-                                    transparent={false}
-                                    visible={this.state.isPickingProfile}
-                                    onRequestClose={() => { this.setState({ isPickingProfile: false }) }}
-                                    hardwareAccelerated={true}
-                                >
-                                    <ListProfiles
-                                        profilesList={profilesList}
-                                        onPress={(profile) => this.setState({ profile, isPickingProfile: false })}
-                                    />
-                                    <ListItem
-                                        roundAvatar
-                                        avatar={{ uri: 'https://www.computerhope.com/jargon/p/plus.gif' }}
-                                        title='Tạo mới hồ sơ'
-                                        titleStyle={{ color: '#546CA8' }}
-                                        onPress={() => {
-                                            this.setState({ isPickingProfile: false })
-                                            navigation.navigate('CreateFastProfile')
-                                        }}
-                                        containerStyle={{ borderBottomColor: '#bbb', borderBottomWidth: 0 }}
-                                        hideChevron={true}
-                                    />
-                                </Modal>
-                                <ListItem
-                                    containerStyle={styles.itemContainer}
-                                    title='Ẩn danh'
-                                    titleStyle={styles.text}
-                                    switchButton
-                                    switched={this.state.anDanh}
-                                    onSwitch={(value) => this.setState({
-                                        anDanh: value
-                                    })}
-                                    hideChevron
-                                />
-                                <ListItem
-                                    containerStyle={styles.itemContainer}                                    
-                                    hideChevron
-                                    titleStyle={styles.text}
-                                    title='Chuyên khoa'
-                                    rightTitle={chuyenKhoa.Ten}
-                                    rightTitleStyle={styles.text}
-                                />                 
+                            </Modal>
+                            <ListItem
+                                containerStyle={styles.itemContainer}
+                                title='Thanh toán tại nhà'
+                                titleStyle={styles.text}
+                                switchButton
+                                switched={this.state.isKhamTaiNha}
+                                onSwitch={(value) => this.setState({
+                                    isKhamTaiNha: value
+                                })}
+                                hideChevron
+                                switchDisabled={isTuVan}
+                            />
+                            <ListItem
+                                containerStyle={styles.itemContainer}
+                                title='Ẩn danh'
+                                titleStyle={styles.text}
+                                switchButton
+                                switched={this.state.anDanh}
+                                onSwitch={(value) => this.setState({
+                                    anDanh: value
+                                })}
+                                hideChevron
+                            />
+                            <ListItem
+                                containerStyle={styles.itemContainer}
+                                hideChevron
+                                titleStyle={styles.text}
+                                title='Chuyên khoa'
+                                rightTitle={chuyenKhoa.Ten}
+                                rightTitleStyle={styles.text}
+                            />
                         </View>
 
                         <View style={{ height: 35, justifyContent: 'center', backgroundColor: '#F8F8F8' }}>
@@ -211,18 +229,11 @@ class FindDoctor extends Component {
 
                 <Button
                     buttonStyle={styles.button}
-                    onPress={() => this.findDoctor()}
-                    title="Tìm bác sĩ"
+                    onPress={() => this.gapBacSi()}
+                    title="Gặp bác sĩ"
                     textStyle={{ color: 'white', fontSize: 18 }}
                 />
 
-                <FindingDoctorModal
-                    modalVisible={isFindingDoctor}
-                    chonBacSi={() => chonBacSi(navigation)}
-                    close={() => this.setState({ isFindingDoctor: false })}
-                    doctorInfo={dichVuDetail}
-                    isPendingFindDoctor={isPeddingFindDoctor}
-                />
             </View>
         )
     }
@@ -232,11 +243,8 @@ function mapStateToProps(state) {
     return {
         profilesList: state.user.profiles,
         idGap: state.kham.idGap,
-        isFoundDoctor: state.kham.isFoundDoctor,
         doctorInfo: state.kham.doctorInfo,
         proxy: state.kham.proxy,
-        isPeddingFindDoctor: state.kham.isPeddingFindDoctor,
-        dichVuDetail: state.kham.dichVuDetail
     }
 }
 

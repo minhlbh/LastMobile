@@ -59,7 +59,7 @@ class CreateProfile extends Component {
                 khamApi.uploadImg(response).then((res) => {
                     console.log(res);
                     //chỉ lấy tên ảnh
-                    var imageUri = res.location.replace('https://sharinglife.blob.core.windows.net/images/', '');
+                    var imageUri = res.location;
 
                     var avatar = { uri: response.uri, location: imageUri }
                     this.setState({ avatar });

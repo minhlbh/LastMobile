@@ -14,19 +14,20 @@ export class ListHistory extends Component{
     _keyExtractor = (item, index) => item.id;
     
     vaoRoom(item){
-        const {navigation} = this.props;
-        if(item.TrangThai === "Vừa lập" || item.TrangThai === "Chốt yêu cầu"){
+        const { navigation, storeDoctor } = this.props;
+        storeDoctor(item.BacSi, item.idDichVu);
+        if (item.TrangThai === "Vừa lập" || item.TrangThai === "Chốt yêu cầu" ) {
             navigation.navigate('FindDoctor', {
                 idGap: item.Id,
                 chuyenKhoa: item.ChuyenKhoa,
-                vanDe : item.VanDe,
+                vanDe: item.VanDe,
                 hoSo: item.HoSo,
+                isTuVan: true
             })
-        }else{
+        } else {
             navigation.navigate('Chat', {
                 idGap: item.Id,
                 chuyenKhoa: item.ChuyenKhoa,
-                tenBacSi: item.BacSi.TenBacSi
             })
         }
         

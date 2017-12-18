@@ -7,7 +7,7 @@ import {
     GET_CHUYEN_KHOA,
     KHAI_BAO_USERNAME,
     NGUOI_DUNG_LOAD_GAP,
-    GET_DETAIL_DICH_VU
+    STORE_DOCTOR
 } from './kham.type';
 import { setTimeout } from 'core-js/library/web/timers';
 
@@ -114,46 +114,57 @@ export const nguoidungLoadGap = (idGap, idChuyenKhoa) => {
     }
 }
 
-export const timBacSiTheoChuyenKhoa = (idGap, idHoSo, an, vanDe, name, birth, gender) => {
-    return (dispatch,getState ) => {
-        dispatch({ type: GET_DETAIL_DICH_VU.PENDING})
-        const proxy = getState().kham.proxy;                
-        proxy.invoke('nguoidungTimBacSiTheoChuyenKhoa', idGap, idHoSo, an, vanDe, name, birth, gender).done((directResponse) => {
-            console.log('nguoidungTimBacSiTheoChuyenKhoa success',directResponse);
-            khamApi.getDetailDichVu(directResponse).then((res) => {
-                if(res.ChiTietDichVu) {
-                    dispatch({
-                        type: GET_DETAIL_DICH_VU.SUCCESS,
-                        payload: res.ChiTietDichVu
-                    })
-                    console.log(res.ChiTietDichVu)
-                }else {
-                    dispatch({ type: GET_DETAIL_DICH_VU.FAILURE})
-                }
-            })
-        }).fail(() => {
-            ToastAndroid.show('Tìm bác sĩ không thành công', ToastAndroid.SHORT);
-            dispatch({ type: GET_DETAIL_DICH_VU.FAILURE})            
-        });
-    }
-}
+// export const timBacSiTheoChuyenKhoa = (idGap, idHoSo, an, vanDe, name, birth, gender) => {
+//     return (dispatch,getState ) => {
+//         dispatch({ type: GET_DETAIL_DICH_VU.PENDING})
+//         const proxy = getState().kham.proxy;                
+//         proxy.invoke('nguoidungTimBacSiTheoChuyenKhoa', idGap, idHoSo, an, vanDe, name, birth, gender).done((directResponse) => {
+//             console.log('nguoidungTimBacSiTheoChuyenKhoa success',directResponse);
+//             khamApi.getDetailDichVu(directResponse).then((res) => {
+//                 if(res.ChiTietDichVu) {
+//                     dispatch({
+//                         type: GET_DETAIL_DICH_VU.SUCCESS,
+//                         payload: res.ChiTietDichVu
+//                     })
+//                     console.log(res.ChiTietDichVu)
+//                 }else {
+//                     dispatch({ type: GET_DETAIL_DICH_VU.FAILURE})
+//                 }
+//             })
+//         }).fail(() => {
+//             ToastAndroid.show('Tìm bác sĩ không thành công', ToastAndroid.SHORT);
+//             dispatch({ type: GET_DETAIL_DICH_VU.FAILURE})            
+//         });
+//     }
+// }
 
-export const chonBacSi = (navigation) => {
+export const gapBacSi = (navigation,idHoSo, an, vanDe, name, birth, gender, kieuThanhToan) => {
     return (dispatch,getState ) => {
         const idGap = getState().kham.idGap;
-        const idDichVu = getState().kham.dichVuDetail.IdDichVu;
+        console.log('id gap: ', idGap)
+        const idDichVu = getState().kham.idDichVu;
+        console.log(idHoSo, an, vanDe, name, birth, gender, kieuThanhToan);
         const proxy = getState().kham.proxy;                    
-        proxy.invoke('nguoidungChonBacSi', idGap, idDichVu).done((directResponse) => {
+        proxy.invoke('nguoidungChotDichVu', idGap, idDichVu,idHoSo, an, vanDe, name, birth, gender, kieuThanhToan).done((directResponse) => {
+            console.log(directResponse)
             if(directResponse === 'OK'){
-                navigation.navigate('Chat',{
-                    tenBacSi:getState().kham.dichVuDetail.TenBacSi,
-                    idBacSi:getState().kham.dichVuDetail.IdBacSi 
-                });
+                navigation.navigate('Chat', {});
             }else {
-                ToastAndroid.show('Bác sĩ không đồng ý gặp', ToastAndroid.SHORT);           
+                ToastAndroid.show(directResponse, ToastAndroid.SHORT);           
             }
         }).fail(() => {
             ToastAndroid.show('Có lỗi xảy ra vui lòng thử lại', ToastAndroid.SHORT);           
         });
+    }
+}
+
+export const storeDoctor  = (doctorInfo, idDichVu) => {
+    return (dispatch) => {
+        console.log(doctorInfo)
+        dispatch({
+            type: STORE_DOCTOR,
+            payload: doctorInfo,
+            idDichVu: idDichVu
+        })
     }
 }

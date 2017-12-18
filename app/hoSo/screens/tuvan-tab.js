@@ -5,6 +5,7 @@ import {
     ItemGap
 } from '../../components';
 import { connect} from 'react-redux';
+import {storeDoctor} from '../../kham/kham.action';
 
 const styles = StyleSheet.create({
     container: {
@@ -19,29 +20,29 @@ class TuVanTab extends Component {
     }
     componentWillMount() {
         accountApi.getListTuVan(this.props.accessToken).then((res) => {
+            console.log(res)
             if (res.DsCuocGap) {
                 this.setState({ listTuVan: res.DsCuocGap })
             }
         })
     }
     vaoRoom(item) {
-        const { navigation } = this.props;
-        if (item.TrangThai === "Vừa lập" || item.TrangThai === "Chốt yêu cầu") {
+        const { navigation, storeDoctor } = this.props;
+        storeDoctor(item.BacSi, item.idDichVu);
+        if (item.TrangThai === "Vừa lập" || item.TrangThai === "Chốt yêu cầu" ) {
             navigation.navigate('FindDoctor', {
                 idGap: item.Id,
                 chuyenKhoa: item.ChuyenKhoa,
                 vanDe: item.VanDe,
                 hoSo: item.HoSo,
+                isTuVan: true
             })
         } else {
             navigation.navigate('Chat', {
                 idGap: item.Id,
                 chuyenKhoa: item.ChuyenKhoa,
-                tenBacSi: item.BacSi.TenBacSi, 
-                idBacSi: item.BacSi.IdBacSi
             })
         }
-
     }
     render() {
         return (
@@ -65,4 +66,4 @@ function mapStateToProps(state){
     }
 }
 
-export default connect(mapStateToProps)(TuVanTab);
+export default connect(mapStateToProps, {storeDoctor})(TuVanTab);

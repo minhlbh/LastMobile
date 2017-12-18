@@ -92,15 +92,17 @@ var accountApi = {
         });
     },
     register(phone,HoVaTen,code,password,avatar_url,facebook_token,Id){
+        console.log('Facebook token',facebook_token)
         let details = {
             phone: phone, 
             HoVaTen: HoVaTen,
             code: code,
             password: password,
             avatar_url: avatar_url,
-            facebook_token: facebook_token ,
+           // facebook_token: null ,
             Id: Id 
         };
+        if (facebook_token) details.facebook_token = facebook_token;
         var url = `${apiUrl.register}`;
         return fetch(url, {
             method: 'POST',

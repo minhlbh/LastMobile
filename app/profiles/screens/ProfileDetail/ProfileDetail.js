@@ -5,6 +5,7 @@ import {StickyHeader, ListHistory} from '../../../components';
 import styles from './styles';
 import { connect } from 'react-redux';
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
+import {storeDoctor} from '../../../kham/kham.action';
 
 class ProfileDetail extends Component {
     // componentWillMount(){
@@ -70,7 +71,7 @@ class ProfileDetail extends Component {
                     )}>
                   
                     <Divider style={{ backgroundColor: '#BBBBBB', marginTop: 10 }} />    
-                    <ListHistory historyList={profileInfo.DsCuocGap} navigation={navigation}/>
+                    <ListHistory historyList={profileInfo.DsCuocGap} navigation={navigation} storeDoctor={this.props.storeDoctor}/>
                 </ParallaxScrollView>
             </View>
         );
@@ -83,4 +84,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps)(ProfileDetail);
+export default connect(mapStateToProps, {storeDoctor})(ProfileDetail);

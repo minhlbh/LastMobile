@@ -1,5 +1,5 @@
 import TwilioVoice from 'react-native-twilio-programmable-voice';
-import { AsyncStorage } from 'react-native';
+import { AsyncStorage ,ToastAndroid} from 'react-native';
 import {
     CALL
 } from './kham.type';
@@ -25,8 +25,9 @@ export const initEventCall = (navigation) =>{
         navigation.navigate('Call', {data, isComingCall: true})
     });
 }
-export const connectCall  = (idNguoiNhan, navigation) => {
+export const connectCall  = (idNguoiNhan,phone, idDichVu, navigation) => {
     return ( dispatch, getState) => {
+        console.log(phone)
         const proxy = getState().kham.proxy;
         dispatch({type: CALL.PENDING});
         navigation.navigate('Call', {
@@ -35,11 +36,11 @@ export const connectCall  = (idNguoiNhan, navigation) => {
             },
             isComingCall: false
         })
-        proxy.invoke('yeucauGoi', idNguoiNhan).done((directResponse) => {
+        proxy.invoke('yeucauGoi', idNguoiNhan, idDichVu).done((directResponse) => {
             var res = JSON.parse(directResponse);
             console.log(res)
             if(res.ChoPhep == true){
-                TwilioVoice.connect({To: '0911416817'});
+                TwilioVoice.connect({To: phone });
                 dispatch({
                     type: CALL.SUCCESS,
                     soGiayConLaiCall: res.SoGiayConLai,
@@ -52,10 +53,7 @@ export const connectCall  = (idNguoiNhan, navigation) => {
                 })
             }
         }).fail(() => {
-            dispatch({ 
-                type: CAll.FAILURE,
-                liDoTuChoiCall: 'Gọi cho bác sĩ không thành công, vui lòng thử lại'
-            })            
+            ToastAndroid.show('Có lỗi xảy ra vui lòng thử lại', ToastAndroid.SHORT);         
         });
     }
 }
@@ -76,13 +74,10 @@ export const updateCall = (idCuocGoi, soGiay, isEndCall) => {
                 dispatch({
                     type: CALL.FAILURE,
                     liDoTuChoiCall: res.LiDo
-                })
+                })               
             }
         }).fail(() => {
-            dispatch({ 
-                type: CAll.FAILURE,
-                liDoTuChoiCall: 'Gọi cho bác sĩ không thành công, vui lòng thử lại'
-            })            
+            ToastAndroid.show('Có lỗi xảy ra vui lòng thử lại', ToastAndroid.SHORT);         
         });
     }
 }
