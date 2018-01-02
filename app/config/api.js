@@ -1,4 +1,4 @@
-const domain = 'https://api.sputnich.com/';
+const domain = 'https://api.mimomed.com/';
 
 var apiUrl = {
     account: {
